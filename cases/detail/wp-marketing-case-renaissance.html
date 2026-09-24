@@ -1,0 +1,1921 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ренессанс Банк — кейс Вебпрактик.Маркетинг</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geologica:wght@300;400;500;600&display=swap">
+<style>
+@font-face{font-family:'Bounded';src:url(../../a1/46b80d8840dc472d.woff2) format('woff2');font-weight:400;font-style:normal;font-display:swap}
+:root{
+  --white:#FFFFFF;--porcelain:#F8F4EC;--lilac-deep:#EFE5FB;--graphite:#1E1E1E;--indigo:#7927E0;--indigo-bright:#9D5DED;
+  --lilac:#F6F2FC;--steel:#A5A8C1;--cold:#EDF0FD;
+  /* мелкий акцентный текст на графите: Indigo Bright даёт 3,42 —
+     для 13px нужно 4,5, поэтому своя светлая ступень */
+  --lilac-on-dark:#C9A9F5;
+  --bg:var(--white);--ink:var(--graphite);--accent:var(--indigo);
+  --ink-soft:color-mix(in oklab, var(--graphite) 72%, var(--white));
+  --ink-faint:color-mix(in oklab, var(--graphite) 64%, var(--white));
+  --line:color-mix(in oklab, var(--steel) 55%, var(--white));
+  /* мягкие подложки для сравнения «было — стало»: красная и зелёная,
+     одной светлоты, чтобы половины плашки читались как пара */
+  /* Текстовые красный и зелёный: подложки soft-* для текста
+     не годятся, а карточки проблем и решений теперь без заливки. */
+  /* Красный остался только на ошибках формы: в контентных блоках
+     цвета смысла нет, там один акцент — фирменный фиолетовый. */
+  --red:#E30613;
+  /* нейтральный серый для колонки «было»: холодный #EDF0FD рядом
+     с лиловым читался свежее него, и «стало» выглядело хуже «было» */
+  --grey-soft:#F2F2F4;
+  --gutter:24px;--page:1440px;--pad:80px;--r-s:8px;--r-m:16px;--r-l:24px;
+}
+html{scroll-padding-top:112px}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:'Geologica','Segoe UI',system-ui,sans-serif;font-weight:300;font-size:16px;line-height:1.3;
+  -webkit-font-smoothing:antialiased}
+.shell{max-width:var(--page);margin:0 auto;padding:0 var(--pad)}
+a{color:inherit;text-decoration:none}
+[hidden]{display:none!important}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
+
+/* ── выделение текста в фирменных цветах ── */
+::selection{background:var(--accent);color:var(--white);text-shadow:none}
+.foot-main ::selection,
+.chip[aria-pressed="true"]::selection{background:var(--indigo-bright);color:var(--graphite);text-shadow:none}
+
+/* ── шапка: liquid glass ── */
+header.head{position:sticky;top:0;z-index:100}
+.head-glass{position:relative;isolation:isolate;overflow:hidden;
+  background:linear-gradient(180deg, rgba(255,255,255,.70), rgba(255,255,255,.56));
+  -webkit-backdrop-filter:blur(30px) saturate(180%);backdrop-filter:blur(30px) saturate(180%);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.85), inset 0 -1px 0 rgba(165,168,193,.28), 0 6px 24px rgba(30,30,30,.05);
+  transition:background .35s ease, box-shadow .35s ease, border-radius .35s cubic-bezier(.2,.7,.2,1)}
+/* блик, который живёт за курсором */
+.head-glass::before{content:'';position:absolute;top:-70%;left:var(--hx,50%);width:380px;height:280%;
+  transform:translateX(-50%);pointer-events:none;z-index:-1;
+  background:radial-gradient(closest-side, rgba(157,93,237,.22), rgba(157,93,237,.09) 45%, rgba(157,93,237,0) 76%);
+  transition:left .45s cubic-bezier(.2,.7,.2,1),opacity .4s ease;opacity:0}
+.head.is-hot .head-glass::before{opacity:1}
+.head-glass::after{content:'';position:absolute;inset:0;pointer-events:none;z-index:-1;
+  background:linear-gradient(105deg, transparent 34%, rgba(255,255,255,.55) 48%, transparent 62%);
+  transform:translateX(-30%);animation:sheen 9s ease-in-out 2.6s infinite}
+.head .shell{display:flex;align-items:center;gap:40px;height:80px}
+.head.is-scrolled .head-glass{background:linear-gradient(180deg, rgba(255,255,255,.84), rgba(255,255,255,.72));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.9), inset 0 -1px 0 rgba(165,168,193,.34), 0 10px 34px rgba(30,30,30,.09)}
+/* вариант «плашка»: стекло не во всю ширину, а парящей панелью */
+header.head{padding:16px 24px}
+.head-glass{max-width:var(--page);margin:0 auto;border-radius:24px}
+.head .shell{padding:0 32px}
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
+  .head-glass{background:rgba(255,255,255,.95)}
+}
+.logo{flex:none;display:block;line-height:0}
+.logo-mark{display:block;height:48px;width:auto}
+.logo:hover{opacity:.82}
+/* Раздел меню — не ссылка, а кнопка: собственной страницы у него
+   нет, он только раскрывает подменю. Кнопка, а не span, чтобы
+   подменю открывалось и с клавиатуры. */
+.nav-sec{appearance:none;background:none;border:0;padding:0;margin:0;
+  font:inherit;color:inherit;cursor:pointer;line-height:inherit}
+.menu{display:flex;align-items:center;gap:24px;margin-left:auto;margin-right:24px;font-size:16px;font-weight:400}
+/* пункт меню не переносим: «Отраслевые решения» и «ИИ-решения» рвались по слову */
+.menu>*{white-space:nowrap}
+.menu a,.menu .nav-sec{color:var(--ink-soft);padding:8px 0}
+/* подсвечиваем весь пункт, включая разделы-кнопки «Отраслевые решения»
+   и «ИИ-решения»: раньше hover висел только на a — кнопки не реагировали */
+.menu a:hover,.menu .nav-sec:hover,
+.has-sub:hover>a,.has-sub:hover>.nav-sec,
+.has-sub.open>a,.has-sub.open>.nav-sec{color:var(--accent)}
+/* активный раздел — фиолетовым: на других страницах ставится в разметке,
+   на главной подсвечивается по прокрутке */
+/* Подменю второго уровня: услуги и отраслевые решения.
+   Панель лежит в самой шапке, а не в стеклянной плашке: у плашки
+   overflow:hidden — он держит блик внутри пилюли и обрезал бы панель.
+   Позицию по горизонтали подставляет скрипт, открытие — по наведению
+   и с клавиатуры. */
+.has-sub{position:relative;display:inline-flex;align-items:center}
+.has-sub>a,.has-sub>.nav-sec{display:inline-flex;align-items:center;gap:8px}
+.has-sub>a::after,.has-sub>.nav-sec::after{content:'';width:6px;height:6px;border-right:1.5px solid currentColor;
+  border-bottom:1.5px solid currentColor;transform:rotate(45deg) translateY(-1px);
+  transition:transform .2s ease}
+.has-sub.open>a::after,.has-sub.open>.nav-sec::after{transform:rotate(225deg) translateY(-1px)}
+.drop{position:absolute;top:calc(100% - 8px);left:var(--x,80px);z-index:5;
+  min-width:272px;display:grid;gap:8px;padding:16px;
+  background:var(--white);border:1px solid var(--line);border-radius:var(--r-l);
+  box-shadow:0 16px 40px rgba(30,30,30,.10);
+  opacity:0;visibility:hidden;transform:translateY(-8px);
+  transition:opacity .18s ease,transform .18s ease,visibility .18s ease}
+.drop.open{opacity:1;visibility:visible;transform:none}
+.drop a{padding:8px;border-radius:var(--r-s);font-size:16px;line-height:1.4;color:var(--ink-soft)}
+.drop a:hover{color:var(--accent);background:var(--lilac)}
+.drop a[aria-current]{color:var(--accent)}
+.has-sub:has(a[aria-current])>a,.has-sub.cur>a,
+.has-sub:has(a[aria-current])>.nav-sec,.has-sub.cur>.nav-sec{color:var(--accent)}
+@media (max-width:1100px){.drop{display:none}}
+.mnav .sub{display:grid;gap:8px;padding:8px 0 8px 16px}
+.mnav .sub a{font-size:16px;line-height:1.4;color:var(--ink-soft)}
+.mnav .has-sub{display:block}
+.mnav .has-sub>a::after,.mnav .has-sub>.nav-sec::after{display:none}
+.menu a[aria-current]{color:var(--accent)}
+.mnav a[aria-current]{color:var(--accent)}
+.btn{display:inline-flex;align-items:center;justify-content:center;height:48px;padding:0 24px;border-radius:32px;line-height:1.3;
+  font-family:'Geologica','Segoe UI',system-ui,sans-serif;font-size:16px;font-weight:400;border:1px solid transparent;cursor:pointer;
+  transition:background .15s ease,color .15s ease,border-color .15s ease}
+.btn-primary{background:var(--accent);color:var(--white)}
+.btn-primary:hover{background:var(--indigo-bright)}
+.btn-ghost{border-color:var(--ink);color:var(--ink);background:transparent}
+.btn-ghost:hover{background:var(--ink);border-color:var(--ink);color:var(--white)}
+/* иконка скачивания в кнопке и в ссылке библиотеки */
+.btn .dlic{flex:none;margin-left:8px}
+.link .dlic{flex:none}
+.head .btn{flex:none;height:48px}
+.burger{display:none;flex:none;width:48px;height:48px;margin-left:auto;background:transparent;
+  border:1px solid var(--line);border-radius:32px;position:relative;cursor:pointer}
+.burger span,.burger::before,.burger::after{content:'';position:absolute;left:50%;top:50%;width:20px;height:1.5px;background:var(--ink);border-radius:2px}
+.burger span{transform:translate(-50%,-50%)}
+.burger::before{transform:translate(-50%,-50%) translateY(-6px)}
+.burger::after{transform:translate(-50%,-50%) translateY(6px)}
+
+.mnav{display:none}
+.mnav[hidden]{display:none}
+@media (max-width:1100px){
+  .mnav{position:absolute;left:24px;right:24px;top:calc(100% + 8px);z-index:99;
+    flex-direction:column;gap:8px;background:var(--white);border:1px solid var(--line);
+    border-radius:var(--r-l);padding:16px;box-shadow:0 24px 60px rgba(30,30,30,.14)}
+  .mnav:not([hidden]){display:flex}
+  .mnav a{padding:16px 16px;font-size:17px;color:var(--ink);border-radius:var(--r-m);transition:background .2s ease,color .2s ease}
+  .mnav a:hover{background:var(--lilac);color:var(--accent)}
+  .mnav a[aria-current]{color:var(--accent)}
+  nav.mnav .btn{display:inline-flex;margin-top:16px;justify-content:center;color:var(--white)}
+  nav.mnav .btn:hover{background:var(--indigo-bright);color:var(--white)}
+  .burger[aria-expanded="true"]{border-color:var(--accent);color:var(--accent)}
+  .burger[aria-expanded="true"] span,.burger[aria-expanded="true"]::before,.burger[aria-expanded="true"]::after{background:var(--accent)}
+}
+@media (max-width:640px){.mnav{left:12px;right:12px}}
+/* заголовок из двух строк длиннее обычного: на узком экране
+   уменьшаем кегль, иначе вторая строка не помещается в 342px */
+@media (max-width:640px){h3.sh-b{font-size:19px}}
+
+.hero{position:relative;overflow:hidden;isolation:isolate;min-height:620px}
+.hero .shell{position:relative;z-index:2;padding-top:136px;padding-bottom:48px;
+  display:grid;grid-template-columns:repeat(12,1fr);gap:var(--gutter)}
+/* Заголовок и лид — одно высказывание, поэтому 16. Кнопки — переход
+   к действию, связь слабее: 16 потока плюс 8 у блока кнопок = 24.
+   Складываем осознанно: без лишней обёртки это единственный способ
+   выразить два уровня в одной колонке. */
+.hero-copy{grid-column:1 / span 9;display:flex;flex-direction:column;gap:16px;align-items:start}
+
+.fx{position:absolute;inset:0;z-index:1;pointer-events:none;opacity:0;
+  animation:fx-in 1.2s ease 1.35s forwards}
+
+h1{margin:0;max-width:23ch;font-family:'Bounded','Geologica',sans-serif;font-weight:400;
+  font-size:clamp(36px,4.7vw,68px);line-height:1.07;letter-spacing:-.01em;text-wrap:balance}
+h1 .w{display:inline-block;overflow:hidden;vertical-align:bottom;padding-bottom:.06em}
+h1 .w>i{display:inline-block;font-style:normal;transform:translate3d(0,110%,0);
+  animation:word-up .82s cubic-bezier(.16,.86,.26,1) forwards}
+h1 .nb{white-space:nowrap}
+/* Предлог склеен со следующим словом неразрывным пробелом, поэтому длинное
+   русское слово в узкой колонке становится неразрывным куском. Разрешаем
+   переносы по слогам: предлог остаётся при слове, а строка не выезжает. */
+/* Слово не рвём: если не помещается — переносим целиком */
+h1 .w>i{hyphens:manual;overflow-wrap:normal;word-break:normal}
+h1 .accent{position:relative;color:var(--accent)}
+h1 .accent>i{animation-delay:.52s}
+.bolt{position:absolute;left:0;bottom:.02em;height:.1em;width:100%;background:var(--accent);
+  transform:skewX(-24deg) scaleX(0);transform-origin:left center;border-radius:2px;
+  animation:bolt-draw .5s cubic-bezier(.2,.8,.2,1) 1.2s forwards}
+.hero-sub{margin:0;max-width:56ch;font-size:20px;line-height:1.4;color:var(--ink);opacity:0;
+  animation:rise .9s cubic-bezier(.16,.86,.26,1) 1.5s forwards}
+.hero-actions{margin-top:8px;display:flex;flex-wrap:wrap;gap:16px;opacity:0;animation:rise .9s cubic-bezier(.16,.86,.26,1) 1.66s forwards}
+
+/* ── блок 2: услуги, асимметричная композиция ── */
+.serv{padding:0 0 104px}
+/* Двойной заголовок блока: раздел — h2 фирменным фиолетовым,
+   его уточнение — h3 графитом на ступень мельче. Отступы по близости:
+   между строками заголовка 8px, от заголовка до описания 16px. */
+h2.sh-a{max-width:34ch;color:var(--accent)}
+h3.sh-b{margin:0 0 16px;max-width:44ch;
+  font-family:'Bounded','Geologica',sans-serif;font-weight:400;
+  font-size:clamp(21px,2.2vw,30px);line-height:1.15;letter-spacing:-.01em;
+  color:var(--ink);hyphens:manual;overflow-wrap:normal;word-break:normal}
+h3.sh-b:last-child{margin-bottom:0}
+/* .why-side и .lead-side — колонки с gap:8px, и собственный отступ
+   заголовка складывался с ним в 24px. Оставляем суммарные 16px. */
+.why-side h3.sh-b,.lead-side h3.sh-b{margin-bottom:8px}
+.serv-head{margin-bottom:48px}
+.serv-head h2{max-width:22ch;margin:0 0 8px;font-family:'Bounded','Geologica',sans-serif;font-weight:400;
+  font-size:clamp(28px,3.4vw,50px);line-height:1.08;letter-spacing:-.01em;text-wrap:balance}
+.serv-head p{margin:0;max-width:80ch;font-size:clamp(17px,1.5vw,20px);line-height:1.4;color:var(--ink)}
+.link{display:inline-flex;align-items:center;gap:8px;font-size:16px;color:var(--accent);
+  background:none;border:0;padding:0;font-family:'Geologica','Segoe UI',system-ui,sans-serif;cursor:pointer;transition:color .2s ease}
+.link:hover{color:var(--indigo-bright)}
+.link .arw{flex:none;transition:transform .25s cubic-bezier(.2,.7,.2,1)}
+.link:hover .arw{transform:translateX(3px)}
+
+.card,.detail{scroll-margin-top:112px}
+.serv-rows{display:flex;flex-direction:column;gap:0;container-type:inline-size}
+.serv-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--gutter);align-items:stretch}
+.card{--pad:32px;position:relative;border:1px solid var(--line);border-radius:var(--r-l);padding:var(--pad);
+  display:flex;flex-direction:column;align-items:flex-start;gap:16px;height:100%;
+  background:var(--white);opacity:0;
+  transition:background .25s ease,border-color .25s ease,transform .25s ease}
+.card.in{opacity:1}
+/* карточка ведёт на страницу направления и реагирует как карточка награды */
+.card:hover{background:var(--accent);border-color:transparent;transform:translateY(-4px)}
+.card:hover h3,.card:hover p,.card:hover .price,.card:hover .more{color:var(--white)}
+.card:hover .ic{color:var(--white)}
+.card:hover .chips span{color:var(--white);border-color:rgba(255,255,255,.45)}
+.card:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.card .more{font-size:16px;color:var(--accent);transition:color .25s ease}
+@media (prefers-reduced-motion:reduce){.card:hover{transform:none}}
+/* Отступ от иконки до заголовка равен верхнему паддингу карточки:
+   иконка отделена сильнее, чем заголовок от описания. gap карточки
+   уже даёт 16px, поэтому добираем разницу. */
+.card .ic{flex:none;color:var(--accent);width:32px;height:32px;
+  margin-bottom:calc(var(--pad) - 16px)}
+.card .card-head{display:flex;flex-direction:column;align-items:flex-start;gap:8px}
+.card h3{margin:0;font-family:'Bounded','Geologica',sans-serif;font-weight:400;font-size:clamp(20px,1.7vw,23px);line-height:1.15;letter-spacing:-.01em}
+.card .price{font-family:'Bounded','Geologica',sans-serif;font-weight:400;font-size:16px;color:var(--accent);letter-spacing:-.01em}
+.card p{margin:0;color:var(--ink);font-size:16px;line-height:1.45}
+.card .chips{display:flex;flex-wrap:wrap;gap:8px}
+.card .chips span{font-size:13px;color:var(--ink-soft);border:1px solid var(--line);border-radius:99px;padding:8px 16px}
+.card .foot{margin-top:auto;padding-top:16px}
+
+/* ── блок 5: отраслевые решения ── */
+.ind{padding:0 0 104px}
+.ind-head{margin-bottom:48px}
+.ind-head h2{margin:0 0 8px;font-family:'Bounded','Geologica',sans-serif;font-weight:400;
+  font-size:clamp(26px,3vw,44px);line-height:1.08;letter-spacing:-.01em}
+.ind-head span{display:block;max-width:80ch;font-size:clamp(17px,1.5vw,20px);line-height:1.4;color:var(--ink)}
+.ind-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:var(--gutter)}
+.ind-item{grid-column:span 4;display:flex;flex-direction:column;gap:16px;min-height:236px;
+  background:transparent;border:1px solid var(--line);border-radius:var(--r-l);padding:32px 32px 32px}
+/* Карточки отраслей — без заливки, только обводка */
+.ind-item.live{background:transparent;border-color:var(--line)}
+/* карточка отрасли ведёт на страницу решения и реагирует как карточка
+   услуги: заливка акцентом, всё внутри белым, подъём на 4px */
+.ind-item{color:inherit;text-decoration:none;
+  transition:background .25s ease,border-color .25s ease,transform .25s ease}
+.ind-item:hover{background:var(--accent);border-color:transparent;transform:translateY(-4px)}
+.ind-item:hover h3,.ind-item:hover p,.ind-item:hover .more{color:var(--white)}
+.ind-item:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.ind-item .more{font-size:16px;color:var(--accent);transition:color .25s ease}
+@media (prefers-reduced-motion:reduce){.ind-item:hover{transform:none}}
+.ind-item h3{margin:0;font-family:'Bounded','Geologica',sans-serif;font-weight:400;
+  font-size:clamp(20px,1.8vw,26px);letter-spacing:-.01em}
+.ind-item p{margin:0;font-size:16px;line-height:1.45;color:var(--ink)}
+.ind-item.soon h3,.ind-item.soon p{color:var(--ink-faint)}
+.ind-item .foot{margin-top:auto;padding-top:16px}
+.badge{align-self:flex-start;font-size:13px;color:var(--ink-faint);
+  border:1px solid var(--line);border-radius:99px;padding:8px 16px}
+
+/* ── блок 6: библиотека материалов ── */
+.lib{padding:0 0 104px}
+.lib-in{background:var(--lilac);color:var(--ink);border-radius:var(--r-l);padding:48px}
+.lib-top{margin-bottom:48px}
+.lib-top h2{margin:0 0 16px;font-family:'Bounded','Geologica',sans-serif;font-weight:400;
+  font-size:clamp(24px,2.6vw,38px);line-height:1.1;letter-spacing:-.01em}
+.lib-top p{margin:0;max-width:none;font-size:17px;line-height:1.45;color:var(--ink)}
+.lib-list{display:grid;grid-template-columns:repeat(2,1fr);gap:0 40px}
+.lib-item{display:grid;grid-template-columns:1fr auto;gap:16px;align-items:center;
+  padding:24px 0}
+.lib-item>div{display:flex;flex-direction:column;gap:8px}
+.lib-item .tagline{font-size:15px;font-weight:600;letter-spacing:0;color:var(--accent)}
+.lib-item b{font-weight:400;font-size:18px}
+/* «Скоро» — без заливки, только обводка */
+.lib-soon{font-size:13px;border:1px solid var(--line);border-radius:99px;background:transparent;
+  padding:8px 16px;color:var(--ink-faint);white-space:nowrap}
+.lib-item span{font-size:14px;color:var(--ink-soft)}
+.lib-item .link{color:var(--accent)}
+.lib-item .link:hover{color:var(--indigo-bright)}
+@media (max-width:1100px){
+  .ind-item{grid-column:span 6}
+  .lib-list{grid-template-columns:1fr;gap:0}
+}
+@media (max-width:640px){
+  .head .btn{display:none}
+  .burger{margin-left:auto}
+  .ind{padding:0 0 72px}.lib{padding:0 0 72px}
+  .ind-item{grid-column:1 / -1;min-height:0}
+  .lib-in{padding:32px}
+  .lib-item{grid-template-columns:1fr;gap:16px}
+  .lib-item .link,.lib-soon{justify-self:start}
+}
+
+/* ── блок 4: кейсы, типографический список ── */
+.cases{padding:0 0 104px}
+.cases-head{margin-bottom:48px}
+.cases-head h2{margin:0 0 16px;font-family:'Bounded','Geologica',sans-serif;font-weight:400;
+  font-size:clamp(26px,3vw,44px);line-height:1.08;letter-spacing:-.01em}
+.cases-head .side{display:flex;flex-direction:column;gap:16px;align-items:flex-start}
+.cases-head p{margin:0;max-width:none;font-size:17px;line-height:1.45}
+.filters{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1px solid var(--line);background:transparent;border-radius:99px;padding:8px 16px;
+  font-family:'Geologica','Segoe UI',system-ui,sans-serif;font-size:14px;color:var(--ink-soft);cursor:pointer;transition:all .2s ease}
+.chip:hover{border-color:var(--line-strong);color:var(--ink)}
+.chip[aria-pressed="true"]{background:var(--graphite);border-color:var(--graphite);color:var(--white)}
+
+.case-hero{display:grid;grid-template-columns:repeat(12,1fr);gap:var(--gutter);align-items:start;
+  padding:8px 0 48px}
+.case-hero .num{grid-column:1 / span 4;font-family:'Bounded','Geologica',sans-serif;font-weight:400;
+  font-size:clamp(56px,7vw,104px);line-height:.92;letter-spacing:-.02em;color:var(--accent)}
+.case-hero .body{grid-column:6 / span 7;display:flex;flex-direction:column;gap:16px}
+.case-hero h3{margin:0;font-size:clamp(22px,2vw,30px);font-weight:500;line-height:1.15}
+.case-hero p{margin:0;font-size:17px;line-height:1.5;max-width:60ch}
+.meta-row{display:flex;flex-wrap:wrap;gap:8px 16px}
+.pill{font-size:13px;color:var(--ink-soft);border:1px solid var(--line);border-radius:99px;padding:8px 16px}
+.beforeafter{display:flex;align-items:baseline;gap:16px;font-family:'Bounded','Geologica',sans-serif;font-size:22px}
+.beforeafter s{text-decoration:none;color:var(--ink-faint)}
+.beforeafter em{font-style:normal;color:var(--accent)}
+
+.case-list{border-top:1px solid var(--line)}
+.case{display:grid;grid-template-columns:190px 1fr auto;gap:24px;align-items:baseline;
+  padding:24px 0;border-bottom:1px solid var(--line)}
+.case .m{font-family:'Bounded','Geologica',sans-serif;font-weight:400;font-size:clamp(20px,1.7vw,26px);
+  line-height:1.05;letter-spacing:-.01em}
+.case .who{display:flex;flex-direction:column;gap:8px}
+.case .who b{font-weight:500;font-size:18px}
+.case .who span{font-size:15px;color:var(--ink-soft);max-width:70ch}
+.case .tags{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.case[hidden]{display:none}
+.cases-note{margin-top:32px;font-size:14px;color:var(--ink-faint);max-width:80ch}
+
+@media (max-width:1100px){
+  .cases-head h2,.cases-head .side{grid-column:1 / -1}
+  .case-hero .num{grid-column:1 / -1}
+  .case-hero .body{grid-column:1 / -1}
+  .case{grid-template-columns:1fr;gap:16px}
+  .case .tags{justify-content:flex-start}
+}
+@media (max-width:640px){.cases{padding:0 0 72px}}
+
+/* раскрывающиеся подробности услуги */
+.detail{overflow:hidden;max-height:0;transition:max-height .5s cubic-bezier(.22,.8,.2,1)}
+.detail-in{position:relative;margin-top:24px;border:1px solid var(--line);border-radius:var(--r-l);padding:40px 40px 32px;background:var(--white)}
+.detail-in::before{content:'';position:absolute;top:-8px;left:var(--cx,50%);width:16px;height:16px;background:var(--white);
+  border-left:1px solid var(--line);border-top:1px solid var(--line);transform:translateX(-50%) rotate(45deg);border-radius:3px}
+.detail-top{display:flex;align-items:flex-start;justify-content:space-between;gap:24px;
+  border-bottom:1px solid var(--line);padding-bottom:32px;margin-bottom:32px}
+.detail-top h3{margin:0 0 16px;font-family:'Bounded','Geologica',sans-serif;font-weight:400;
+  font-size:clamp(22px,2vw,32px);line-height:1.1;letter-spacing:-.01em}
+.detail-top p{margin:0;color:var(--ink);font-size:16px;max-width:90ch}
+.close{flex:none;width:40px;height:40px;border-radius:99px;border:1px solid var(--line);background:transparent;
+  cursor:pointer;position:relative;color:var(--ink)}
+.close::before,.close::after{content:'';position:absolute;left:50%;top:50%;width:17px;height:1.5px;
+  background:currentColor;border-radius:2px}
+.close::before{transform:translate(-50%,-50%) rotate(45deg)}
+.close::after{transform:translate(-50%,-50%) rotate(-45deg)}
+.close:hover{border-color:var(--accent);color:var(--accent)}
+.dcols{columns:2;column-gap:40px}
+.dcols>*{break-inside:avoid;margin:0 0 40px}
+.dcols>*:last-child{margin-bottom:0}
+.dcol.full{column-span:all;padding-top:40px}
+@container (min-width:900px){.dcols{columns:3}}
+@container (max-width:480px){.dcols{columns:1}}
+.dcol{display:flex;flex-direction:column;gap:16px}
+.dcol.full{grid-column:1 / -1}
+.dcol h5{margin:0;font-size:15px;font-weight:500;color:var(--ink)}
+.dcol.full h5{font-size:16px}
+.dcol ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:16px;font-size:15px;color:var(--ink);line-height:1.45}
+.dcol ul li{display:block}
+.dcol ul li b{color:var(--ink);font-weight:400}
+.packs{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(190px,100%),1fr));gap:16px;margin-top:8px}
+.pack{border:1px solid var(--line);border-radius:var(--r-m);padding:24px 24px;display:flex;flex-direction:column;gap:8px}
+.pack.pick{border-color:var(--accent)}
+.pack b{font-family:'Bounded','Geologica',sans-serif;font-weight:400;font-size:16px}
+.pack span{font-size:14px;color:var(--ink-soft)}
+.pack-note{margin:24px 0 0;font-size:14px;color:var(--ink-faint);max-width:80ch}
+.detail-path{margin:8px 0 0;font-size:15px;color:var(--accent)}
+.pack em{font-style:normal;font-size:15px;color:var(--accent)}
+.detail-foot{margin-top:40px;padding-top:32px;border-top:1px solid var(--line);
+  display:flex;flex-wrap:wrap;gap:16px;align-items:center}
+@media (max-width:1100px){.dcols{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:640px){.dcols{grid-template-columns:1fr}}
+@media (max-width:640px){.detail-in{padding:32px 24px}.packs{grid-template-columns:1fr}.dcol.full{padding-top:32px}}
+@media (prefers-reduced-motion:reduce){.detail{transition:none}}
+
+/* ── блок 3: нам доверяют, бегущая строка ── */
+.trust{padding:48px 0 104px}
+/* лента логотипов подтянута к подзаголовку: 48 читались как разрыв */
+.trust-head{margin-bottom:24px}
+.trust-head h2{margin:0 0 8px;font-family:'Bounded','Geologica',sans-serif;font-weight:400;
+  font-size:clamp(26px,3vw,44px);line-height:1.08;letter-spacing:-.01em}
+.trust-head p{margin:0;max-width:80ch;color:var(--ink);font-size:clamp(17px,1.5vw,20px);line-height:1.4}
+.marquee{position:relative;overflow:hidden;
+  mask-image:linear-gradient(to right, transparent 0, #000 6%, #000 94%, transparent 100%);
+  -webkit-mask-image:linear-gradient(to right, transparent 0, #000 6%, #000 94%, transparent 100%)}
+.track{display:flex;width:max-content;animation:march var(--dur,52s) linear infinite}
+.track.rev{animation-direction:reverse}
+.marquee:hover .track{animation-play-state:paused}
+.lane{display:flex;flex:none}
+.slot{flex:none;display:flex;align-items:center;justify-content:center;height:112px;min-width:224px;padding:0 40px;
+  color:var(--ink-soft);font-size:17px;white-space:nowrap;
+  transition:color .2s ease}
+.slot:hover{color:var(--ink)}
+.slot.duo{position:relative}
+.slot.duo .lg{filter:none;opacity:1;transition:opacity .25s ease}
+.slot.duo .lg-b{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);opacity:0}
+.slot.duo:hover .lg-a{opacity:0}
+.slot.duo:hover .lg-b{opacity:1}
+/* Высота каждого логотипа своя: у широких однострочных знаков она меньше,
+   у компактных и двухстрочных (Почта Банк, РАНХиГС, Т1) больше — так все знаки
+   занимают примерно одинаковую оптическую площадь и ни один не выглядит
+   недокомпенсированным. Значение приходит из --h в разметке. */
+.slot .lg{height:calc(var(--h,40px) * var(--lg-scale,1));width:auto;max-width:none;display:block;
+  filter:grayscale(1) contrast(.92);opacity:.55;transition:filter .3s ease,opacity .3s ease}
+.slot:hover .lg{filter:none;opacity:1}
+@keyframes march{from{transform:translate3d(0,0,0)}to{transform:translate3d(-50%,0,0)}}
+@media (max-width:640px){
+  .facts .shell{padding:40px var(--pad)}
+  .trust{padding:32px 0 72px}
+  .slot{height:88px;min-width:168px;padding:0 24px;font-size:15px}
+  .marquee{--lg-scale:.8}
+}
+@media (prefers-reduced-motion:reduce){
+  .track{animation:none;width:auto;flex-wrap:wrap}
+  .lane:nth-child(2){display:none}
+  .marquee{mask-image:none;-webkit-mask-image:none}
+}
+
+@media (max-width:1000px){.serv-row{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:720px){.serv-row{grid-template-columns:1fr}}
+@media (max-width:640px){
+  .serv{padding:0 0 72px}
+  .card{--pad:24px}
+}
+@media (prefers-reduced-motion:reduce){.card{opacity:1;transition:none}}
+
+.facts{background:var(--white)}
+.facts .shell{display:grid;grid-template-columns:repeat(3,1fr) max-content;align-items:start;
+  gap:32px var(--gutter);padding:56px var(--pad)}
+.fact{display:flex;flex-direction:column;gap:16px;opacity:0;
+  animation:rise .85s cubic-bezier(.16,.86,.26,1) forwards}
+.fact:nth-child(1){animation-delay:.05s}.fact:nth-child(2){animation-delay:.15s}
+.fact:nth-child(3){animation-delay:.25s}.fact:nth-child(4){animation-delay:.35s}
+.fact b{display:flex;align-items:baseline;gap:.14em;
+  font-family:'Bounded','Geologica',sans-serif;font-weight:400;font-size:clamp(36px,3.5vw,52px);
+  line-height:1;letter-spacing:-.01em;color:var(--accent)}
+.fact .num{display:inline-block;text-align:right}
+.fact>span{font-size:16px;color:var(--ink);white-space:nowrap}
+
+@keyframes sheen{0%,100%{transform:translateX(-30%);opacity:0}45%{opacity:.5}70%{transform:translateX(130%);opacity:0}}
+@keyframes word-up{from{transform:translate3d(0,110%,0)}to{transform:none}}
+@keyframes bolt-draw{from{transform:skewX(-24deg) scaleX(0)}to{transform:skewX(-24deg) scaleX(1)}}
+@keyframes rise{from{opacity:0;transform:translate3d(0,18px,0)}to{opacity:1;transform:none}}
+@keyframes fx-in{from{opacity:0;transform:scale(1.06) translate3d(3%,-1%,0)}to{opacity:1;transform:none}}
+@keyframes art-float{
+  0%{transform:translate3d(0,0,0) rotate(0deg) scale(1)}
+  50%{transform:translate3d(-1.4%,-2.2%,0) rotate(-1.1deg) scale(1.015)}
+  100%{transform:translate3d(1%,1.6%,0) rotate(1.4deg) scale(1.03)}
+}
+@keyframes art-sheen{0%,100%{transform:translateX(-40%);opacity:0}42%{opacity:.85}72%{transform:translateX(120%);opacity:0}}
+@keyframes shape-a{from{transform:translate3d(0,0,0) rotate(0deg)}to{transform:translate3d(-4%,2%,0) rotate(2.2deg)}}
+@keyframes shape-b{from{transform:translate3d(0,1%,0) rotate(1deg)}to{transform:translate3d(5%,-2%,0) rotate(-1.4deg)}}
+
+@media (max-width:1100px){
+  :root{--pad:40px}
+  .menu{display:none}.burger{display:block}.head .btn{margin-left:0}
+  .hero-copy{grid-column:1 / -1}
+  .facts .shell{grid-template-columns:repeat(2,1fr);gap:32px var(--gutter)}
+  .fact:last-child{justify-self:start}
+}
+@media (max-width:640px){
+  :root{--pad:24px}
+  .head .shell{height:72px;gap:16px}
+  header.head{padding:8px 16px}
+  .head .shell{padding:0 16px}
+  .head>.shell>.btn{display:none}
+  .logo-mark{height:32px}
+  .hero{min-height:0}
+  .hero .shell{padding-top:64px;padding-bottom:32px}
+  .hero-sub{font-size:17px}
+  .hero-actions .btn{width:100%}
+  .facts .shell{grid-template-columns:1fr;gap:24px;padding:40px var(--pad)}
+}
+@media (prefers-reduced-motion:reduce){
+  h1 .w>i,.hero-sub,.hero-actions,.fact,.fx{animation:none;opacity:1;transform:none}
+  .bolt{animation:none;transform:skewX(-24deg) scaleX(1)}
+  .orb,.ring{animation:none;opacity:1}
+  .head-glass::after{animation:none;opacity:0}
+}
+
+/* --- Как мы работаем --- */
+.proc{padding:0 0 104px}
+.proc-head{margin-bottom:48px}
+.proc-head h2{margin:0 0 8px;font-family:'Bounded','Geologica',sans-serif;font-weight:400;
+  font-size:clamp(26px,3vw,44px);line-height:1.08;letter-spacing:-.01em}
+.proc-head p{margin:0;max-width:80ch;font-size:clamp(17px,1.5vw,20px);line-height:1.4;color:var(--ink)}
+.steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gutter);align-items:stretch}
+.step{display:flex;flex-direction:column;align-items:flex-start;gap:16px;height:100%}
+.st-num{font-family:'Bounded','Geologica',sans-serif;font-size:clamp(52px,6vw,86px);line-height:.9;
+  letter-spacing:-.02em;color:var(--accent)}
+.step h3{margin:0;font-family:'Bounded','Geologica',sans-serif;font-weight:400;
+  font-size:clamp(20px,1.8vw,26px);letter-spacing:-.01em}
+.step p{margin:0;font-size:16px;line-height:1.45;max-width:34ch}
+.step .link{margin-top:auto;padding-top:16px}
+
+/* --- Матрица зрелости --- */
+.mx{padding:0 0 104px;display:none}
+.mx-head{margin-bottom:40px}
+.mx-head h2{margin:0 0 8px;font-family:'Bounded','Geologica',sans-serif;font-weight:400;
+  font-size:clamp(26px,3vw,44px);line-height:1.08;letter-spacing:-.01em}
+.mx-head .sub{display:flex;flex-direction:column;gap:16px;max-width:64ch}
+.mx-head .sub b{font-weight:400;font-size:17px}
+.mx-head .sub p{margin:0;font-size:16px;line-height:1.5;color:var(--ink)}
+.mx-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gutter);align-items:stretch}
+.mx-item{border:1px solid var(--line);border-radius:var(--r-l);padding:32px 32px 32px;
+  display:flex;flex-direction:column;align-items:flex-start;gap:16px;background:var(--white);height:100%}
+.mx-item.pick{border-color:var(--accent)}
+.mx-top{display:flex;align-items:baseline;gap:16px;flex-wrap:wrap}
+.mx-lvl{font-family:'Bounded','Geologica',sans-serif;font-size:14px;color:var(--accent)}
+.mx-item h3{margin:0;font-family:'Bounded','Geologica',sans-serif;font-weight:400;
+  font-size:clamp(20px,1.7vw,25px);letter-spacing:-.01em;width:100%}
+.mx-item .ctx{margin:0;font-size:15px;line-height:1.45;color:var(--ink)}
+.mx-item h4{margin:8px 0 0;font-family:'Geologica',sans-serif;font-size:14px;font-weight:400;
+  letter-spacing:0;color:var(--ink-faint)}
+.mx-item ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;font-size:15px;line-height:1.4}
+.mx-note{align-self:flex-start;margin-top:auto;font-size:13px;border-radius:99px;padding:8px 16px;
+  background:var(--accent);color:var(--white)}
+
+/* --- Награды --- */
+.awards{padding:0 0 104px}
+.aw-head{margin-bottom:48px}
+.aw-head h2{margin:0 0 8px;font-family:'Bounded','Geologica',sans-serif;font-weight:400;
+  font-size:clamp(26px,3vw,44px);line-height:1.08;letter-spacing:-.01em}
+.aw-head span{display:block;max-width:80ch;font-size:clamp(17px,1.5vw,20px);line-height:1.4;color:var(--ink)}
+.aw-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(232px,100%),1fr));gap:var(--gutter)}
+.aw-item{position:relative;display:flex;flex-direction:column;gap:16px;min-height:196px;
+  border:1px solid var(--line);border-radius:var(--r-l);padding:24px 32px 24px;background:var(--white);
+  transition:background .25s ease, border-color .25s ease, transform .25s ease}
+.aw-item:hover{background:var(--accent);border-color:transparent;transform:translateY(-4px)}
+.aw-src{display:flex;align-items:center;min-height:40px}
+.aw-logo{max-width:min(100%,190px);max-height:28px;width:auto;height:auto;object-fit:contain;
+  transition:filter .25s ease}
+.aw-item:hover .aw-logo{filter:brightness(0) invert(1)}
+@media (prefers-reduced-motion:reduce){.aw-logo{transition:none}}
+.aw-item b{margin-top:auto;font-weight:400;font-size:18px;line-height:1.25;color:var(--ink)}
+.aw-item span{font-size:14px;color:var(--ink-soft)}
+.aw-item>span:last-child{padding-right:40px}
+.aw-item:hover b,.aw-item:hover span{color:var(--white)}
+.aw-arw{position:absolute;bottom:24px;right:24px;color:var(--ink-faint);transition:color .25s ease}
+.aw-item:hover .aw-arw{color:var(--white)}
+@media (prefers-reduced-motion:reduce){.aw-item:hover{transform:none}}
+
+/* --- За что нас ценят --- */
+.why{padding:0 0 104px}
+.why .shell{display:flex;flex-direction:column;gap:48px}
+.why-side{display:flex;flex-direction:column;gap:8px}
+/* мера 74ch нужна заголовку; подзаголовок идёт в одну строку,
+   поэтому ширину не ограничиваем */
+.why-side h2{max-width:74ch}
+.why-side h2{margin:0;font-family:'Bounded','Geologica',sans-serif;font-weight:400;
+  font-size:clamp(26px,3vw,44px);line-height:1.08;letter-spacing:-.01em}
+.why-side p{margin:0;max-width:80ch;font-size:clamp(17px,1.5vw,20px);line-height:1.4;color:var(--ink)}
+.why-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--gutter)}
+/* карточка не кликабельна, поэтому на ховер не реагирует */
+.why-item{--pad:32px;display:flex;flex-direction:column;gap:8px;padding:var(--pad);
+  border:1px solid var(--line);border-radius:var(--r-l);background:var(--white)}
+.why-item .wic{width:32px;height:32px;color:var(--accent);
+  margin-bottom:calc(var(--pad) - 8px)}
+.why-item b{font-weight:400;font-size:18px}
+.why-item span{font-size:15px;line-height:1.45;color:var(--ink)}
+
+/* --- Форма --- */
+.lead{padding:0 0 104px}
+.lead .shell{display:grid;grid-template-columns:repeat(12,1fr);gap:48px var(--gutter);align-items:start}
+.lead-side{grid-column:1 / span 5;display:flex;flex-direction:column;gap:8px}
+.lead-side h2{margin:0;font-family:'Bounded','Geologica',sans-serif;font-weight:400;
+  font-size:clamp(26px,3vw,44px);line-height:1.08;letter-spacing:-.01em}
+.lead-side .kicker{font-size:17px;color:var(--accent)}
+.lead-side p{margin:0;font-size:clamp(17px,1.5vw,20px);line-height:1.4;color:var(--ink);max-width:46ch}
+/* Фото занимает всю высоту блока — имя, должность и контакты стоят
+   рядом с ним одной колонкой, а не висят над пустотой. Позиции в сетке
+   заданы явно: при grid-row:1/-1 у фото автоматическая раскладка
+   уводила должность в первую колонку. */
+/* Карточка менеджера — отдельная группа, а не продолжение описания:
+   отбиваем её от текста на 32px (24 своих плюс 8 от gap колонки). */
+.mgr{display:grid;grid-template-columns:152px minmax(0,1fr);
+  grid-template-rows:auto auto auto;gap:8px 16px;margin-top:24px}
+/* Фото — квадрат: высота строки меняется вместе с текстом, поэтому
+   квадратность держим через aspect-ratio, а не через растягивание
+   по высоте блока. */
+.mgr .ava{grid-column:1;grid-row:1 / -1;width:152px;height:auto;aspect-ratio:1;
+  align-self:start;border-radius:var(--r-s);object-fit:cover;object-position:50% 20%;
+  display:block;background:var(--lilac)}
+.mgr b{grid-column:2;grid-row:1;font-weight:400;font-size:18px;align-self:end}
+.mgr span{grid-column:2;grid-row:2;font-size:15px;color:var(--ink-soft)}
+/* чипы контактов — на равном расстоянии и сбоку, и снизу */
+.mgr .ch{grid-column:2;grid-row:3;display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+/* Знаки площадок в контактах: те же, что в подвале и в плашках. */
+.mgr .ch .soc{flex:none;width:18px;height:18px}
+.mgr .ch .soc.rnd{clip-path:circle(50% at 50% 50%)}
+.mgr .ch a{display:inline-flex;align-items:center;gap:8px;font-size:14px;color:var(--ink);border:1px solid var(--line);border-radius:99px;padding:8px 16px;
+  transition:color .2s ease,border-color .2s ease}
+.mgr .ch a:hover{color:var(--accent);border-color:var(--accent)}
+/* На узком экране квадрат 152 съедает колонку с чипами — уменьшаем */
+@media (max-width:640px){
+  .mgr{grid-template-columns:120px minmax(0,1fr)}
+  .mgr .ava{width:120px}
+  /* Со знаками площадок чип с почтой стал шире колонки и вылезал
+     за экран. На телефоне ряд контактов уходит под фото во всю
+     ширину: рвать адрес переносом нельзя. */
+  .mgr .ch{grid-column:1 / -1;grid-row:4;margin-top:8px}
+}
+.lead-form{grid-column:7 / span 6;background:var(--lilac);border-radius:var(--r-l);padding:40px 40px 32px;
+  display:flex;flex-direction:column;gap:16px}
+.field{display:flex;flex-direction:column;gap:8px}
+.field label{font-size:14px;color:var(--ink-soft)}
+.field input,.field select,.field textarea{border-radius:var(--r-s);border:1px solid transparent;
+  background:var(--white);color:var(--ink);font-family:'Geologica','Segoe UI',system-ui,sans-serif;font-size:16px;
+  transition:border-color .2s ease}
+.field input,.field select{height:52px;padding:0 16px}
+/* комментарий — необязательное поле, тянется только по высоте */
+.field textarea{min-height:104px;padding:16px;line-height:1.5;resize:vertical}
+.field .opt-mark{color:var(--ink-faint)}
+.field select{appearance:none;background-image:linear-gradient(45deg,transparent 49%,var(--ink) 50%),linear-gradient(-45deg,transparent 49%,var(--ink) 50%);
+  background-size:7px 7px;background-position:calc(100% - 22px) 24px, calc(100% - 16px) 24px;background-repeat:no-repeat}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--accent)}
+.field.err input,.field.err select{border-color:var(--red)}
+.field .hint{font-size:13px;color:var(--red);display:none}
+/* выпадающий список в фирменном стиле */
+.sel-label{font-size:14px;color:var(--ink-soft)}
+.sel{position:relative}
+.sel-native{position:absolute;width:1px;height:1px;padding:0;margin:-8px;overflow:hidden;
+  clip:rect(0 0 0 0);clip-path:inset(50%);border:0;white-space:nowrap}
+.sel-btn{display:flex;align-items:center;justify-content:space-between;gap:16px;width:100%;height:52px;
+  padding:0 16px;border-radius:var(--r-s);border:1px solid var(--line);background:var(--white);
+  color:var(--ink);font-family:'Geologica','Segoe UI',system-ui,sans-serif;font-size:16px;text-align:left;
+  cursor:pointer;transition:border-color .2s ease}
+.sel-btn:hover{border-color:var(--steel)}
+.sel-btn:focus-visible{outline:none;border-color:var(--accent)}
+.sel-btn[aria-expanded="true"]{border-color:var(--accent)}
+.sel-val{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sel-val.is-empty{color:var(--ink-faint)}
+.sel-arw{flex:none;color:var(--ink-soft);transition:transform .25s cubic-bezier(.2,.7,.2,1)}
+.sel-btn[aria-expanded="true"] .sel-arw{transform:rotate(180deg);color:var(--accent)}
+.sel-pop{position:absolute;z-index:5;left:0;right:0;top:calc(100% + 8px);padding:8px;
+  background:var(--white);border:1px solid var(--line);border-radius:var(--r-m);
+  box-shadow:0 18px 44px rgba(30,30,30,.14)}
+.sel-list{margin:0;padding:0 16px 0 0;list-style:none;max-height:188px;overflow-y:auto;
+  overscroll-behavior:contain;scrollbar-width:none;-ms-overflow-style:none}
+.sel-list::-webkit-scrollbar{width:0;height:0}
+.sel-rail{position:absolute;right:8px;top:8px;bottom:8px;width:4px;border-radius:99px;
+  background:var(--cold);pointer-events:none}
+.sel-rail[hidden]{display:none}
+.sel-thumb{position:absolute;left:0;width:4px;min-height:24px;border-radius:99px;background:var(--ink)}
+.sel-opt{padding:16px;border-radius:var(--r-s);font-size:16px;line-height:20px;color:var(--ink);cursor:pointer;
+  transition:background .15s ease,color .15s ease}
+.sel-opt[aria-selected="true"]{background:var(--lilac);color:var(--accent)}
+.sel-opt:hover,.sel-opt.is-active{background:var(--accent);color:var(--white)}
+.field.err .sel-btn{border-color:var(--red)}
+.field.err .hint{display:block}
+.lead-form .btn{align-self:flex-start;margin-top:8px}
+/* Согласие на обработку данных — в одну строку: в колонке 628px,
+   строке нужно 499, ограничение меры 44ch (364) её ломало */
+.lead-form .note{margin:0;font-size:13px;color:var(--ink-soft);max-width:none}
+.lead-ok{display:none;flex-direction:column;gap:16px;padding:8px 0}
+.lead-ok b{font-family:'Bounded','Geologica',sans-serif;font-weight:400;font-size:22px}
+.honey{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+.lead-err{display:none;font-size:14px;color:var(--red);max-width:52ch}
+.lead-form.failed .lead-err{display:block}
+.btn[aria-busy="true"]{opacity:.7;pointer-events:none}
+.lead-ok span{font-size:16px;color:var(--ink-soft)}
+.lead-form.sent .field,.lead-form.sent .btn,.lead-form.sent .note{display:none}
+.lead-form.sent .lead-ok{display:flex}
+
+/* --- Подвал --- */
+.foot-main{background:var(--graphite);color:var(--white);border-radius:var(--r-l) var(--r-l) 0 0;
+  margin:0 24px;padding:56px 0 32px}
+.foot-main .shell{display:grid;grid-template-columns:repeat(12,1fr);gap:40px var(--gutter)}
+.foot-brand{grid-column:1 / span 4;display:flex;flex-direction:column;gap:16px}
+.foot-brand svg{width:190px;height:auto;display:block}
+.foot-brand p{margin:0;font-size:15px;line-height:1.5;color:color-mix(in oklab, var(--white) 62%, var(--graphite));max-width:34ch}
+.foot-soc{display:flex;align-items:center;gap:16px;margin-top:8px}
+.foot-soc a{display:inline-flex;align-items:center;justify-content:center;
+  color:color-mix(in oklab, var(--white) 62%, var(--graphite));transition:color .2s ease}
+.foot-soc a:hover{color:var(--indigo-bright)}
+.foot-soc svg{display:block;width:28px;height:28px}
+.foot-soc a.rnd svg{clip-path:circle(50% at 50% 50%)}
+.foot-col{grid-column:span 2;display:flex;flex-direction:column;gap:16px}
+/* Заголовки колонок подвала: уровень h2 внутри <footer>, чтобы
+   структура заголовков страницы не прыгала через уровни. */
+.foot-col h2,.foot-cnt h2{margin:0;font-family:'Geologica',sans-serif;font-size:14px;
+  font-weight:400;letter-spacing:0;color:color-mix(in oklab, var(--white) 62%, var(--graphite))}
+.foot-col a{font-size:15px;line-height:1.45;color:color-mix(in oklab, var(--white) 82%, var(--graphite));transition:color .2s ease}
+.foot-col a:hover{color:var(--white)}
+.foot-cnt{grid-column:10 / span 3;display:flex;flex-direction:column;gap:8px}
+.foot-cnt b{font-weight:400;font-size:15px}
+.foot-cnt span,.foot-cnt a{font-size:15px;color:color-mix(in oklab, var(--white) 70%, var(--graphite))}
+.foot-cnt a:hover{color:var(--white)}
+.foot-bottom{grid-column:1 / -1;margin-top:48px;display:flex;flex-wrap:wrap;gap:16px 32px;justify-content:space-between;
+  font-size:14px;color:color-mix(in oklab, var(--white) 52%, var(--graphite))}
+
+@media (max-width:1100px){
+  .steps{grid-template-columns:1fr 1fr;gap:40px var(--gutter)}
+  .mx-grid{grid-template-columns:1fr}
+  .aw-grid{grid-template-columns:repeat(2,1fr)}
+  .why-list{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .lead-side,.lead-form{grid-column:1 / -1}
+  .foot-brand{grid-column:1 / span 6}
+  .foot-col{grid-column:span 3}
+  .foot-cnt{grid-column:span 6}
+}
+@media (max-width:640px){
+  .steps{grid-template-columns:1fr}
+  .aw-grid,.why-list{grid-template-columns:1fr}
+  .lead-form{padding:32px 24px 32px}
+  .foot-main{margin:0 16px;padding:48px 0 32px}
+  .foot-brand,.foot-col,.foot-cnt{grid-column:1 / -1}
+}
+
+.rise{opacity:0;transform:translateY(20px)}
+.rise.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.rise{opacity:1;transform:none;transition:none}}
+
+
+/* --- кейсы: карточки и модальные окна --- */
+.cs-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gutter)}
+.cs-card{position:relative;display:flex;flex-direction:column;gap:16px;text-align:left;
+  border:1px solid var(--line);border-radius:var(--r-l);padding:32px 32px 32px;background:var(--white);
+  font-family:'Geologica','Segoe UI',system-ui,sans-serif;cursor:pointer;
+  transition:border-color .25s ease, box-shadow .25s ease, transform .25s ease}
+.cs-card:hover{border-color:var(--accent);box-shadow:0 12px 34px rgba(30,30,30,.07);transform:translateY(-3px)}
+.cs-card:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.cs-card .m{font-family:'Bounded','Geologica',sans-serif;font-size:clamp(34px,3.4vw,52px);line-height:1;
+  letter-spacing:-.02em;color:var(--accent)}
+.cs-card .ttl{font-family:'Bounded','Geologica',sans-serif;font-weight:400;font-size:19px;line-height:1.2;letter-spacing:-.01em;color:var(--ink)}
+.cs-card .txt{font-size:15px;line-height:1.45;color:var(--ink-soft)}
+.cs-card .tags{margin-top:auto;display:flex;flex-wrap:wrap;gap:8px}
+.cs-thumb{position:relative;aspect-ratio:16/10;border-radius:var(--r-m);overflow:hidden;
+  background:linear-gradient(140deg, var(--lilac), var(--cold, #EDF0FD));display:flex;align-items:center;justify-content:center}
+.cs-thumb img,.cs-thumb video{width:100%;height:100%;object-fit:cover;display:block}
+.cs-banner{border-radius:var(--r-m);overflow:hidden;background:var(--lilac)}
+.cs-banner img{width:100%;height:auto;max-height:min(30dvh, 280px);object-fit:cover;display:block}
+.cs-banner.fit{background:#0F1C19}
+.cs-banner.fit img{object-fit:contain;max-height:min(32dvh, 300px)}
+.cs-thumb .ph{font-family:'Bounded','Geologica',sans-serif;font-size:clamp(30px,3vw,46px);color:var(--accent);
+  letter-spacing:-.02em;opacity:.5}
+.cases-more{margin-top:48px;display:flex;flex-wrap:wrap;gap:16px 32px;align-items:center}
+
+@media (max-width:1100px){.cs-grid{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:640px){.cs-grid{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){.cs-card:hover{transform:none}}
+
+/* Мобильный ритм секций одним токеном. Блок стоит в конце: медиазапрос
+   не добавляет специфичности, и базовые правила ниже по файлу перебивали
+   его, если объявить раньше. */
+@media (max-width:640px){
+  .serv,.trust,.proc,.ind,.cases,.awards,.lib,.why,.lead{padding-bottom:72px}
+}
+
+/* С появлением раздела «ИИ-решения» в строке семь пунктов, два
+   из них с подменю. На 1440 они помещаются с шагом 24, ниже —
+   только компактным шагом 16 и кеглем 15; с 1343 меню уходит
+   под бургер. Медиазапросы специфичности не добавляют, поэтому
+   порядок правил здесь и есть приоритет: сначала компактный шаг,
+   потом бургер. */
+@media (max-width:1439px){
+  .menu{gap:16px;font-size:15px;margin-right:16px}
+  .head .shell{padding:0 24px}
+}
+@media (max-width:1343px){
+  .menu{display:none}
+  .burger{display:block}
+  .head .btn{margin-left:0}
+  .drop{display:none}
+}
+</style>
+<style>
+/* Палитра кейса: голубой VK, как на боевой странице кейса.
+   Фирменный фиолетовый остаётся у шапки, подвала и форм — это оболочка сайта,
+   голубым размечен только контент самого кейса.
+   --cb — иконки, рамки, крупные цифры; --cb-ink — мелкий текст (контраст 4.9);
+   --cb-bg — плашки. */
+/* палитру задаёт сборщик страницы: PALETTE в build_case_copy.py */
+.crumbs{display:flex;flex-wrap:wrap;align-items:center;gap:16px;margin:0 0 24px;font-size:15px;color:var(--ink-soft)}
+.crumbs a{color:var(--ink-soft);transition:color .2s ease}
+.crumbs a:hover{color:var(--indigo-bright)}
+.crumbs .sep{color:var(--ink-faint)}
+.crumbs [aria-current]{color:var(--ink)}
+
+/* картинки с боевого сайта: если не загрузились — остаётся подпись */
+figure.shot{margin:0;display:flex;flex-direction:column;gap:16px}
+/* Скриншоты идут без скругления: на боевых страницах у них свои
+   поля и своя рамка, а наш радиус срезал её по углам. */
+figure.shot img{display:block;width:100%;height:auto;border-radius:0;
+  background:var(--white)}
+/* обводка нужна только светлому скриншоту: он иначе сливается с белым фоном */
+figure.shot.framed img{border:1px solid var(--line)}
+figure.shot figcaption{font-size:14px;line-height:1.45;color:var(--ink-faint)}
+figure.shot[data-failed] img{display:none}
+figure.shot[data-failed]::before{content:attr(data-plate);display:flex;align-items:center;justify-content:center;
+  min-height:176px;padding:24px;border-radius:var(--r-m);background:var(--cb-bg);color:var(--ink-faint);
+  font-size:14px;line-height:1.45;text-align:center}
+
+.cc-hero{padding:40px 0 0}
+.cc-hero .shell>:last-child{margin-bottom:0}
+.cc-cover{margin:0 0 40px;border-radius:var(--r-l);overflow:hidden;background:var(--cb-bg)}
+.cc-cover img{display:block;width:100%;height:auto;max-height:min(46dvh,420px);object-fit:cover}
+.cc-cover[data-failed] img{display:none}
+.cc-cover[data-failed]::before{content:attr(data-plate);display:flex;align-items:center;justify-content:center;
+  min-height:min(34dvh,300px);color:var(--ink-faint);font-size:15px}
+.cc-hero h1{margin:0 0 24px;max-width:30ch;font-family:'Bounded','Geologica',sans-serif;font-weight:400;
+  font-size:clamp(28px,3.6vw,50px);line-height:1.06;letter-spacing:-.02em}
+
+.cc-hero .cc-sub-lede{margin:0;max-width:74ch;font-size:clamp(17px,1.6vw,19px);
+  line-height:1.5;color:var(--ink)}
+.cc-meta{padding:56px 0 0}
+.cc-facts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--gutter);margin:0;max-width:56ch}
+.cc-facts>div{display:flex;flex-direction:column;gap:8px}
+/* Отрасль и Услуги — подзаголовки, а не подписи: Bounded, крупнее значения
+   и фирменным чёрным. Иконки убраны, различие держится на начертании. */
+.cc-facts dt{font-family:'Bounded','Geologica',sans-serif;font-weight:400;font-size:20px;
+  line-height:1.2;letter-spacing:-.01em;color:var(--ink)}
+.cc-facts dd{margin:0;font-size:17px;line-height:1.45;color:var(--ink)}
+/* Клиент и награда стоят рядом, как на боевой странице: награда
+   плашкой под текстом читалась как тег, а не как регалия. */
+.cc-client{margin:48px 0 0;display:grid;grid-template-columns:minmax(0,1fr) 320px;
+  gap:var(--gutter);align-items:start}
+.cc-client-in{display:flex;flex-direction:column;align-items:flex-start;gap:16px}
+.cc-client h2{margin:0;font-family:'Bounded','Geologica',sans-serif;font-weight:400;
+  font-size:clamp(22px,2.2vw,32px);line-height:1.15;letter-spacing:-.01em}
+.cc-sites{margin:0;display:flex;flex-wrap:wrap;gap:32px}
+.cc-client .site{font-size:17px;color:var(--cb-ink);transition:color .2s ease}
+.cc-client .site:hover{color:var(--cb)}
+/* Ссылка внутри абзаца — фирменным фиолетовым: чёрной она ничем
+   не отличалась от текста и не читалась как ссылка. Подчёркивания
+   в проекте запрещены, поэтому цвет здесь единственный признак. */
+.cc-sec p a.site,.cc-sec li a.site{color:var(--cb);transition:opacity .2s ease}
+.cc-sec p a.site:hover,.cc-sec li a.site:hover{opacity:.72}
+.cc-client-in>p{margin:8px 0 0;max-width:74ch;font-size:17px;line-height:1.55;color:var(--ink)}
+.cc-award{padding:0 0 0 24px;border-left:2px solid var(--cb);
+  display:flex;flex-direction:column;align-items:flex-start;gap:16px}
+.cc-award p{margin:0;font-size:19px;line-height:1.35;color:var(--ink)}
+.cc-award b{display:block;font-weight:400}
+.cc-award span{display:block}
+.cc-award-logo{display:block;width:148px;height:auto}
+
+/* Лесенка этапов: ступени растут слева направо — порядок и наращивание
+   работ видны до чтения подписей. Знак сверху, подпись у низа. */
+.cc-split{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:var(--gutter);
+  align-items:start;margin:40px 0 0}
+.cc-aside{padding:0 0 0 24px;border-left:2px solid var(--cb)}
+.cc-aside p{margin:0;font-size:17px;line-height:1.55;color:var(--ink)}
+.cc-stairs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;
+  align-items:end}
+.cc-step{min-height:var(--h);display:flex;flex-direction:column;justify-content:flex-start;
+  gap:16px;padding:24px;background:var(--cb-bg);color:var(--cb)}
+.cc-step b{font-weight:400;font-size:17px;line-height:1.3;color:var(--ink)}
+.cc-step svg{display:block}
+
+.cc-sec{padding:88px 0 0}
+.cc-sec h2{margin:0 0 24px;font-family:'Bounded','Geologica',sans-serif;font-weight:400;
+  font-size:clamp(24px,2.6vw,38px);line-height:1.1;letter-spacing:-.01em}
+/* Подзаголовок раздела — фирменным фиолетовым, как на боевых
+   страницах кейсов: графитом он не отличался от текста. */
+.cc-sec h3{margin:0 0 16px;font-family:'Bounded','Geologica',sans-serif;font-weight:400;
+  font-size:19px;line-height:1.25;letter-spacing:-.01em;color:var(--cb)}
+.cc-sec p{margin:0 0 24px;max-width:74ch;font-size:17px;line-height:1.55;color:var(--ink)}
+.cc-sec p:last-child{margin-bottom:0}
+.cc-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:16px;max-width:74ch}
+/* Список с процентами: маркеры и жирная цифра цветом клиента —
+   как на боевой странице, где цифра и есть содержание строки. */
+.cc-list.pct{list-style:disc;padding-left:24px;display:block}
+.cc-list.pct li{margin:0 0 16px}
+.cc-list.pct li:last-child{margin:0}
+.cc-list.pct b{font-weight:600;color:var(--mark,var(--cb))}
+.cc-list li{font-size:17px;line-height:1.55;color:var(--ink)}
+.cc-sec p.cc-note{margin:24px 0 0;max-width:74ch;font-size:17px;line-height:1.55;color:var(--ink)}
+
+.cc-goal .goal-in{background:var(--cb-bg);border-radius:var(--r-l);padding:40px 48px}
+.cc-goal h2{margin:0 0 24px;color:var(--cb-ink)}
+/* Цель набрана в одну-две строки: 58ch рвали её раньше, чем
+   кончалась плашка, и под текстом оставалась пустая полоса. */
+.cc-goal .lede{margin:0;max-width:none;font-size:clamp(19px,1.9vw,24px);line-height:1.35;
+  letter-spacing:-.01em;color:var(--ink)}
+
+.cc-pull{margin:32px 0 0;padding:0 0 0 24px;border-left:3px solid var(--cb);max-width:70ch}
+.cc-pull p{margin:0;font-size:clamp(18px,1.7vw,22px);line-height:1.4;color:var(--ink)}
+
+/* Абзац со знаком слева — без рамки: на боевой странице это текст
+   раздела с пиктограммой, а не плитка. */
+.cc-ipar{display:flex;flex-direction:column;gap:32px;margin:32px 0 0}
+.cc-ip{display:grid;grid-template-columns:32px minmax(0,1fr);gap:24px;align-items:start}
+.cc-ip-ic{display:block;line-height:0;color:var(--cb)}
+.cc-ip-ic img{width:32px;height:32px;display:block}
+.cc-ip-ic img[data-failed]{display:none}
+.cc-ip-ic .fb{display:none}
+.cc-ip-ic img[data-failed]+.fb{display:block}
+.cc-ip p{margin:0;max-width:74ch;font-size:17px;line-height:1.55;color:var(--ink)}
+
+.cc-icons{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--gutter);margin:8px 0 0}
+/* Пять карточек: три сверху, две снизу во всю ширину блока. Иначе
+   нижний ряд занимал две трети и строка выглядела обрезанной.
+   Только на широкой сетке: правило с :has() перебивает по весу
+   узкие раскладки ниже, а медиазапрос веса не добавляет. */
+@media (min-width:1101px){
+  .cc-icons:has(.cc-ic:nth-child(5)):not(:has(.cc-ic:nth-child(6))){
+    grid-template-columns:repeat(6,minmax(0,1fr))}
+  .cc-icons:has(.cc-ic:nth-child(5)):not(:has(.cc-ic:nth-child(6))) .cc-ic:nth-child(-n+3){
+    grid-column:span 2}
+  .cc-icons:has(.cc-ic:nth-child(5)):not(:has(.cc-ic:nth-child(6))) .cc-ic:nth-child(4),
+  .cc-icons:has(.cc-ic:nth-child(5)):not(:has(.cc-ic:nth-child(6))) .cc-ic:nth-child(5){
+    grid-column:span 3}
+}
+.cc-ic{display:flex;flex-direction:column;gap:24px;border:1px solid var(--cb);
+  border-radius:var(--r-m);padding:32px}
+.cc-ic img{width:40px;height:40px;display:block}
+.cc-ic img[data-failed]{display:none}
+.cc-ic .fb{display:none;line-height:0;color:var(--cb)}
+.cc-ic img[data-failed]+.fb{display:block}
+.cc-ic span{font-size:17px;line-height:1.55;color:var(--ink)}
+
+.cc-pillars{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;align-items:center;gap:24px;margin:8px 0 0}
+.cc-pillar{background:var(--cb-bg);border-radius:var(--r-l);padding:24px 32px;
+  font-family:'Bounded','Geologica',sans-serif;font-size:clamp(17px,1.5vw,21px);line-height:1.2;
+  letter-spacing:-.01em;color:var(--ink)}
+.cc-arw{width:36px;height:36px;flex:none;opacity:.9}
+.cc-arw[data-failed]{display:none}
+
+.cc-two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:40px var(--gutter);margin:40px 0 0}
+.cc-two h3{margin:0 0 16px;font-size:19px}
+.cc-two ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:16px;
+  font-size:17px;line-height:1.5;color:var(--ink)}
+
+.cc-hyp{display:flex;flex-direction:column;gap:24px;margin:8px 0 0}
+.cc-hyp-item{background:var(--cb-bg);border-radius:var(--r-l);padding:32px 40px;
+  display:grid;grid-template-columns:auto minmax(0,1fr);gap:16px;align-items:baseline;max-width:96ch}
+.cc-hyp-item b{font-family:'Bounded','Geologica',sans-serif;font-weight:400;font-size:17px;color:var(--cb-ink)}
+.cc-hyp-item span{font-size:17px;line-height:1.55;color:var(--ink)}
+
+/* Подраздел — отбивка больше рядовой: 56 вместо 40.
+   Держим её маржином, а не паддингом: паддинг складывался
+   с ритмом раздела и давал 96. */
+.cc-sub{padding:0}
+* + .cc-sub{margin-top:56px}
+/* Ряд скриншотов — одна строка, без переноса. Высота у ряда общая,
+   ширину каждая картинка берёт по своим пропорциям, и ряд заполняет
+   колонку целиком: так этот блок собран на боевой странице кейса.
+   Точные размеры считает скрипт внизу страницы по натуральным размерам
+   картинок. До его работы (и без JS) ряд делится на равные ячейки,
+   картинка вписана внутрь — ничего не обрезается и никуда не выезжает. */
+.cc-gal{margin:32px 0 0;display:flex;flex-wrap:nowrap;gap:var(--gutter);align-items:flex-start}
+.cc-gal figure.shot{margin:0;flex:1 1 0;min-width:0}
+.cc-gal figure.shot img{width:100%;height:400px;object-fit:contain;object-position:left top}
+.cc-gal figure.shot img:not([data-ready]){min-width:min(200px,100%)}
+.cc-gal figure.shot[data-failed]::before{height:400px;min-height:0}
+/* Вертикальные объявления конференций — выше: при общей высоте 400
+   они были бы шириной в 200 и нечитаемы */
+.cc-gal.g2 figure.shot img{height:560px}
+.cc-gal.g2 figure.shot[data-failed]::before{height:560px}
+/* Графики — во всю колонку, по своим пропорциям: обводка обнимает картинку,
+   пустых полей внутри рамки не остаётся. aspect-ratio с ключевым словом auto
+   держит место до загрузки, а у загруженной картинки уступает её пропорциям —
+   поэтому вёрстка не прыгает и ничего не искажается. */
+.cc-wide{margin:32px 0 0;display:flex;flex-direction:column;gap:32px}
+/* у самих графиков рамка уже нарисована в картинке — своей не добавляем */
+.cc-wide figure.shot img{width:100%;height:auto;aspect-ratio:auto 16/9;border:0}
+.cc-wide figure.shot[data-failed]::before{min-height:400px}
+.cc-sec p.cc-effect{display:inline-flex;align-items:baseline;gap:16px;margin:32px 0 0;padding:16px 24px;
+  background:var(--cb-bg);border-radius:var(--r-m);max-width:74ch}
+.cc-effect b{font-family:'Bounded','Geologica',sans-serif;font-weight:400;font-size:16px;color:var(--cb-ink);
+  white-space:nowrap}
+.cc-effect span{font-size:16px;line-height:1.5;color:var(--ink)}
+
+.cc-check{list-style:none;margin:32px 0 0;padding:0;display:flex;flex-direction:column;gap:16px;max-width:74ch}
+.cc-check li{display:grid;grid-template-columns:24px 1fr;gap:16px;align-items:start;
+  font-size:17px;line-height:1.5;color:var(--ink)}
+.cc-check img{width:24px;height:24px;display:block;margin-top:8px}
+.cc-check img[data-failed]{display:none}
+
+/* Результаты — карточками с обводкой: ради этих цифр кейс и читают,
+   а таблицей «цифра — подпись» они шли как строка реквизитов. */
+.cc-stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--gutter);
+  margin:40px 0 0}
+/* Пять плиток: две сверху, три снизу. В сетке на две колонки пятая
+   оставалась одна в ряду и читалась как обрывок. */
+@media (min-width:1101px){
+  /* Три плитки — в один ряд: в сетке на две колонки третья уходила
+     вниз и результат распадался на «две штуки и ещё одна». */
+  .cc-stats:has(.cc-stat:nth-child(3)):not(:has(.cc-stat:nth-child(4))){
+    grid-template-columns:repeat(3,minmax(0,1fr))}
+  .cc-stats:has(.cc-stat:nth-child(5)):not(:has(.cc-stat:nth-child(6))){
+    grid-template-columns:repeat(6,minmax(0,1fr))}
+  .cc-stats:has(.cc-stat:nth-child(5)):not(:has(.cc-stat:nth-child(6))) .cc-stat:nth-child(-n+2){
+    grid-column:span 3}
+  .cc-stats:has(.cc-stat:nth-child(5)):not(:has(.cc-stat:nth-child(6))) .cc-stat:nth-child(n+3){
+    grid-column:span 2}
+}
+.cc-stat{display:flex;flex-direction:column;gap:16px;padding:32px;
+  border:1px solid var(--line);border-radius:var(--r-l);background:var(--white)}
+.cc-stat b{font-family:'Bounded','Geologica',sans-serif;font-weight:400;font-size:clamp(32px,3.2vw,44px);
+  line-height:1;letter-spacing:-.02em;color:var(--cb);white-space:nowrap}
+.cc-stat span{font-size:16px;line-height:1.5;color:var(--ink)}
+
+/* Врезка с прямой речью: автор сверху, реплика на линейке —
+   как на боевой странице. Плашка во всю ширину читалась секцией. */
+/* Врезке нужен воздух: реплика — не подпись под именем, а отдельный
+   голос. Поэтому отступ от линейки 32, между автором и репликой 32,
+   а сама реплика набрана просторнее основного текста. */
+.cc-quote{padding:8px 0 8px 32px;border-left:2px solid var(--cb)}
+.cc-q-who{display:flex;align-items:center;gap:16px;margin:32px 0 0}
+/* Портрет — квадрат со скруглением, как на боевой странице:
+   круг здесь читался как аватар в чате. */
+.cc-q-ph{display:block;width:48px;height:48px;border-radius:var(--r-s);
+  object-fit:cover;flex:none}
+.cc-q-nm{display:flex;flex-direction:column;gap:8px}
+.cc-q-nm b{font-weight:400;font-size:17px;line-height:1.3;color:var(--ink)}
+.cc-q-nm>span{font-size:15px;line-height:1.4;color:var(--ink-faint)}
+.cc-quote p{margin:0;max-width:70ch;font-size:19px;line-height:1.6;color:var(--ink)}
+
+/* Голос клиента внутри рассказа — серая плашка с курсивом, как
+   на боевой странице. Свои специалисты говорят врезкой на линейке:
+   разделение смысловое, а не декоративное. */
+.cc-voice{margin:0;padding:40px;border-radius:var(--r-l);background:var(--grey-soft)}
+.cc-voice p{margin:0;max-width:70ch;padding-left:16px;text-indent:-16px;
+  font-style:italic;font-weight:500;font-size:19px;line-height:1.6;color:var(--ink)}
+.cc-voice p::before{content:'«';font-style:normal;color:var(--mark,var(--cb))}
+.cc-voice p::after{content:'»';font-style:normal;color:var(--mark,var(--cb))}
+.cc-voice footer{margin:32px 0 0;display:flex;align-items:center;gap:16px}
+
+/* «Клиент о нас»: финальное слово — реплика крупнее, в ёлочках,
+   автор и знак клиента внизу. Без линейки: это не ремарка в тексте. */
+.cc-says{margin:32px 0 0;padding:0}
+/* Ёлочка висит слева от колонки текста, как на боевой странице:
+   без компенсации она уезжала за край сетки и обрезалась. */
+/* Мера шире 70 знаков: на боевой странице реплика укладывается
+   в четыре строки, а узкая колонка растягивала её на шесть. */
+.cc-says p{margin:0;max-width:none;padding-left:16px;text-indent:-16px;
+  font-size:clamp(19px,1.9vw,24px);line-height:1.45;color:var(--ink)}
+.cc-says p::before{content:'«';color:var(--mark,var(--cb))}
+.cc-says p::after{content:'»';color:var(--mark,var(--cb))}
+/* Подпись слева, знак клиента справа — композиция во всю ширину.
+   Держим space-between, а не auto-маржином: так просвет между
+   ними — следствие раскладки, а не отступ из шкалы. */
+.cc-says footer{margin:32px 0 0;display:flex;align-items:center;gap:16px;
+  justify-content:space-between}
+.cc-says .cc-says-logo{display:block;line-height:0}
+.cc-says .cc-says-logo svg{display:block;height:40px;width:auto}
+
+/* Текст слева, врезки справа: раскладка боевой страницы. Плашка
+   во всю ширину под текстом читалась как вывод, а не как ремарка. */
+.cc-sides{display:flex;flex-direction:column;gap:32px}
+/* Цифры слева, крупная иллюстрация справа на светлой подложке —
+   раскладка боевой страницы. Отдельный класс, а не вариант .cc-split:
+   у них разные паддинги, и аудит справедливо считал бы их одним
+   компонентом с разными отступами. */
+.cc-figrow{display:grid;grid-template-columns:minmax(0,360px) minmax(0,1fr);
+  align-items:stretch;border-radius:var(--r-l);background:var(--grey-soft);overflow:hidden}
+/* Цифры со своим паддингом, иллюстрация во всю высоту плашки —
+   как на боевой: там картинка и задаёт высоту блока. */
+.cc-figrow>div:first-child{padding:48px}
+.cc-figrow .cc-tiers{margin:0}
+.cc-figrow .cc-sides{gap:0;height:100%}
+.cc-figrow figure.shot{height:100%}
+.cc-figrow figure.shot img{height:100%;width:100%;object-fit:cover;
+  border-radius:0;background:transparent}
+/* Цифры уступом: итог крупно, слагаемые под ним помельче */
+.cc-tiers{display:flex;flex-direction:column;gap:40px;margin:32px 0 0}
+.cc-tier{display:flex;flex-direction:column;gap:8px}
+.cc-tier b{font-family:'Bounded','Geologica',sans-serif;font-weight:400;font-size:40px;
+  line-height:1;letter-spacing:-.02em;color:var(--cb)}
+.cc-tier.is-lead b{font-size:clamp(48px,5vw,72px)}
+.cc-tier span{font-size:16px;line-height:1.5;color:var(--ink)}
+.cc-tier-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--gutter)}
+
+/* Таймлайн проекта — присланная картинка во всю ширину сетки */
+.cc-tl{margin:32px 0 0}
+/* Без скругления: радиус срезал годы, которые стоят у самых краёв.
+   Селектор с figure.shot — иначе базовое правило перебивает по весу. */
+figure.shot.cc-tl img{display:block;width:100%;height:auto;border-radius:0}
+/* Графики по продуктам — по два в ряд во всю ширину колонки:
+   четыре в строку сжимались до нечитаемых подписей, а высота
+   в 400px оставляла половину контейнера пустой. Скругления снимаем:
+   у скриншота свои поля, и радиус срезал рамку самого графика. */
+.cc-gal.g4{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--gutter)}
+.cc-gal.g4 figure.shot{flex:none}
+.cc-gal.g4 figure.shot img{width:100%;height:auto;max-height:none;object-fit:contain;
+  border-radius:0}
+.cc-gal.g4 figure.shot[data-failed]::before{height:auto;min-height:280px}
+/* Команда — плитка людей с линейкой слева. Строки во всю ширину
+   с горизонтальными разделителями читались как таблица ставок. */
+.cc-team ul{list-style:none;margin:0;padding:0;display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));gap:24px var(--gutter)}
+.cc-team li{display:flex;flex-direction:column;gap:8px;padding:8px 0 8px 24px;
+  border-left:2px solid var(--cb-bg)}
+.cc-team li b{font-weight:400;font-size:19px;line-height:1.3}
+.cc-team li span{font-size:15px;line-height:1.4;color:var(--ink-faint)}
+
+.cc-next{padding:88px 0 0}
+.cc-next-card{display:grid;grid-template-columns:280px 1fr;gap:var(--gutter);align-items:center;
+  border:1px solid var(--line);border-radius:var(--r-l);padding:24px;background:var(--white);
+  transition:border-color .25s ease,box-shadow .25s ease,transform .25s ease}
+.cc-next-card:hover{border-color:var(--accent);box-shadow:0 12px 34px rgba(30,30,30,.07);transform:translateY(-3px)}
+.cc-next-card:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.cc-next-media{aspect-ratio:16/10;border-radius:var(--r-m);overflow:hidden;
+  background:linear-gradient(140deg,var(--lilac),var(--cold));display:flex;align-items:center;justify-content:center}
+.cc-next-media img,.cc-next-media video{width:100%;height:100%;object-fit:cover;display:block}
+.cc-next-media .ph{font-family:'Bounded','Geologica',sans-serif;font-size:34px;color:var(--accent);opacity:.5}
+.cc-next-body{display:flex;flex-direction:column;gap:8px}
+.cc-next-body .lbl{font-size:14px;color:var(--ink-faint)}
+.cc-next-body .ttl{font-family:'Bounded','Geologica',sans-serif;font-weight:400;
+  font-size:clamp(20px,2vw,28px);line-height:1.15;letter-spacing:-.01em}
+.cc-next-body .txt{font-size:16px;line-height:1.45;color:var(--ink-soft);max-width:56ch}
+.cc-back{margin:48px 0 0;display:flex;flex-wrap:wrap;gap:16px}
+
+.lead{padding:104px 0 104px}
+/* ── Ритм раздела ────────────────────────────────────────────────
+   Отступ ставит следующий элемент, а не предыдущий. Раньше у каждого
+   кирпича был свой margin, и одинаковые пары получали разные
+   просветы: заголовок → плитки то 24, то 32, то 40, текст → блок
+   то 24, то 32, то 40, а после лесенки абзац прилипал вплотную.
+   Теперь правил четыре:
+     абзац → абзац        24  — рядовая отбивка внутри рассказа;
+     абзац → список       16  — список продолжает фразу с двоеточием;
+     заголовок → что угодно  его собственная отбивка (h2 24, h3 16);
+     всё остальное        40  — блок отделяется сильнее, чем абзац. */
+.cc-sec > .shell > *, .cc-sec > .shell > .cc-sub > *,
+.cc-sec > .shell > * , .cc-sec .cc-sub > *{margin-bottom:0}
+.cc-sec > .shell > * + *, .cc-sec .cc-sub > * + *{margin-top:40px}
+.cc-sec > .shell > p + p, .cc-sec .cc-sub > p + p{margin-top:24px}
+.cc-sec > .shell > p + ul, .cc-sec .cc-sub > p + ul{margin-top:16px}
+.cc-sec > .shell > h2 + *, .cc-sec .cc-sub > h2 + *{margin-top:24px}
+.cc-sec > .shell > h3 + *, .cc-sec .cc-sub > h3 + *{margin-top:16px}
+/* Подраздел — единица крупнее рядового блока, поэтому 56.
+   Сразу после заголовка раздела отбивку держит заголовок. */
+.cc-sec > .shell > * + .cc-sub{margin-top:56px}
+.cc-sec > .shell > h2 + .cc-sub{margin-top:24px}
+
+@media (max-width:1100px){
+  .cc-icons{grid-template-columns:repeat(2,minmax(0,1fr))}
+  /* Узкая колонка: боковые панели уходят под основной блок,
+     лесенка выстраивается в столбик — ступени в 4 колонки
+     на такой ширине сжимались до нечитаемых. */
+  .cc-client,.cc-split{grid-template-columns:1fr}
+  .cc-figrow{grid-template-columns:1fr}
+  .cc-figrow>div:first-child{padding:24px}
+  .cc-figrow figure.shot img{height:auto}
+  .cc-award,.cc-aside{margin-top:24px}
+  .cc-team ul{grid-template-columns:repeat(2,minmax(0,1fr))}
+  /* Ступени в четыре колонки на узкой сетке сжимались так, что
+     подпись вылезала за плашку — раскладываем в строки. */
+  .cc-stairs{grid-template-columns:1fr;gap:16px}
+  .cc-step{min-height:0;flex-direction:row;align-items:center;gap:16px;padding:16px 24px}
+  .cc-pillars{grid-template-columns:1fr;gap:16px}
+  .cc-arw{transform:rotate(90deg);justify-self:center}
+  .cc-next-card{grid-template-columns:200px 1fr}
+}
+@media (max-width:720px){
+  .cc-facts{grid-template-columns:1fr;gap:24px}
+  .cc-icons,.cc-two{grid-template-columns:1fr}
+  .cc-gal{flex-wrap:wrap}
+  .cc-gal figure.shot{flex:1 1 100%}
+  .cc-gal figure.shot img,.cc-gal.g2 figure.shot img{height:auto;max-height:400px}
+  .cc-gal figure.shot img:not([data-ready]){min-width:0}
+  .cc-team ul{grid-template-columns:1fr}
+  .cc-gal figure.shot[data-failed]::before,
+  .cc-gal.g2 figure.shot[data-failed]::before{height:280px}
+  .cc-hyp-item{padding:24px}
+  .cc-next-card{grid-template-columns:1fr}
+  .cc-sec{padding:56px 0 0}
+  * + .cc-sub{margin-top:40px}
+  .cc-next{padding:56px 0 0}
+  .cc-goal .goal-in{padding:32px 24px}
+  .cc-quote{padding:8px 0 8px 24px}
+  .cc-voice{padding:24px}
+  .cc-says footer{flex-wrap:wrap}
+  .cc-says footer{justify-content:flex-start}
+  .cc-stats{grid-template-columns:1fr}
+  .cc-stat{padding:24px}
+  .cc-wide figure.shot[data-failed]::before{min-height:240px}
+  .cc-cover{margin:0 0 32px}
+  .lead{padding:72px 0 72px}
+}
+@media (prefers-reduced-motion:reduce){.cc-next-card:hover{transform:none}}
+</style>
+<style>:root{--cb:var(--accent);--cb-ink:var(--accent);--cb-bg:var(--lilac)}</style>
+</head>
+<body>
+<header class="head" id="head">
+ <div class="head-glass">
+  <div class="shell">
+    <a class="logo" href="../../wp-marketing-home.html#hero" aria-label="Вебпрактик Маркетинг — на главную"><svg class="logo-mark" role="img" aria-label="Вебпрактик Маркетинг" viewBox="0 0 365 108" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M129.237 11.2041H124.875C124.194 11.2041 123.559 11.5473 123.186 12.117L96.5393 52.8141C96.3196 53.1497 96.5604 53.5952 96.9615 53.5952H101.382C102.063 53.5952 102.699 53.2512 103.072 52.6806L129.659 11.9848C129.878 11.6491 129.637 11.2041 129.237 11.2041Z" fill="#7927E0"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M51.8418 15.3351C54.3599 15.3351 56.6117 15.7841 58.593 16.6867C60.5705 17.5875 62.2212 18.8413 63.5422 20.4482C64.8846 22.0547 65.8407 23.9457 66.4115 26.1179L66.4657 26.3202C67.0136 28.4162 67.1484 30.6736 66.8728 33.0905L66.8535 33.2583H40.6311C40.554 35.4967 40.9845 37.4511 41.9159 39.1281C42.8731 40.8297 44.2772 42.161 46.1346 43.1217C47.9902 44.0815 50.2053 44.5652 52.7858 44.5652C54.478 44.5652 56.1494 44.2761 57.8008 43.6971L57.8015 43.6969C59.4731 43.1182 60.9161 42.2945 62.133 41.227L62.3001 41.0804L64.8504 45.1537L64.7211 45.2591C63.6431 46.1391 62.4019 46.8855 60.999 47.4993L60.9978 47.5C59.6181 48.0913 58.1837 48.529 56.6949 48.8136L56.6951 48.8139C55.23 49.0982 53.7856 49.2404 52.3624 49.2404C49.0153 49.2404 46.0537 48.5402 43.4831 47.1341C40.9138 45.7287 38.9028 43.7616 37.4531 41.2357L37.4527 41.2349C36.002 38.6853 35.2795 35.7335 35.2795 32.3855C35.2795 29.9553 35.6846 27.6966 36.4968 25.6113L36.4976 25.6098C37.3309 23.5265 38.4941 21.7149 39.9878 20.1774L39.9887 20.1764C41.4564 18.6875 43.1513 17.528 45.072 16.6985L45.2588 16.6192C47.2801 15.7625 49.4752 15.3351 51.8418 15.3351ZM51.7767 19.9125C48.753 19.9125 46.2586 20.7263 44.28 22.3429L44.2803 22.3431C42.3748 23.9173 41.2425 26.0893 40.8904 28.876H61.5389C61.404 26.1671 60.5715 24.0434 59.0558 22.4853L58.9023 22.3318C57.2777 20.7284 54.9129 19.9125 51.7767 19.9125Z" fill="#1E1E1E"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M101.186 0.188014L102.134 4.86323L87.2714 8.05996C84.4707 8.66318 82.3126 9.6506 80.7821 11.011C79.2457 12.3767 78.1241 14.0952 77.4178 16.1712C76.7943 18.0618 76.3551 20.2209 76.1012 22.6496C77.4213 20.7113 79.0805 19.1282 81.078 17.902C83.3048 16.5351 85.9663 15.856 89.0542 15.856C92.1454 15.856 94.872 16.6126 97.2273 18.1309C99.5991 19.6243 101.445 21.6346 102.762 24.1584C103.121 24.8297 103.432 25.5191 103.695 26.2265C104.54 28.5037 103.869 30.9931 102.538 33.0254L94.3041 45.6015C92.9443 47.6782 90.8204 49.2404 88.3381 49.2404C85.6694 49.2404 83.2571 48.7918 81.1042 47.8911L81.1019 47.8903C78.9712 46.9677 77.1574 45.6377 75.6628 43.9014L75.6621 43.9006C74.1676 42.1423 73.028 39.992 72.2404 37.4542L72.2399 37.4525C71.4741 34.8925 71.0926 31.9766 71.0926 28.7072C71.0926 25.1399 71.3428 21.9279 71.8442 19.0722C72.346 16.2141 73.1543 13.7208 74.2718 11.5953L74.2723 11.594C75.4137 9.46501 76.9296 7.70712 78.8194 6.32274L78.8201 6.322C80.7327 4.93703 83.0688 3.94066 85.8232 3.32856L85.8242 3.32831L101.148 0L101.186 0.188014ZM88.143 20.4984C85.9591 20.4984 84.0174 20.9905 82.3131 21.9705L82.3123 21.971C80.6305 22.929 79.3098 24.302 78.3493 26.095C77.3901 27.8854 76.907 30.0018 76.907 32.4505C76.907 34.8988 77.3899 37.0151 78.3488 38.8053C79.3093 40.5769 80.6308 41.9509 82.3141 42.931C84.0182 43.9106 85.9595 44.4026 88.143 44.4026C90.3489 44.4026 92.29 43.9103 93.9719 42.931L93.9726 42.9305C95.6775 41.9502 97.0093 40.5763 97.9695 38.8053C98.9283 37.015 99.4115 34.8989 99.4115 32.4505C99.4115 30.0018 98.9281 27.8854 97.969 26.095C97.0088 24.3027 95.6777 22.9297 93.9744 21.9715L93.9719 21.97C92.29 20.9907 90.3489 20.4985 88.143 20.4984Z" fill="#1E1E1E"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M17.7122 16.3116C21.1861 16.3116 24.0345 17.0105 26.2435 18.4239C28.4723 19.828 29.5869 21.9305 29.5869 24.7035C29.5869 25.8611 29.3195 26.9329 28.7841 27.9158L28.7843 27.916C28.2704 28.8991 27.523 29.7454 26.5469 30.4553C26.1399 30.7513 25.6987 31.0153 25.2241 31.2488C26.7355 31.7945 27.9584 32.5735 28.8856 33.5914C30.2439 35.0611 30.9214 36.8658 30.9214 38.9931C30.9214 40.8949 30.4121 42.5514 29.388 43.9541C28.3869 45.3335 26.9451 46.3948 25.0743 47.1432C23.2238 47.8922 21.0394 48.2639 18.5258 48.2639H3.52637V16.3116H17.7122ZM8.6572 43.8491H17.8423C20.4087 43.8491 22.3667 43.4385 23.736 42.638C25.0854 41.8276 25.7581 40.6111 25.7581 38.9605C25.7581 37.3094 25.085 36.1042 23.736 35.3156C22.3667 34.5151 20.4087 34.1044 17.8423 34.1044H8.6572V43.8491ZM8.6572 29.755H17.1262C19.4456 29.755 21.2356 29.4201 22.5128 28.7676L22.6348 28.7035C23.8901 28.0031 24.5213 26.8669 24.5213 25.2569C24.5213 23.6232 23.8885 22.4765 22.6328 21.7766L22.6316 21.7759C21.3705 21.0613 19.5422 20.6939 17.1262 20.6939H8.6572V29.755Z" fill="#1E1E1E"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M180.54 15.3353C183.718 15.3353 186.52 16.0917 188.94 17.6097C191.378 19.1251 193.268 21.1686 194.607 23.7373C195.968 26.3053 196.647 29.1568 196.647 32.2878C196.647 34.6095 196.252 36.8022 195.462 38.8644L195.463 38.8646C194.695 40.9046 193.597 42.7049 192.17 44.264C190.741 45.8244 189.038 47.044 187.062 47.9223C185.082 48.8021 182.896 49.2406 180.507 49.2406C177.576 49.2406 175.05 48.6936 172.934 47.5916L172.932 47.5909C170.995 46.5615 169.362 45.2337 168.035 43.6078V61.9351H162.839V16.3118H167.807V20.9764C169.111 19.4075 170.71 18.0991 172.604 17.0516C174.68 15.903 177.33 15.3353 180.54 15.3353ZM179.661 20.1731C177.389 20.1731 175.382 20.6658 173.634 21.6462C171.887 22.6266 170.512 24.0222 169.509 25.837C168.529 27.6484 168.035 29.7965 168.035 32.2878C168.035 34.7788 168.528 36.9269 169.508 38.7382L169.603 38.905C170.598 40.6184 171.942 41.9592 173.636 42.9304C175.383 43.9103 177.39 44.4028 179.661 44.4028C181.933 44.4028 183.939 43.9103 185.687 42.9304C187.435 41.9281 188.8 40.5323 189.781 38.7397L189.782 38.7389C190.783 36.9274 191.288 34.7792 191.288 32.2878C191.288 29.7965 190.783 27.6484 189.782 25.837C188.778 24.0222 187.403 22.6266 185.656 21.6462L185.655 21.6457C183.929 20.6658 181.933 20.1731 179.661 20.1731Z" fill="#1E1E1E"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M214.118 15.0098C217.023 15.0098 219.483 15.4684 221.489 16.3944C223.497 17.3212 225.025 18.6926 226.066 20.5082C227.106 22.3232 227.621 24.5603 227.621 27.21V48.2641H222.685V44.6415C221.571 46.0551 220.106 47.1593 218.296 47.9551L218.294 47.9558C216.294 48.8133 214.087 49.2406 211.677 49.2406C209.397 49.2406 207.414 48.824 205.733 47.9837C204.054 47.1442 202.757 45.9704 201.847 44.4619L201.847 44.4607C200.937 42.9301 200.486 41.1489 200.486 39.1236C200.486 37.4401 200.918 35.8972 201.784 34.4994L201.784 34.4986C202.807 32.8614 204.399 31.7285 206.108 30.8916C207.976 29.9941 210.371 29.4008 213.285 29.1051C215.883 28.8416 218.963 28.8706 222.522 29.1904V27.2427C222.522 25.6646 222.181 24.3218 221.508 23.2065C220.835 22.0918 219.845 21.2262 218.53 20.611L218.529 20.6105C217.237 19.9964 215.65 19.685 213.76 19.685C212.13 19.685 210.5 19.9315 208.867 20.4255L208.867 20.4252C207.263 20.9173 205.687 21.7316 204.14 22.8706L203.942 23.016L202.235 18.7107L202.356 18.6249C204.282 17.2679 206.267 16.3242 208.31 15.7971C210.341 15.2728 212.277 15.0098 214.118 15.0098ZM222.522 33.3324C219.791 33.0463 217.428 32.9568 215.43 33.0628C213.01 33.1924 211.079 33.5379 209.629 34.0923C208.173 34.6489 207.134 35.3585 206.49 36.2105C205.863 37.0684 205.552 38.0052 205.552 39.0258C205.552 40.7984 206.171 42.1623 207.401 43.1419C208.636 44.1263 210.369 44.6304 212.621 44.6305C214.506 44.6305 216.193 44.2772 217.683 43.5746C219.175 42.8711 220.353 41.9039 221.222 40.6743C222.088 39.4495 222.522 38.0451 222.522 36.4544V33.3324Z" fill="#1E1E1E"/>
+<path d="M153.828 48.2641H148.632V20.9217H130.62V48.2641H125.424V30.1604C125.424 28.6899 125.852 27.2512 126.656 26.0202L131.505 18.5982C132.437 17.1717 134.026 16.3118 135.73 16.3118H153.828V48.2641Z" fill="#1E1E1E"/>
+<path d="M241.403 29.0389H247.993L256.214 16.3118H261.907L252.377 30.9192L264.028 48.2641H257.678L248.281 33.649H241.403V48.2641H236.207V16.3118H241.403V29.0389Z" fill="#1E1E1E"/>
+<path d="M293.406 20.9217H282.111V48.2641H276.915V20.9217H265.621V16.3118H293.406V20.9217Z" fill="#1E1E1E"/>
+<path d="M303.834 40.0563L323.183 16.3118H327.498V48.2641H322.4V24.2594L302.913 48.1943L302.856 48.2641H298.703V16.3118H303.834V40.0563Z" fill="#1E1E1E"/>
+<path d="M341.696 29.0389H348.286L356.507 16.3118H362.2L352.67 30.919L364.321 48.2641H357.971L348.574 33.649H341.696V48.2641H336.5V16.3118H341.696V29.0389Z" fill="#1E1E1E"/>
+<path d="M3.39702 95.376V74.4384H6.83677H6.96495L16.6646 88.2401L14.9554 88.2828L24.2278 74.4384H27.753V95.376H24.0996L24.1423 79.2455L24.8687 79.566L16.921 90.9748H14.2504L5.98217 79.5232L6.68721 79.2028L6.72994 95.376H3.39702ZM39.4616 96.0169C37.9803 96.0169 36.6913 95.7463 35.5946 95.2051C34.4978 94.6638 33.6504 93.9018 33.0522 92.919C32.4539 91.922 32.1548 90.7469 32.1548 89.3938C32.1548 88.2828 32.4397 87.2716 33.0094 86.36C33.5792 85.4342 34.4765 84.6722 35.7014 84.0739C36.9263 83.4615 38.5144 83.0556 40.4658 82.8561C42.4171 82.6425 44.7744 82.6781 47.5376 82.963L47.6444 85.8472C45.5079 85.5624 43.6919 85.4555 42.1963 85.5268C40.7008 85.5837 39.4901 85.7831 38.5643 86.125C37.6385 86.4526 36.9548 86.8941 36.5133 87.4496C36.086 87.9908 35.8723 88.6033 35.8723 89.287C35.8723 90.3837 36.264 91.2454 37.0474 91.8721C37.845 92.4846 38.9346 92.7908 40.3162 92.7908C41.4984 92.7908 42.5524 92.5772 43.4782 92.1499C44.4183 91.7083 45.1589 91.103 45.7002 90.3339C46.2557 89.5505 46.5334 88.646 46.5334 87.6205V81.7665C46.5334 80.7838 46.3126 79.9292 45.8711 79.2028C45.4438 78.4763 44.81 77.9137 43.9696 77.5149C43.1293 77.1161 42.0966 76.9167 40.8717 76.9167C39.775 76.9167 38.6854 77.0805 37.6029 77.4081C36.5204 77.7357 35.4806 78.2698 34.4836 79.0105L33.2872 75.9767C34.5833 75.0936 35.9222 74.474 37.3038 74.1179C38.6854 73.7618 40.01 73.5838 41.2776 73.5838C43.2005 73.5838 44.8385 73.89 46.1916 74.5025C47.5447 75.1007 48.5773 76.0051 49.2895 77.2158C50.0016 78.4265 50.3577 79.9363 50.3577 81.7452V95.376H46.7471V92.8122C46.0206 93.8519 45.0165 94.6496 43.7346 95.2051C42.4527 95.7463 41.0284 96.0169 39.4616 96.0169ZM56.0181 104.349V74.4384H59.6287V77.579C60.4976 76.468 61.5872 75.5636 62.8976 74.8657C64.2222 74.1535 65.8887 73.7974 67.897 73.7974C69.9765 73.7974 71.8067 74.2888 73.3877 75.2716C74.9687 76.2402 76.2008 77.5648 77.0839 79.2455C77.9812 80.9262 78.4298 82.8134 78.4298 84.9072C78.4298 86.4312 78.1735 87.8698 77.6607 89.2229C77.1622 90.5618 76.4429 91.7439 75.5029 92.7695C74.5628 93.7807 73.4447 94.5784 72.1486 95.1623C70.8667 95.7321 69.4352 96.0169 67.8542 96.0169C66.0881 96.0169 64.5427 95.6893 63.218 95.0341C61.9077 94.3647 60.8109 93.4887 59.9279 92.4063V104.349H56.0181ZM67.1919 92.4704C68.602 92.4704 69.8483 92.1641 70.9308 91.5517C72.0275 90.925 72.8821 90.049 73.4946 88.9238C74.1213 87.7843 74.4346 86.4455 74.4346 84.9072C74.4346 83.3547 74.1213 82.0158 73.4946 80.8906C72.8821 79.7511 72.0275 78.8752 70.9308 78.2627C69.8483 77.6502 68.602 77.344 67.1919 77.344C65.7818 77.344 64.5284 77.6502 63.4317 78.2627C62.3492 78.8752 61.4946 79.7511 60.8679 80.8906C60.2412 82.0158 59.9279 83.3547 59.9279 84.9072C59.9279 86.4455 60.2412 87.7843 60.8679 88.9238C61.4946 90.049 62.3492 90.925 63.4317 91.5517C64.5284 92.1641 65.7818 92.4704 67.1919 92.4704ZM96.5323 95.376L89.4605 84.2021L95.8058 74.4384H100.036L93.7121 84.0099L101.275 95.376H96.5323ZM82.4955 95.376V74.4384H86.4267V82.6852H92.6866V86.0182H86.4267V95.376H82.4955ZM113.846 96.0169C111.625 96.0169 109.666 95.554 107.971 94.6282C106.276 93.7024 104.952 92.4134 103.997 90.7612C103.043 89.0947 102.566 87.1576 102.566 84.9499C102.566 83.3547 102.836 81.8734 103.378 80.506C103.933 79.1387 104.702 77.9565 105.685 76.9594C106.682 75.9624 107.843 75.1862 109.168 74.6307C110.506 74.0752 111.959 73.7974 113.526 73.7974C115.221 73.7974 116.731 74.0965 118.055 74.6948C119.394 75.293 120.498 76.1333 121.367 77.2158C122.25 78.2841 122.884 79.5446 123.268 80.9974C123.653 82.436 123.731 84.0027 123.503 85.6977H106.454C106.412 87.0935 106.696 88.3184 107.309 89.3724C107.921 90.4122 108.804 91.2241 109.958 91.808C111.126 92.392 112.508 92.684 114.103 92.684C115.271 92.684 116.41 92.4988 117.521 92.1285C118.632 91.7582 119.615 91.2098 120.47 90.4834L122.136 93.4104C121.452 93.9659 120.641 94.443 119.7 94.8419C118.775 95.2264 117.806 95.5184 116.795 95.7178C115.784 95.9172 114.801 96.0169 113.846 96.0169ZM106.668 82.6425H119.572C119.515 80.8763 118.967 79.5019 117.927 78.5191C116.887 77.522 115.399 77.0235 113.462 77.0235C111.582 77.0235 110.029 77.522 108.804 78.5191C107.579 79.5019 106.867 80.8763 106.668 82.6425ZM132.58 95.376V77.7713H125.402V74.4384H143.712V77.7713H136.512V95.376H132.58ZM147.323 95.376V74.4384H151.147V89.4793L163.325 74.4384H166.701V95.376H162.877V80.1642L150.592 95.376H147.323ZM172.632 95.376V74.4384H176.563V82.6852H187.908V74.4384H191.839V95.376H187.908V86.0182H176.563V95.376H172.632ZM197.774 95.376V74.4384H211.341V77.7713H201.705V95.376H197.774Z" fill="#7927E0"/>
+</svg></a>
+    <nav class="menu" aria-label="Основная навигация">
+      <span class="has-sub" data-drop="serv"><a href="../../services/wp-marketing-services.html">Услуги</a></span><span class="has-sub" data-drop="ind"><button class="nav-sec" type="button" aria-expanded="false">Отраслевые решения</button></span><span class="has-sub" data-drop="lab"><button class="nav-sec" type="button" aria-expanded="false">ИИ-решения</button></span>      <a href="../../standards/wp-marketing-standards.html">Стандарты</a><a href="../../cases/wp-marketing-cases.html" aria-current="page">Кейсы</a><a href="../../about/wp-marketing-about.html">О компании</a><a href="../../contacts/wp-marketing-contacts.html">Контакты</a>
+    </nav>
+    <button class="burger" type="button" aria-label="Открыть меню" aria-expanded="false" aria-controls="mnav"><span></span></button>
+    <a class="btn btn-primary" href="../../wp-marketing-home.html#contacts">Обсудить проект</a>
+  </div>
+ </div>
+ <div class="drop" data-drop="serv" role="group" aria-label="Подменю услуг"><a href="../../services/wp-marketing-services-consulting.html">Консалтинг и стратегия</a><a href="../../services/wp-marketing-services-seo-geo.html">SEO &amp; GEO / AEO</a><a href="../../services/wp-marketing-services-ppc.html">PPC &amp; Лидогенерация</a></div>
+  <div class="drop" data-drop="ind" role="group" aria-label="Подменю отраслевых решений"><a href="../../industries/wp-marketing-industries.html">ИТ-продукты</a><a href="../../industries/wp-marketing-industries-fintech.html">FinTech</a><a href="../../industries/wp-marketing-industries-b2b.html">Сложный B2B</a></div>
+  <div class="drop" data-drop="lab" role="group" aria-label="Подменю ИИ-решений"><a href="../../ai/wp-marketing-lab-smm.html">SMM-конвейер</a><a href="../../ai/wp-marketing-lab-reputation.html">Аудит репутации бренда</a><a href="../../ai/wp-marketing-lab-ai-content.html">AI контент-завод</a></div>
+<nav class="mnav" id="mnav" aria-label="Мобильная навигация" hidden>
+   <span class="has-sub"><a href="../../services/wp-marketing-services.html">Услуги</a><span class="sub" role="group"><a href="../../services/wp-marketing-services-consulting.html">Консалтинг и стратегия</a><a href="../../services/wp-marketing-services-seo-geo.html">SEO &amp; GEO / AEO</a><a href="../../services/wp-marketing-services-ppc.html">PPC &amp; Лидогенерация</a></span></span><span class="has-sub"><button class="nav-sec" type="button" aria-expanded="false">Отраслевые решения</button><span class="sub" role="group"><a href="../../industries/wp-marketing-industries.html">ИТ-продукты</a><a href="../../industries/wp-marketing-industries-fintech.html">FinTech</a><a href="../../industries/wp-marketing-industries-b2b.html">Сложный B2B</a></span></span><span class="has-sub"><button class="nav-sec" type="button" aria-expanded="false">ИИ-решения</button><span class="sub" role="group"><a href="../../ai/wp-marketing-lab-smm.html">SMM-конвейер</a><a href="../../ai/wp-marketing-lab-reputation.html">Аудит репутации бренда</a><a href="../../ai/wp-marketing-lab-ai-content.html">AI контент-завод</a></span></span>   <a href="../../standards/wp-marketing-standards.html">Стандарты</a><a href="../../cases/wp-marketing-cases.html" aria-current="page">Кейсы</a><a href="../../about/wp-marketing-about.html">О компании</a><a href="../../contacts/wp-marketing-contacts.html">Контакты</a>
+   <a class="btn btn-primary" href="../../wp-marketing-home.html#contacts">Обсудить проект</a>
+ </nav>
+</header>
+<section class="cc-hero">
+  <div class="shell">
+    <nav class="crumbs" aria-label="Хлебные крошки"><a href="../../wp-marketing-home.html">Главная</a><span class="sep" aria-hidden="true">/</span><a href="../../cases/wp-marketing-cases.html">Кейсы</a><span class="sep" aria-hidden="true">/</span><span aria-current="page">Ренессанс Банк</span></nav>
+    <div class="cc-cover" data-plate="Обложка кейса Ренессанс Банк"><img src="../../a2/be1476d701ac3c0b.webp" alt="Ренессанс Банк" loading="lazy" decoding="async"></div>
+    <h1><span class="w"><i>SEO</i></span> <span class="w"><i>для&nbsp;«Ренессанс</i></span> <span class="w"><i>Банка»:</i></span> <span class="w"><i><span class="accent">на&nbsp;22%<span class="bolt"></span></span></i></span> <span class="w"><i>увеличили</i></span> <span class="w"><i>продажи</i></span> <span class="w"><i>банковских</i></span> <span class="w"><i>продуктов</i></span></h1>
+  </div>
+</section>
+
+<section class="cc-meta">
+  <div class="shell">
+    <dl class="cc-facts"><div><dt>Отрасль</dt><dd>Банковская сфера</dd></div><div><dt>Услуги</dt><dd>SEO-продвижение</dd></div><div><dt>Сроки</dt><dd>декабрь 2022 — октябрь 2024</dd></div></dl>
+    <div class="cc-client">
+      <div class="cc-client-in"><h2>«Ренессанс Банк»</h2><p class="cc-sites"><a class="site" href="https://rencredit.ru/" target="_blank" rel="noopener">rencredit.ru</a></p><p>Банк основан в 2000 году, входит в топ-50 банков России. Работает в 29 регионах страны и предлагает широкий спектр финансовых услуг для физических лиц, включая кредиты, дебетовые и кредитные карты, вклады, накопительные счета.</p></div>
+      
+    </div>
+  </div>
+</section>
+
+<section class="cc-sec cc-goal">
+  <div class="shell">
+    <div class="goal-in">
+      <h2>Цель</h2>
+      <p class="lede">Увеличить целевой трафик из поисковой выдачи по приоритетным банковским продуктам</p>
+    </div>
+  </div>
+</section>
+
+<section class="cc-sec">
+  <div class="shell">
+    <h2>Старт проекта</h2>
+    <p>К началу нашей работы сайт «Ренессанс Банка» rencredit.ru уже прошёл полный редизайн — обновилось оформление, структура меню и ключевых страниц. Однако после редизайна сайт нуждался в системном SEO-развитии: внутренние разделы и контент не были оптимизированы под поисковый спрос, а часть технических параметров мешала корректной индексации и быстрой скорости загрузки страниц. Видимость по небрендовым запросам оставалась критически низкой, и это ограничивало потенциал органического трафика.</p><div class="cc-sub">
+      <h3>Задачи, которые совместно с командой банка мы решали поэтапно</h3>
+      <div class="cc-icons"><div class="cc-ic"><img data-remote src="https://ba5f0191-bf14-4ecb-8111-dfb7ed9d1e60.selstorage.ru/images/pic/renessans-bank/icon-01.png" alt="" loading="lazy"><span class="fb"><svg class="ic" width="40" height="40" aria-hidden="true" shape-rendering="geometricPrecision" xmlns="http://www.w3.org/2000/svg" viewBox="164.00 392.00 24 24" fill="none"><path d="M175 412C179.971 412 184 407.971 184 403C184 398.029 179.971 394 175 394C170.029 394 166 398.029 166 403C166 407.971 170.029 412 175 412Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M182.93 412.69C183.46 414.29 184.67 414.45 185.6 413.05C186.45 411.77 185.89 410.72 184.35 410.72C183.21 410.71 182.57 411.6 182.93 412.69Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></span><span>Технический аудит сайта и устранение ошибок</span></div><div class="cc-ic"><img data-remote src="https://ba5f0191-bf14-4ecb-8111-dfb7ed9d1e60.selstorage.ru/images/pic/renessans-bank/icon-02.png" alt="" loading="lazy"><span class="fb"><svg class="ic" width="40" height="40" aria-hidden="true" shape-rendering="geometricPrecision" xmlns="http://www.w3.org/2000/svg" viewBox="780.00 720.00 24 24" fill="none"><path d="M789 742H795C800 742 802 740 802 735V729C802 724 800 722 795 722H789C784 722 782 724 782 729V735C782 740 784 742 789 742Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M789.6 728.97L787.11 731.46C786.82 731.75 786.82 732.24 787.11 732.53L789.6 735.02" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path><path d="M794.4 728.97L796.89 731.46C797.18 731.75 797.18 732.24 796.89 732.53L794.4 735.02" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path></svg></span><span>Оптимизация существующих страниц под поисковых роботов</span></div><div class="cc-ic"><img data-remote src="https://ba5f0191-bf14-4ecb-8111-dfb7ed9d1e60.selstorage.ru/images/pic/renessans-bank/icon-03.png" alt="" loading="lazy"><span class="fb"><svg class="ic" width="40" height="40" aria-hidden="true" shape-rendering="geometricPrecision" xmlns="http://www.w3.org/2000/svg" viewBox="516.00 488.00 24 24" fill="none"><path d="M518 500.96V503C518 508 520 510 525 510H531C536 510 538 508 538 503V497C538 492 536 490 531 490H525C520 490 518 492 518 497" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M523.33 502.49L525.71 499.4C526.05 498.96 526.68 498.88 527.12 499.22L528.95 500.66C529.39 501 530.02 500.92 530.36 500.49L532.67 497.51" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></span><span>Создание новых SEO-страниц для охвата большего числа запросов</span></div><div class="cc-ic"><img data-remote src="https://ba5f0191-bf14-4ecb-8111-dfb7ed9d1e60.selstorage.ru/images/pic/renessans-bank/icon-04.png" alt="" loading="lazy"><span class="fb"><svg class="ic" width="40" height="40" aria-hidden="true" shape-rendering="geometricPrecision" xmlns="http://www.w3.org/2000/svg" viewBox="164.00 488.00 24 24" fill="none"><path d="M169 498H171C173 498 174 497 174 495V493C174 491 173 490 171 490H169C167 490 166 491 166 493V495C166 497 167 498 169 498Z" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path><path d="M183 490H181C179 490 178 491 178 493V495C178 497 179 498 181 498H183C185 498 186 497 186 495V493" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path><path d="M181 510H183C185 510 186 509 186 507V505C186 503 185 502 183 502H181C179 502 178 503 178 505V507C178 509 179 510 181 510Z" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path><path d="M169 510H171C173 510 174 509 174 507V505C174 503 173 502 171 502H169C167 502 166 503 166 505V507" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path></svg></span><span>Разработка и внедрение стратегии внешней оптимизации, включая наращивание ссылочной массы</span></div><div class="cc-ic"><img data-remote src="https://ba5f0191-bf14-4ecb-8111-dfb7ed9d1e60.selstorage.ru/images/pic/renessans-bank/icon-05.png" alt="" loading="lazy"><span class="fb"><svg class="ic" width="40" height="40" aria-hidden="true" shape-rendering="geometricPrecision" xmlns="http://www.w3.org/2000/svg" viewBox="164.00 248.00 24 24" fill="none"><path d="M176 260C178.761 260 181 257.761 181 255C181 252.239 178.761 250 176 250C173.239 250 171 252.239 171 255C171 257.761 173.239 260 176 260Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M184.59 270C184.59 266.13 180.74 263 176 263C171.26 263 167.41 266.13 167.41 270" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></span><span>Создание и развитие информационного блога для роста экспертности ресурса и привлечения дополнительного информационного трафика</span></div></div>
+    </div>
+
+  </div>
+</section>
+
+<section class="cc-sec">
+  <div class="shell">
+    <h2>3 месяца на «чистку» сайта</h2>
+    <p>Первым шагом стал технический аудит. Провели глубокий анализ, выявили ошибки, влияющие на индексацию и ранжирование, и составили подробный план их устранения. На первом этапе проработали всю базовую техническую часть: исправили проблемы с индексацией, дублями страниц, robots.txt, улучшили логику формирования служебных файлов. Эти доработки сделали сайт более понятным для поисковых систем и обеспечили первичный рост видимости в течение первых трёх месяцев: до 8% в Яндексе и 7% в Google.</p><blockquote class="cc-quote"><p>Существенный прирост позиций мы увидели спустя год после старта проекта, когда совместно с командой банка оптимизировали мобильную скорость загрузки и устранили ряд технических ограничений на стороне платформы</p><div class="cc-q-who"><img class="cc-q-ph" src="../../a2/a55bb86c90d8b466.webp" alt="" loading="lazy" width="48" height="48"><span class="cc-q-nm"><b>Мария Ионкина</b><span>SEO-тимлид «Вебпрактик»</span></span></div></blockquote>
+  </div>
+</section>
+
+<section class="cc-sec">
+  <div class="shell">
+    <h2>Контент и структура</h2>
+    <div class="cc-split"><div><p>В семантическом ядре проекта было более 2000 «ключей», и под большинство из них не было посадочных страниц. Поэтому следующим этапом стало создание новых SEO-лендингов, которые позволили охватить весь спрос и обеспечили дальнейший рост позиций.</p><p>Переработали мета-теги, тексты, предложили вывести на страницы форму заявки на банковские продукты. Совместно с командой банка добавили калькулятор по кредитам и вкладам — этот функционал напрямую влияет на конверсию, так как особенно важно было забрать трафик по высококонкурентным запросам: «кредитный калькулятор», «подать заявку на кредит» и «оформить вклад онлайн».</p><p>Параллельно шло масштабное расширение структуры: создали 200 новых страниц, каждая из которых была адаптирована под узкий сегмент спроса. Такой подход повысил вывод сайта банка в топ-10 по большинству ключевых запросов семантического ядра: в Яндексе с 2% до 28%, в Google с 3% до 42% по итогу двух лет работы.</p><p>После запуска большого числа узконаправленных страниц сосредоточились на доработке их контента.</p></div><div class="cc-sides"><div class="cc-aside"><p>Техническая оптимизация и расширение структуры позволили попасть в топ-10 по запросам.</p></div><div class="cc-aside"><p>Уникальные тексты усилили релевантность страниц и привели к росту доли запросов в топ-3, что увеличило конверсию в заявку.</p></div></div></div><div class="cc-sub">
+      <h3>Результаты по приоритетным продуктам</h3>
+      <div class="cc-gal g4"><figure class="shot" data-plate="Кредиты, Яндекс: рост до 51% выхода в топ-10"><img src="../../a2/d0b54d87a842c5b3.webp" alt="Кредиты, Яндекс: рост до 51% выхода в топ-10" loading="lazy" decoding="async"></figure><figure class="shot" data-plate="Кредиты, Google: рост до 70% выхода в топ-10"><img src="../../a2/a357e77afdc5adbd.webp" alt="Кредиты, Google: рост до 70% выхода в топ-10" loading="lazy" decoding="async"></figure><figure class="shot" data-plate="Кредитные карты, Яндекс: рост до 23% выхода в топ-10"><img src="../../a2/f9b040d6b2497810.webp" alt="Кредитные карты, Яндекс: рост до 23% выхода в топ-10" loading="lazy" decoding="async"></figure><figure class="shot" data-plate="Кредитные карты, Google: рост до 69% выхода в топ-10"><img src="../../a1/729289082437445b.webp" alt="Кредитные карты, Google: рост до 69% выхода в топ-10" loading="lazy" decoding="async"></figure></div>
+    </div>
+
+  </div>
+</section>
+
+<section class="cc-sec">
+  <div class="shell">
+    <h2>Внешняя оптимизация</h2>
+    <p>Разработали стратегию наращивания ссылочной массы. Ориентировались сразу на два уровня: прямые ссылки на сайт <a class="site" href="https://rencredit.ru/" target="_blank" rel="noopener">rencredit.ru</a> (Tier 1) и поддержка этих страниц через качественных доноров (Tier 2). Это позволило усилить домен и аккуратно продвинуть новые страницы в выдаче без риска фильтров. Провели анализ ссылочного профиля конкурентов для выявления качественных доноров и разработали стратегию. Совместно с отделом маркетинга клиента добились размещения ссылок на сайт у сторонних источников, где были опубликованы материалы «Ренессанс Банка».</p>
+  </div>
+</section>
+
+<section class="cc-sec">
+  <div class="shell">
+    <h2>SEO как канал продаж</h2>
+    <div class="cc-split"><div><p>Когда мы начинали работу над сайтом «Ренессанс Банка», основной задачей было увеличение органического трафика. После технической оптимизации сайта, устранения ошибок, доработок структуры и запуска новых страниц по приоритетным банковским продуктам мы увидели уверенный рост не только трафика, но и заявок на банковские продукты.</p><div class="cc-gal"><figure class="shot" data-plate="Иллюстрация с webpractik.ru"><figcaption>Рост кредитных заявок по небрендовому поисковому трафику</figcaption><img src="../../a2/a8edc3856bbe7244.webp" alt="Рост кредитных заявок по небрендовому поисковому трафику" loading="lazy" decoding="async"></figure></div></div><div class="cc-sides"><div class="cc-aside"><p>За 2024 год общее количество заявок выросло на 22%. Гипотеза подтвердилась: органический трафик не только приводит пользователей, но и конвертирует их в заявки — за счёт точной работы с поисковой оптимизацией без масштабных рекламных бюджетов и медийных кампаний.</p></div></div></div><blockquote class="cc-voice" style="--mark:#FF0078"><p>Запуск SEO-оптимизации сайта почти три года назад с нулевой отметки был осознанным стратегическим решением. Мы чётко понимали, что органический трафик — это не просто метрика, а фундамент устойчивого роста онлайн-присутствия банка, обеспечивающий долгосрочную видимость бренда в digital-среде, снижение стоимости привлечения клиента и укрепление доверия аудитории за счёт присутствия в основных поисковиках</p><footer><img class="cc-q-ph" src="../../a1/3a674e25e247ebd6.webp" alt="" loading="lazy" width="48" height="48"><span class="cc-q-nm"><b>Алёна Каменецкая</b><span>Директор департамента маркетинга и корпоративных коммуникаций «Ренессанс Банка»</span></span></footer></blockquote>
+  </div>
+</section>
+
+<section class="cc-sec">
+  <div class="shell">
+    <h2>Блог как канал доверия</h2>
+    <div class="cc-split"><div><p>Разработали техническое задание на создание блога на сайте и с января 2024 года запустили полноценную работу по этому направлению. Наполнение блога контентом производилось не только ради SEO, но и для повышения финансовой грамотности клиентов. Материалы помогают пользователям разобраться в сложных продуктах: инвестициях, кредитовании, управлении личными финансами. Мы публиковали 4 новых статьи каждый месяц. Это дало мощный прирост информационного трафика, а также увеличило время нахождения пользователей на сайте и их вовлечённость. Уже через 4 месяца трафик на страницы блога составил 16 000 пользователей.</p></div><div class="cc-sides"><div class="cc-aside"><p>Блог увеличил вовлечённость и трафик на 16 000 пользователей в месяц.</p></div></div></div><div class="cc-figrow"><div><div class="cc-tiers"><div class="cc-tier is-lead"><b>62</b><span>статьи для блога</span></div><div class="cc-tier-row"><div class="cc-tier"><b>10</b><span>статей за 2023 год</span></div><div class="cc-tier"><b>52</b><span>статьи за 2024 год</span></div></div></div></div><div class="cc-sides"><figure class="shot" data-plate="Статьи блога «Ренессанс Банка»"><img src="../../a2/8b46ba0fc34dc50c.webp" alt="Статьи блога «Ренессанс Банка»" loading="lazy" decoding="async"></figure></div></div>
+  </div>
+</section>
+
+<section class="cc-sec">
+  <div class="shell">
+    <h2>Результаты</h2>
+    <p>Клиент преследовал основную цель — масштабирование органического трафика, а получил ещё и стабильный поток заявок от заинтересованной аудитории. SEO доказало свою ценность в сфере финансовых продуктов, где конкуренция за внимание пользователя особенно высока.</p><p class="cc-note">За 2024 год конверсия страниц увеличилась:</p><ul class="cc-list pct" style="--mark:#E6006C"><li><b>+16%</b> по кредитам для физлиц</li><li><b>+36%</b> по кредитным картам</li><li><b>+72%</b> по дебетовым картам</li></ul><div class="cc-stats"><div class="cc-stat"><b>+22%</b><span>рост заявок на банковские продукты за 2024 год</span></div><div class="cc-stat"><b>+169%</b><span>рост трафика из Яндекса</span></div><div class="cc-stat"><b>+42%</b><span>рост трафика из Google</span></div></div><div class="cc-sub">
+      <h3>Рост позиций</h3>
+      <div class="cc-stats"><div class="cc-stat"><b>с 2% до 28%</b><span>Яндекс</span></div><div class="cc-stat"><b>с 3% до 42%</b><span>Google</span></div></div>
+    </div>
+<p class="cc-note">Современное SEO — это не только про трафик. Продуманная структура, правильный контент, технический фундамент и работающая система внешней оптимизации стали основой стратегии, при которой SEO работает как канал продаж.</p>
+  </div>
+</section>
+
+<section class="cc-sec">
+  <div class="shell">
+    <h2>Что дальше</h2>
+    <p>Мы продолжаем развитие проекта. В планах — доработка блога, создание новых SEO-страниц, масштабирование успешных практик на другие направления бизнеса «Ренессанс Банка».</p>
+  </div>
+</section>
+
+<section class="cc-sec">
+  <div class="shell">
+    <h2>Таймлайн проекта: декабрь 2022 — октябрь 2024</h2>
+    <figure class="shot cc-tl"><img src="../../a2/e02e1036415e67b8.webp" alt="Таймлайн проекта: декабрь 2022 — октябрь 2024" loading="lazy" decoding="async"></figure>
+  </div>
+</section>
+
+<section class="cc-sec">
+  <div class="shell">
+    <h2>Клиент о нас</h2>
+    <blockquote class="cc-says" style="--mark:#FF0078"><p>Результаты проделанной работы превзошли наши ожидания: удалось добиться значительного роста органического трафика и существенного прироста заявок на банковские продукты. Особо хочу отметить глубину аналитики и системность подхода агентства — каждый этап был выверен, а принимаемые решения всегда опирались на данные, что в итоге и стало залогом успеха</p><footer><span class="cc-q-nm"><b>Алёна Каменецкая</b><span>Директор департамента маркетинга и корпоративных коммуникаций</span></span><span class="cc-says-logo"><svg width="609" height="134" viewBox="0 0 609 134" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M0.0200195 60.55V132.08H22.03V60.55C22.03 39.28 39.27 22.03 60.55 22.03H110.07V49.54C110.07 70.81 92.83 88.06 71.55 88.06H33.03V110.07H71.55C104.98 110.07 132.08 82.97 132.08 49.54V5.53003C132.08 2.49003 129.62 0.0300293 126.58 0.0300293H60.55C27.12 0.0300293 0.0200195 27.13 0.0200195 60.56V60.55Z" fill="#FF0078"/>
+<path d="M262.73 33.14C262.73 34.13 262.65 35.12 262.54 36.11H226.81C227.94 43.24 233.08 47.63 240.28 47.63C245.54 47.63 249.8 45.2 252.13 41.18H261.66C258.16 50.47 250.12 56.11 240.29 56.11C227.42 56.11 217.67 46.18 217.67 33.03C217.67 19.88 227.39 9.94995 240.29 9.94995C253.19 9.94995 262.73 20.33 262.73 33.14V33.14ZM240.29 18.13C233.48 18.13 228.53 22.23 227.04 28.76H253.66C252.04 22.07 247 18.13 240.29 18.13Z" fill="#323E48"/>
+<path d="M307.75 11.03V55.05H298.82V36.63H278.45V55.05H269.52V11.03H278.45V28.28H298.82V11.03H307.75Z" fill="#323E48"/>
+<path d="M359.58 33.14C359.58 34.13 359.5 35.12 359.39 36.11H323.66C324.79 43.24 329.93 47.63 337.13 47.63C342.39 47.63 346.65 45.2 348.98 41.18H358.51C355.01 50.47 346.97 56.11 337.14 56.11C324.27 56.11 314.52 46.18 314.52 33.03C314.52 19.88 324.24 9.94995 337.14 9.94995C350.04 9.94995 359.58 20.33 359.58 33.14V33.14ZM337.14 18.13C330.33 18.13 325.38 22.23 323.89 28.76H350.51C348.89 22.07 343.85 18.13 337.14 18.13Z" fill="#323E48"/>
+<path d="M386.99 56.12C373.88 56.12 363.92 46.14 363.92 32.99C363.92 19.84 373.85 9.94995 387.01 9.94995C397.89 9.94995 406.39 16.61 408.84 26.71H399.87C397.55 21.65 392.72 18.59 386.99 18.59C379.07 18.59 373.13 24.85 373.13 33.01C373.13 41.17 379.15 47.48 386.99 47.48C392.75 47.48 397.42 44.37 399.81 39.02H408.94C406.52 49.31 397.85 56.12 386.99 56.12V56.12Z" fill="#323E48"/>
+<path d="M435.66 56.12C422.55 56.12 412.59 46.14 412.59 32.99C412.59 19.84 422.52 9.94995 435.68 9.94995C446.56 9.94995 455.06 16.61 457.51 26.71H448.54C446.22 21.65 441.4 18.59 435.66 18.59C427.74 18.59 421.8 24.85 421.8 33.01C421.8 41.17 427.82 47.48 435.66 47.48C441.42 47.48 446.09 44.37 448.48 39.02H457.61C455.19 49.31 446.52 56.12 435.66 56.12Z" fill="#323E48"/>
+<path d="M508.32 11.01V55.03H501.02L500.14 49.68C496.15 53.71 490.59 56.13 484.18 56.13C471.07 56.13 461.26 46.22 461.26 33.02C461.26 19.82 471.07 9.95996 484.18 9.95996C490.67 9.95996 496.29 12.41 500.28 16.51L501.34 11H508.32V11.01ZM499.25 33.02C499.25 24.72 493.19 18.58 484.89 18.58C476.59 18.58 470.47 24.78 470.47 33.02C470.47 41.26 476.59 47.46 484.89 47.46C493.19 47.46 499.25 41.32 499.25 33.02Z" fill="#323E48"/>
+<path d="M556.21 11.03V55.05H547.28V36.63H526.91V55.05H517.98V11.03H526.91V28.28H547.28V11.03H556.21Z" fill="#323E48"/>
+<path d="M586.06 56.12C572.95 56.12 562.99 46.14 562.99 32.99C562.99 19.84 572.92 9.94995 586.08 9.94995C596.96 9.94995 605.46 16.61 607.91 26.71H598.94C596.62 21.65 591.8 18.59 586.06 18.59C578.14 18.59 572.2 24.85 572.2 33.01C572.2 41.17 578.22 47.48 586.06 47.48C591.82 47.48 596.49 44.37 598.88 39.02H608.01C605.59 49.31 596.92 56.12 586.06 56.12Z" fill="#323E48"/>
+<path d="M205.89 18.27C205.89 12.83 201.86 8.82002 196.08 8.82002H185.4V27.72H196.08C201.86 27.72 205.89 23.71 205.89 18.27ZM215.34 18.27C215.34 28.7 207.27 36.51 196.52 36.51H185.39V55.05H176.1V0.0200195H196.52C207.21 0.0200195 215.34 7.78002 215.34 18.26V18.27Z" fill="#323E48"/>
+<path d="M266.24 88.04V132.06H258.94L258.06 126.71C254.07 130.74 248.51 133.16 242.1 133.16C228.99 133.16 219.18 123.25 219.18 110.05C219.18 96.85 228.99 86.99 242.1 86.99C248.59 86.99 254.21 89.44 258.2 93.54L259.26 88.03H266.24V88.04ZM257.17 110.05C257.17 101.75 251.11 95.61 242.81 95.61C234.51 95.61 228.39 101.81 228.39 110.05C228.39 118.29 234.51 124.49 242.81 124.49C251.11 124.49 257.17 118.35 257.17 110.05Z" fill="#323E48"/>
+<path d="M314.13 88.0601V132.08H305.2V113.66H284.83V132.08H275.9V88.0601H284.83V105.31H305.2V88.0601H314.13V88.0601Z" fill="#323E48"/>
+<path d="M323.78 88.0601H332.83V132.08H323.78V88.0601ZM361.68 132.08H350.8L333.55 109.63V108.87L349.78 88.0601H360.05L343.43 109.11L361.68 132.08V132.08Z" fill="#323E48"/>
+<path d="M205.21 114.71C205.21 109.71 201.47 106.23 196.16 106.23H185.32V123.29H196.1C201.41 123.29 205.21 119.68 205.21 114.71ZM214.71 114.71C214.71 124.8 207.19 132.08 196.84 132.08H176.11V77.0601H210.57V85.6901H185.32V97.4701H196.94C207.34 97.4701 214.71 104.68 214.71 114.71Z" fill="#323E48"/>
+</svg></span></footer></blockquote>
+  </div>
+</section>
+
+<section class="cc-sec cc-team">
+  <div class="shell">
+    <h2>Команда</h2>
+    <ul><li><b>Наталия Резникова</b><span>Менеджер проекта</span></li><li><b>Мария Ионкина</b><span>SEO-тимлид</span></li><li class="solo"><b>2 SEO-специалиста</b></li><li class="solo"><b>Копирайтер</b></li></ul>
+  </div>
+</section>
+
+<section class="cc-next">
+  <div class="shell">
+    <a class="cc-next-card" href="wp-marketing-case-moex.html">
+      <span class="cc-next-media"><video class="cs-vid" data-autoplay muted loop playsinline preload="metadata" aria-hidden="true" poster="../../a1/123a6d4e322b0836.webp"><source type="video/mp4" src="../../a2/e583131580a57e39.mp4"></video></span>
+      <span class="cc-next-body"><span class="lbl">Следующий кейс</span><span class="ttl">Московская биржа и Финуслуги</span><span class="txt">Рост трафика в 4 раза на приоритетных направлениях за 5 месяцев</span></span>
+    </a>
+    <div class="cc-back"><a class="btn btn-ghost" href="../../cases/wp-marketing-cases.html">Все кейсы</a></div>
+  </div>
+</section>
+
+
+<section class="lead" id="form">
+  <div class="shell">
+    <div class="lead-side">
+      <h2 class="sh-a">Доверьте нам свой проект</h2><h3 class="sh-b">Начнём с аудита и прогноза</h3>
+      <p>За встречу зафиксируем цели, покажем, при каких условиях достигнем выбранного KPI.</p>
+      <div class="mgr">
+        <img class="ava" src="../../a2/f3c72d82116c6bde.webp" alt="Паринова Мария, руководитель коммерческого отдела" width="56" height="56">
+        <b>Паринова Мария</b>
+        <span>Руководитель коммерческого отдела</span>
+        <div class="ch">
+          <a href="https://t.me/+79289045692" target="_blank" rel="noopener"><svg class="soc" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"></path></svg>Telegram</a>
+          <a href="https://wa.me/79289045692" target="_blank" rel="noopener"><svg class="soc" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="currentColor"/><g transform="translate(4.7 4.7) scale(0.608)"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" fill="#fff"/></g></svg>WhatsApp</a>
+          <a href="https://web.max.ru/" target="_blank" rel="noopener"><svg class="soc" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="currentColor"/><g transform="translate(5 5) scale(0.01944)"><path d="M350.4,9.6C141.8,20.5,4.1,184.1,12.8,390.4c3.8,90.3,40.1,168,48.7,253.7,2.2,22.2-4.2,49.6,21.4,59.3,31.5,11.9,79.8-8.1,106.2-26.4,9-6.1,17.6-13.2,24.2-22,27.3,18.1,53.2,35.6,85.7,43.4,143.1,34.3,299.9-44.2,369.6-170.3C799.6,291.2,622.5-4.6,350.4,9.6h0ZM269.4,504c-11.3,8.8-22.2,20.8-34.7,27.7-18.1,9.7-23.7-.4-30.5-16.4-21.4-50.9-24-137.6-11.5-190.9,16.8-72.5,72.9-136.3,150-143.1,78-6.9,150.4,32.7,183.1,104.2,72.4,159.1-112.9,316.2-256.4,218.6h0Z" fill="#fff"/></g></svg>Макс</a>
+          <a href="mailto:m.parinova@webpractik.ru"><svg class="soc" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="currentColor"/><rect x="5.6" y="8" width="12.8" height="8.6" rx="1.6" stroke="#fff" stroke-width="1.5"/><path d="M6.4 9.2 12 13l5.6-3.8" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>m.parinova@webpractik.ru</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Точка интеграции для девопсов: POST на серверный обработчик, оттуда письмо на почту и сообщение в Telegram-бот.
+         Endpoint задаётся атрибутом data-endpoint. Поля: company, contact, topic. -->
+    <form class="lead-form" id="lead-form" data-endpoint="https://formsubmit.co/ajax/nastasyshka1@gmail.com" novalidate>
+        <input type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" class="honey">
+      <div class="field">
+        <label for="lf-company">Компания и сайт</label>
+        <input id="lf-company" name="company" type="text" autocomplete="organization" placeholder="Вебпрактик, webpractik.ru" required>
+        <span class="hint">Укажите компанию и сайт</span>
+      </div>
+      <div class="field">
+        <label for="lf-contact">Email или телефон</label>
+        <input id="lf-contact" name="contact" type="text" autocomplete="email" placeholder="name@company.ru" required>
+        <span class="hint">Нужен рабочий email или телефон</span>
+      </div>
+      <div class="field">
+        <span class="sel-label" id="lf-topic-lbl">Что интересует</span>
+        <div class="sel">
+          <button class="sel-btn" type="button" id="lf-topic-btn" aria-haspopup="listbox"
+            aria-expanded="false" aria-controls="lf-topic-list" aria-labelledby="lf-topic-lbl lf-topic-btn">
+            <span class="sel-val is-empty">Выберите направление</span>
+            <svg class="sel-arw" aria-hidden="true" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3.5 6L8 10.5L12.5 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="sel-pop" hidden>
+          <ul class="sel-list" id="lf-topic-list" role="listbox" aria-labelledby="lf-topic-lbl" tabindex="-1">
+            <li class="sel-opt" role="option" id="lf-topic-o0" data-v="Консалтинг и стратегия" aria-selected="false">Консалтинг и стратегия</li>
+            <li class="sel-opt" role="option" id="lf-topic-o1" data-v="SEO и GEO / AI-видимость" aria-selected="false">SEO и GEO / AI-видимость</li>
+            <li class="sel-opt" role="option" id="lf-topic-o2" data-v="PPC и лидогенерация" aria-selected="false">PPC и лидогенерация</li>
+            <li class="sel-opt" role="option" id="lf-topic-o3" data-v="ИТ-решение" aria-selected="false">ИТ-решение</li>
+            <li class="sel-opt" role="option" id="lf-topic-o4" data-v="Аудит текущего подрядчика" aria-selected="false">Аудит текущего подрядчика</li>
+          </ul>
+            <span class="sel-rail" aria-hidden="true"><span class="sel-thumb"></span></span>
+          </div>
+          <select id="lf-topic" name="topic" class="sel-native" required tabindex="-1" aria-hidden="true">
+          <option value="" selected>Выберите направление</option>
+          <option value="Консалтинг и стратегия">Консалтинг и стратегия</option>
+          <option value="SEO и GEO / AI-видимость">SEO и GEO / AI-видимость</option>
+          <option value="PPC и лидогенерация">PPC и лидогенерация</option>
+          <option value="ИТ-решение">ИТ-решение</option>
+          <option value="Аудит текущего подрядчика">Аудит текущего подрядчика</option>
+          </select>
+        </div>
+        <span class="hint">Выберите направление</span>
+      </div>
+      <!-- Необязательное поле: класс opt выводит его из обязательной проверки -->
+      <div class="field opt">
+        <label for="lf-note">Комментарий <span class="opt-mark">— по желанию</span></label>
+        <textarea id="lf-note" name="comment" rows="3"
+          placeholder="Коротко о задаче: продукт, сроки, что уже пробовали"></textarea>
+      </div>
+      <button class="btn btn-primary" type="submit">Отправить заявку</button>
+      <p class="note">Нажимая кнопку, вы соглашаетесь с обработкой персональных данных.</p>
+      <p class="lead-err" role="alert">Не удалось отправить заявку. Напишите, пожалуйста, напрямую на <a href="mailto:m.parinova@webpractik.ru">m.parinova@webpractik.ru</a> — ответим в течение рабочего дня.</p>
+      <div class="lead-ok" role="status" aria-live="polite">
+        <b>Заявка отправлена</b>
+        <span>Мария свяжется с вами в течение рабочего дня и пришлёт план первой встречи.</span>
+      </div>
+    </form>
+  </div>
+</section>
+<footer class="foot-main">
+  <div class="shell">
+    <div class="foot-brand">
+      <svg class="logo-mark" role="img" aria-label="Вебпрактик Маркетинг" viewBox="0 0 365 108" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M129.237 11.2041H124.875C124.194 11.2041 123.559 11.5473 123.186 12.117L96.5393 52.8141C96.3196 53.1497 96.5604 53.5952 96.9615 53.5952H101.382C102.063 53.5952 102.699 53.2512 103.072 52.6806L129.659 11.9848C129.878 11.6491 129.637 11.2041 129.237 11.2041Z" fill="#9D5DED"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M51.8418 15.3351C54.3599 15.3351 56.6117 15.7841 58.593 16.6867C60.5705 17.5875 62.2212 18.8413 63.5422 20.4482C64.8846 22.0547 65.8407 23.9457 66.4115 26.1179L66.4657 26.3202C67.0136 28.4162 67.1484 30.6736 66.8728 33.0905L66.8535 33.2583H40.6311C40.554 35.4967 40.9845 37.4511 41.9159 39.1281C42.8731 40.8297 44.2772 42.161 46.1346 43.1217C47.9902 44.0815 50.2053 44.5652 52.7858 44.5652C54.478 44.5652 56.1494 44.2761 57.8008 43.6971L57.8015 43.6969C59.4731 43.1182 60.9161 42.2945 62.133 41.227L62.3001 41.0804L64.8504 45.1537L64.7211 45.2591C63.6431 46.1391 62.4019 46.8855 60.999 47.4993L60.9978 47.5C59.6181 48.0913 58.1837 48.529 56.6949 48.8136L56.6951 48.8139C55.23 49.0982 53.7856 49.2404 52.3624 49.2404C49.0153 49.2404 46.0537 48.5402 43.4831 47.1341C40.9138 45.7287 38.9028 43.7616 37.4531 41.2357L37.4527 41.2349C36.002 38.6853 35.2795 35.7335 35.2795 32.3855C35.2795 29.9553 35.6846 27.6966 36.4968 25.6113L36.4976 25.6098C37.3309 23.5265 38.4941 21.7149 39.9878 20.1774L39.9887 20.1764C41.4564 18.6875 43.1513 17.528 45.072 16.6985L45.2588 16.6192C47.2801 15.7625 49.4752 15.3351 51.8418 15.3351ZM51.7767 19.9125C48.753 19.9125 46.2586 20.7263 44.28 22.3429L44.2803 22.3431C42.3748 23.9173 41.2425 26.0893 40.8904 28.876H61.5389C61.404 26.1671 60.5715 24.0434 59.0558 22.4853L58.9023 22.3318C57.2777 20.7284 54.9129 19.9125 51.7767 19.9125Z" fill="#FFFFFF"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M101.186 0.188014L102.134 4.86323L87.2714 8.05996C84.4707 8.66318 82.3126 9.6506 80.7821 11.011C79.2457 12.3767 78.1241 14.0952 77.4178 16.1712C76.7943 18.0618 76.3551 20.2209 76.1012 22.6496C77.4213 20.7113 79.0805 19.1282 81.078 17.902C83.3048 16.5351 85.9663 15.856 89.0542 15.856C92.1454 15.856 94.872 16.6126 97.2273 18.1309C99.5991 19.6243 101.445 21.6346 102.762 24.1584C103.121 24.8297 103.432 25.5191 103.695 26.2265C104.54 28.5037 103.869 30.9931 102.538 33.0254L94.3041 45.6015C92.9443 47.6782 90.8204 49.2404 88.3381 49.2404C85.6694 49.2404 83.2571 48.7918 81.1042 47.8911L81.1019 47.8903C78.9712 46.9677 77.1574 45.6377 75.6628 43.9014L75.6621 43.9006C74.1676 42.1423 73.028 39.992 72.2404 37.4542L72.2399 37.4525C71.4741 34.8925 71.0926 31.9766 71.0926 28.7072C71.0926 25.1399 71.3428 21.9279 71.8442 19.0722C72.346 16.2141 73.1543 13.7208 74.2718 11.5953L74.2723 11.594C75.4137 9.46501 76.9296 7.70712 78.8194 6.32274L78.8201 6.322C80.7327 4.93703 83.0688 3.94066 85.8232 3.32856L85.8242 3.32831L101.148 0L101.186 0.188014ZM88.143 20.4984C85.9591 20.4984 84.0174 20.9905 82.3131 21.9705L82.3123 21.971C80.6305 22.929 79.3098 24.302 78.3493 26.095C77.3901 27.8854 76.907 30.0018 76.907 32.4505C76.907 34.8988 77.3899 37.0151 78.3488 38.8053C79.3093 40.5769 80.6308 41.9509 82.3141 42.931C84.0182 43.9106 85.9595 44.4026 88.143 44.4026C90.3489 44.4026 92.29 43.9103 93.9719 42.931L93.9726 42.9305C95.6775 41.9502 97.0093 40.5763 97.9695 38.8053C98.9283 37.015 99.4115 34.8989 99.4115 32.4505C99.4115 30.0018 98.9281 27.8854 97.969 26.095C97.0088 24.3027 95.6777 22.9297 93.9744 21.9715L93.9719 21.97C92.29 20.9907 90.3489 20.4985 88.143 20.4984Z" fill="#FFFFFF"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M17.7122 16.3116C21.1861 16.3116 24.0345 17.0105 26.2435 18.4239C28.4723 19.828 29.5869 21.9305 29.5869 24.7035C29.5869 25.8611 29.3195 26.9329 28.7841 27.9158L28.7843 27.916C28.2704 28.8991 27.523 29.7454 26.5469 30.4553C26.1399 30.7513 25.6987 31.0153 25.2241 31.2488C26.7355 31.7945 27.9584 32.5735 28.8856 33.5914C30.2439 35.0611 30.9214 36.8658 30.9214 38.9931C30.9214 40.8949 30.4121 42.5514 29.388 43.9541C28.3869 45.3335 26.9451 46.3948 25.0743 47.1432C23.2238 47.8922 21.0394 48.2639 18.5258 48.2639H3.52637V16.3116H17.7122ZM8.6572 43.8491H17.8423C20.4087 43.8491 22.3667 43.4385 23.736 42.638C25.0854 41.8276 25.7581 40.6111 25.7581 38.9605C25.7581 37.3094 25.085 36.1042 23.736 35.3156C22.3667 34.5151 20.4087 34.1044 17.8423 34.1044H8.6572V43.8491ZM8.6572 29.755H17.1262C19.4456 29.755 21.2356 29.4201 22.5128 28.7676L22.6348 28.7035C23.8901 28.0031 24.5213 26.8669 24.5213 25.2569C24.5213 23.6232 23.8885 22.4765 22.6328 21.7766L22.6316 21.7759C21.3705 21.0613 19.5422 20.6939 17.1262 20.6939H8.6572V29.755Z" fill="#FFFFFF"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M180.54 15.3353C183.718 15.3353 186.52 16.0917 188.94 17.6097C191.378 19.1251 193.268 21.1686 194.607 23.7373C195.968 26.3053 196.647 29.1568 196.647 32.2878C196.647 34.6095 196.252 36.8022 195.462 38.8644L195.463 38.8646C194.695 40.9046 193.597 42.7049 192.17 44.264C190.741 45.8244 189.038 47.044 187.062 47.9223C185.082 48.8021 182.896 49.2406 180.507 49.2406C177.576 49.2406 175.05 48.6936 172.934 47.5916L172.932 47.5909C170.995 46.5615 169.362 45.2337 168.035 43.6078V61.9351H162.839V16.3118H167.807V20.9764C169.111 19.4075 170.71 18.0991 172.604 17.0516C174.68 15.903 177.33 15.3353 180.54 15.3353ZM179.661 20.1731C177.389 20.1731 175.382 20.6658 173.634 21.6462C171.887 22.6266 170.512 24.0222 169.509 25.837C168.529 27.6484 168.035 29.7965 168.035 32.2878C168.035 34.7788 168.528 36.9269 169.508 38.7382L169.603 38.905C170.598 40.6184 171.942 41.9592 173.636 42.9304C175.383 43.9103 177.39 44.4028 179.661 44.4028C181.933 44.4028 183.939 43.9103 185.687 42.9304C187.435 41.9281 188.8 40.5323 189.781 38.7397L189.782 38.7389C190.783 36.9274 191.288 34.7792 191.288 32.2878C191.288 29.7965 190.783 27.6484 189.782 25.837C188.778 24.0222 187.403 22.6266 185.656 21.6462L185.655 21.6457C183.929 20.6658 181.933 20.1731 179.661 20.1731Z" fill="#FFFFFF"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M214.118 15.0098C217.023 15.0098 219.483 15.4684 221.489 16.3944C223.497 17.3212 225.025 18.6926 226.066 20.5082C227.106 22.3232 227.621 24.5603 227.621 27.21V48.2641H222.685V44.6415C221.571 46.0551 220.106 47.1593 218.296 47.9551L218.294 47.9558C216.294 48.8133 214.087 49.2406 211.677 49.2406C209.397 49.2406 207.414 48.824 205.733 47.9837C204.054 47.1442 202.757 45.9704 201.847 44.4619L201.847 44.4607C200.937 42.9301 200.486 41.1489 200.486 39.1236C200.486 37.4401 200.918 35.8972 201.784 34.4994L201.784 34.4986C202.807 32.8614 204.399 31.7285 206.108 30.8916C207.976 29.9941 210.371 29.4008 213.285 29.1051C215.883 28.8416 218.963 28.8706 222.522 29.1904V27.2427C222.522 25.6646 222.181 24.3218 221.508 23.2065C220.835 22.0918 219.845 21.2262 218.53 20.611L218.529 20.6105C217.237 19.9964 215.65 19.685 213.76 19.685C212.13 19.685 210.5 19.9315 208.867 20.4255L208.867 20.4252C207.263 20.9173 205.687 21.7316 204.14 22.8706L203.942 23.016L202.235 18.7107L202.356 18.6249C204.282 17.2679 206.267 16.3242 208.31 15.7971C210.341 15.2728 212.277 15.0098 214.118 15.0098ZM222.522 33.3324C219.791 33.0463 217.428 32.9568 215.43 33.0628C213.01 33.1924 211.079 33.5379 209.629 34.0923C208.173 34.6489 207.134 35.3585 206.49 36.2105C205.863 37.0684 205.552 38.0052 205.552 39.0258C205.552 40.7984 206.171 42.1623 207.401 43.1419C208.636 44.1263 210.369 44.6304 212.621 44.6305C214.506 44.6305 216.193 44.2772 217.683 43.5746C219.175 42.8711 220.353 41.9039 221.222 40.6743C222.088 39.4495 222.522 38.0451 222.522 36.4544V33.3324Z" fill="#FFFFFF"/>
+<path d="M153.828 48.2641H148.632V20.9217H130.62V48.2641H125.424V30.1604C125.424 28.6899 125.852 27.2512 126.656 26.0202L131.505 18.5982C132.437 17.1717 134.026 16.3118 135.73 16.3118H153.828V48.2641Z" fill="#FFFFFF"/>
+<path d="M241.403 29.0389H247.993L256.214 16.3118H261.907L252.377 30.9192L264.028 48.2641H257.678L248.281 33.649H241.403V48.2641H236.207V16.3118H241.403V29.0389Z" fill="#FFFFFF"/>
+<path d="M293.406 20.9217H282.111V48.2641H276.915V20.9217H265.621V16.3118H293.406V20.9217Z" fill="#FFFFFF"/>
+<path d="M303.834 40.0563L323.183 16.3118H327.498V48.2641H322.4V24.2594L302.913 48.1943L302.856 48.2641H298.703V16.3118H303.834V40.0563Z" fill="#FFFFFF"/>
+<path d="M341.696 29.0389H348.286L356.507 16.3118H362.2L352.67 30.919L364.321 48.2641H357.971L348.574 33.649H341.696V48.2641H336.5V16.3118H341.696V29.0389Z" fill="#FFFFFF"/>
+<path d="M3.39702 95.376V74.4384H6.83677H6.96495L16.6646 88.2401L14.9554 88.2828L24.2278 74.4384H27.753V95.376H24.0996L24.1423 79.2455L24.8687 79.566L16.921 90.9748H14.2504L5.98217 79.5232L6.68721 79.2028L6.72994 95.376H3.39702ZM39.4616 96.0169C37.9803 96.0169 36.6913 95.7463 35.5946 95.2051C34.4978 94.6638 33.6504 93.9018 33.0522 92.919C32.4539 91.922 32.1548 90.7469 32.1548 89.3938C32.1548 88.2828 32.4397 87.2716 33.0094 86.36C33.5792 85.4342 34.4765 84.6722 35.7014 84.0739C36.9263 83.4615 38.5144 83.0556 40.4658 82.8561C42.4171 82.6425 44.7744 82.6781 47.5376 82.963L47.6444 85.8472C45.5079 85.5624 43.6919 85.4555 42.1963 85.5268C40.7008 85.5837 39.4901 85.7831 38.5643 86.125C37.6385 86.4526 36.9548 86.8941 36.5133 87.4496C36.086 87.9908 35.8723 88.6033 35.8723 89.287C35.8723 90.3837 36.264 91.2454 37.0474 91.8721C37.845 92.4846 38.9346 92.7908 40.3162 92.7908C41.4984 92.7908 42.5524 92.5772 43.4782 92.1499C44.4183 91.7083 45.1589 91.103 45.7002 90.3339C46.2557 89.5505 46.5334 88.646 46.5334 87.6205V81.7665C46.5334 80.7838 46.3126 79.9292 45.8711 79.2028C45.4438 78.4763 44.81 77.9137 43.9696 77.5149C43.1293 77.1161 42.0966 76.9167 40.8717 76.9167C39.775 76.9167 38.6854 77.0805 37.6029 77.4081C36.5204 77.7357 35.4806 78.2698 34.4836 79.0105L33.2872 75.9767C34.5833 75.0936 35.9222 74.474 37.3038 74.1179C38.6854 73.7618 40.01 73.5838 41.2776 73.5838C43.2005 73.5838 44.8385 73.89 46.1916 74.5025C47.5447 75.1007 48.5773 76.0051 49.2895 77.2158C50.0016 78.4265 50.3577 79.9363 50.3577 81.7452V95.376H46.7471V92.8122C46.0206 93.8519 45.0165 94.6496 43.7346 95.2051C42.4527 95.7463 41.0284 96.0169 39.4616 96.0169ZM56.0181 104.349V74.4384H59.6287V77.579C60.4976 76.468 61.5872 75.5636 62.8976 74.8657C64.2222 74.1535 65.8887 73.7974 67.897 73.7974C69.9765 73.7974 71.8067 74.2888 73.3877 75.2716C74.9687 76.2402 76.2008 77.5648 77.0839 79.2455C77.9812 80.9262 78.4298 82.8134 78.4298 84.9072C78.4298 86.4312 78.1735 87.8698 77.6607 89.2229C77.1622 90.5618 76.4429 91.7439 75.5029 92.7695C74.5628 93.7807 73.4447 94.5784 72.1486 95.1623C70.8667 95.7321 69.4352 96.0169 67.8542 96.0169C66.0881 96.0169 64.5427 95.6893 63.218 95.0341C61.9077 94.3647 60.8109 93.4887 59.9279 92.4063V104.349H56.0181ZM67.1919 92.4704C68.602 92.4704 69.8483 92.1641 70.9308 91.5517C72.0275 90.925 72.8821 90.049 73.4946 88.9238C74.1213 87.7843 74.4346 86.4455 74.4346 84.9072C74.4346 83.3547 74.1213 82.0158 73.4946 80.8906C72.8821 79.7511 72.0275 78.8752 70.9308 78.2627C69.8483 77.6502 68.602 77.344 67.1919 77.344C65.7818 77.344 64.5284 77.6502 63.4317 78.2627C62.3492 78.8752 61.4946 79.7511 60.8679 80.8906C60.2412 82.0158 59.9279 83.3547 59.9279 84.9072C59.9279 86.4455 60.2412 87.7843 60.8679 88.9238C61.4946 90.049 62.3492 90.925 63.4317 91.5517C64.5284 92.1641 65.7818 92.4704 67.1919 92.4704ZM96.5323 95.376L89.4605 84.2021L95.8058 74.4384H100.036L93.7121 84.0099L101.275 95.376H96.5323ZM82.4955 95.376V74.4384H86.4267V82.6852H92.6866V86.0182H86.4267V95.376H82.4955ZM113.846 96.0169C111.625 96.0169 109.666 95.554 107.971 94.6282C106.276 93.7024 104.952 92.4134 103.997 90.7612C103.043 89.0947 102.566 87.1576 102.566 84.9499C102.566 83.3547 102.836 81.8734 103.378 80.506C103.933 79.1387 104.702 77.9565 105.685 76.9594C106.682 75.9624 107.843 75.1862 109.168 74.6307C110.506 74.0752 111.959 73.7974 113.526 73.7974C115.221 73.7974 116.731 74.0965 118.055 74.6948C119.394 75.293 120.498 76.1333 121.367 77.2158C122.25 78.2841 122.884 79.5446 123.268 80.9974C123.653 82.436 123.731 84.0027 123.503 85.6977H106.454C106.412 87.0935 106.696 88.3184 107.309 89.3724C107.921 90.4122 108.804 91.2241 109.958 91.808C111.126 92.392 112.508 92.684 114.103 92.684C115.271 92.684 116.41 92.4988 117.521 92.1285C118.632 91.7582 119.615 91.2098 120.47 90.4834L122.136 93.4104C121.452 93.9659 120.641 94.443 119.7 94.8419C118.775 95.2264 117.806 95.5184 116.795 95.7178C115.784 95.9172 114.801 96.0169 113.846 96.0169ZM106.668 82.6425H119.572C119.515 80.8763 118.967 79.5019 117.927 78.5191C116.887 77.522 115.399 77.0235 113.462 77.0235C111.582 77.0235 110.029 77.522 108.804 78.5191C107.579 79.5019 106.867 80.8763 106.668 82.6425ZM132.58 95.376V77.7713H125.402V74.4384H143.712V77.7713H136.512V95.376H132.58ZM147.323 95.376V74.4384H151.147V89.4793L163.325 74.4384H166.701V95.376H162.877V80.1642L150.592 95.376H147.323ZM172.632 95.376V74.4384H176.563V82.6852H187.908V74.4384H191.839V95.376H187.908V86.0182H176.563V95.376H172.632ZM197.774 95.376V74.4384H211.341V77.7713H201.705V95.376H197.774Z" fill="#9D5DED"/>
+</svg>
+      <p>Digital-маркетинг для корпораций. Строим систему роста: консалтинг, SEO &amp; GEO, лидогенерация.</p>
+      <div class="foot-soc">
+        <a class="rnd" href="https://vk.ru/agencywebpractik" target="_blank" rel="noopener" aria-label="ВКонтакте"><svg viewBox="0 0 24 24" aria-hidden="true" width="28" height="28"><path fill="currentColor" d="m9.489.004.729-.003h3.564l.73.003.914.01.433.007.418.011.403.014.388.016.374.021.36.025.345.03.333.033c1.74.196 2.933.616 3.833 1.516.9.9 1.32 2.092 1.516 3.833l.034.333.029.346.025.36.02.373.025.588.012.41.013.644.009.915.004.98-.001 3.313-.003.73-.01.914-.007.433-.011.418-.014.403-.016.388-.021.374-.025.36-.03.345-.033.333c-.196 1.74-.616 2.933-1.516 3.833-.9.9-2.092 1.32-3.833 1.516l-.333.034-.346.029-.36.025-.373.02-.588.025-.41.012-.644.013-.915.009-.98.004-3.313-.001-.73-.003-.914-.01-.433-.007-.418-.011-.403-.014-.388-.016-.374-.021-.36-.025-.345-.03-.333-.033c-1.74-.196-2.933-.616-3.833-1.516-.9-.9-1.32-2.092-1.516-3.833l-.034-.333-.029-.346-.025-.36-.02-.373-.025-.588-.012-.41-.013-.644-.009-.915-.004-.98.001-3.313.003-.73.01-.914.007-.433.011-.418.014-.403.016-.388.021-.374.025-.36.03-.345.033-.333c.196-1.74.616-2.933 1.516-3.833.9-.9 2.092-1.32 3.833-1.516l.333-.034.346-.029.36-.025.373-.02.588-.025.41-.012.644-.013.915-.009ZM6.79 7.3H4.05c.13 6.24 3.25 9.99 8.72 9.99h.31v-3.57c2.01.2 3.53 1.67 4.14 3.57h2.84c-.78-2.84-2.83-4.41-4.11-5.01 1.28-.74 3.08-2.54 3.51-4.98h-2.58c-.56 1.98-2.22 3.78-3.8 3.95V7.3H10.5v6.92c-1.6-.4-3.62-2.34-3.71-6.92Z"></path></svg></a>
+        <a href="https://t.me/webpractik_agency" target="_blank" rel="noopener" aria-label="Telegram-канал"><svg viewBox="0 0 24 24" aria-hidden="true" width="28" height="28"><path fill="currentColor" d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"></path></svg></a>
+        <a href="https://rostov.hh.ru/employer/726289" target="_blank" rel="noopener" aria-label="Вакансии на hh.ru"><svg aria-hidden="true" width="28" height="28" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_5141_17020)"><mask id="mask0_5141_17020" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="0" y="0" width="26" height="26"><path d="M0 0H26V26H0V0Z" fill="white"/></mask><g mask="url(#mask0_5141_17020)"><path fill-rule="evenodd" clip-rule="evenodd" d="M20.732 18.591H18.642V14.333C18.642 13.488 18.603 12.952 18.522 12.724C18.443 12.496 18.304 12.316 18.102 12.184C17.904 12.047 17.65 11.98 17.347 11.98C17.001 11.98 16.691 12.067 16.419 12.238C16.147 12.412 15.947 12.671 15.819 13.017C15.695 13.364 15.631 13.877 15.631 14.553V18.591H13.541V7.133H15.631V11.556C16.304 10.752 17.111 10.348 18.047 10.348C18.527 10.348 18.962 10.44 19.349 10.624C19.737 10.804 20.026 11.038 20.221 11.32C20.419 11.605 20.553 11.918 20.625 12.263C20.696 12.606 20.732 13.139 20.732 13.863V18.591ZM12.496 18.591H10.404V14.333C10.404 13.488 10.366 12.952 10.286 12.724C10.206 12.496 10.067 12.316 9.866 12.184C9.664 12.047 9.413 11.98 9.11 11.98C8.764 11.98 8.454 12.067 8.184 12.238C7.908 12.412 7.709 12.671 7.583 13.017C7.455 13.364 7.392 13.877 7.394 14.553L7.392 18.591H5.302V7.133H7.394V11.556C8.066 10.752 8.874 10.348 9.81 10.348C10.292 10.348 10.724 10.44 11.111 10.624C11.5 10.804 11.79 11.038 11.986 11.32C12.184 11.605 12.316 11.918 12.388 12.263C12.459 12.606 12.496 13.139 12.496 13.863V18.591ZM13 0C5.82 0 0 5.82 0 13C0 20.18 5.82 26 13 26C20.18 26 26 20.18 26 13C26 5.82 20.18 0 13 0Z" fill="currentColor"/></g></g><defs><clipPath id="clip0_5141_17020"><rect width="26" height="26" fill="white"/></clipPath></defs></svg></a>
+      </div>
+    </div>
+    <div class="foot-col">
+      <h2>Услуги</h2>
+      <a href="../../services/wp-marketing-services-consulting.html">Консалтинг и стратегия</a>
+      <a href="../../services/wp-marketing-services-seo-geo.html">SEO &amp; GEO / AEO</a>
+      <a href="../../services/wp-marketing-services-ppc.html">PPC &amp; Лидогенерация</a>
+    </div>
+    <div class="foot-col">
+      <h2>Компания</h2>
+      <a href="../../industries/wp-marketing-industries.html">Отраслевые решения</a>
+      <a href="../../standards/wp-marketing-standards.html">Стандарты (SLA)</a>
+      <a href="../../cases/wp-marketing-cases.html">Кейсы</a>
+      <a href="../../about/wp-marketing-about.html">О компании</a>
+    </div>
+    <div class="foot-cnt">
+      <h2 class="foot-col-h">Контакты</h2>
+      <b>Паринова Мария</b>
+      <span>Руководитель коммерческого отдела</span>
+      <a href="mailto:m.parinova@webpractik.ru">m.parinova@webpractik.ru</a>
+      <a href="../../contacts/wp-marketing-contacts.html">Все контакты</a>
+      <a href="https://webpractik.ru">webpractik.ru</a>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Вебпрактик. Все права защищены</span>
+      <span>Маркетинговый юнит Вебпрактик</span>
+    </div>
+  </div>
+</footer>
+<script>
+/* Подсветка пункта меню при прокрутке снята: на главной под неё попадали
+   только «Услуги», и пункт загорался просто от того, что раздел проехал
+   мимо, — это читалось как «вы здесь», хотя никуда не переходили. */
+
+(function(){
+  /* Подменю: панель лежит в шапке, поэтому её левый край подставляем
+     от пункта меню. Открываем по наведению и по фокусу с клавиатуры,
+     закрываем по уходу курсора, Escape и клику вне. */
+  var subs = [].slice.call(document.querySelectorAll('.has-sub[data-drop]'));
+  if (!subs.length) return;
+  var pairs = subs.map(function(t){
+    return { t: t, d: document.querySelector('.drop[data-drop="' + t.dataset.drop + '"]') };
+  }).filter(function(x){ return x.d; });
+  if (!pairs.length) return;
+  var head = document.querySelector('header.head');
+  var timer = 0;
+
+  function place(x){
+    var a = x.t.getBoundingClientRect(), h = head.getBoundingClientRect();
+    x.d.style.setProperty('--x', Math.round(a.left - h.left - 16) + 'px');
+  }
+  /* Кнопка раздела должна честно сообщать состояние: без синхронного
+     aria-expanded скринридер читает «свёрнуто» у раскрытого подменю. */
+  function expose(x, on){
+    var b = x.t.querySelector('.nav-sec');
+    if (b) b.setAttribute('aria-expanded', on ? 'true' : 'false');
+  }
+  function open(x){
+    clearTimeout(timer);
+    pairs.forEach(function(y){ if (y !== x) { y.d.classList.remove('open'); y.t.classList.remove('open'); expose(y, false); } });
+    place(x);
+    x.d.classList.add('open'); x.t.classList.add('open'); expose(x, true);
+  }
+  function closeAll(){
+    pairs.forEach(function(y){ y.d.classList.remove('open'); y.t.classList.remove('open'); expose(y, false); });
+  }
+  function later(){ clearTimeout(timer); timer = setTimeout(closeAll, 180); }
+
+  pairs.forEach(function(x){
+    if (x.d.querySelector('a[aria-current]')) x.t.classList.add('cur');
+    x.t.addEventListener('pointerenter', function(){ open(x); });
+    /* Тап по кнопке раскрывает подменю там, где ховера нет.
+       Не переключатель: на мыши подменю уже открыто наведением,
+       и клик бы его тут же закрыл. Закрытие — уход курсора,
+       Escape или касание вне шапки. */
+    var nb = x.t.querySelector('.nav-sec');
+    if (nb) nb.addEventListener('click', function(){ open(x); });
+    x.t.addEventListener('pointerleave', later);
+    x.d.addEventListener('pointerenter', function(){ clearTimeout(timer); });
+    x.d.addEventListener('pointerleave', later);
+    x.t.addEventListener('focusin', function(){ open(x); });
+    x.d.addEventListener('focusin', function(){ open(x); });
+    x.d.addEventListener('focusout', function(e){
+      if (!x.d.contains(e.relatedTarget) && !x.t.contains(e.relatedTarget)) later();
+    });
+  });
+  addEventListener('keydown', function(e){ if (e.key === 'Escape') closeAll(); });
+  document.addEventListener('click', function(e){
+    if (!e.target.closest('.has-sub') && !e.target.closest('.drop')) closeAll();
+  });
+  addEventListener('resize', closeAll, { passive: true });
+  addEventListener('scroll', closeAll, { passive: true });
+})();
+
+(function(){
+  var bg = document.querySelector('.burger'), nav = document.getElementById('mnav');
+  if (!bg || !nav) return;
+  function set(open){
+    nav.hidden = !open;
+    bg.setAttribute('aria-expanded', String(open));
+    bg.setAttribute('aria-label', open ? 'Закрыть меню' : 'Открыть меню');
+  }
+  bg.addEventListener('click', function(){ set(nav.hidden); });
+  nav.addEventListener('click', function(e){ if (e.target.closest('a')) set(false); });
+  addEventListener('keydown', function(e){ if (e.key === 'Escape' && !nav.hidden) set(false); });
+  document.addEventListener('click', function(e){
+    if (nav.hidden) return;
+    if (!nav.contains(e.target) && !bg.contains(e.target)) set(false);
+  });
+  addEventListener('resize', function(){ if (innerWidth > 1100) set(false); });
+})();
+(function(){
+  var head = document.getElementById('head'), glass = head && head.querySelector('.head-glass');
+  if (head){
+    var onScroll = function(){ head.classList.toggle('is-scrolled', scrollY > 12); };
+    onScroll(); addEventListener('scroll', onScroll, {passive:true});
+    if (matchMedia('(pointer: fine)').matches && !matchMedia('(prefers-reduced-motion: reduce)').matches){
+      head.addEventListener('pointerenter', function(){ head.classList.add('is-hot'); });
+      head.addEventListener('pointermove', function(e){
+        var r = glass.getBoundingClientRect();
+        glass.style.setProperty('--hx', (e.clientX - r.left) + 'px');
+        head.classList.add('is-hot');
+      });
+      head.addEventListener('pointerleave', function(){ head.classList.remove('is-hot'); });
+    }
+  }
+})();
+(function(){
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var nums = [].slice.call(document.querySelectorAll('.fact .num'));
+  if (!nums.length) return;
+
+  function ease(t){ return 1 - Math.pow(1 - t, 3); }
+  function run(el){
+    if (el.dataset.done) return;
+    el.dataset.done = '1';
+    var to = parseInt(el.dataset.to, 10) || 0;
+    if (reduce){ el.textContent = String(to); return; }
+    var dur = 1500, t0 = null;
+    function step(ts){
+      if (t0 === null) t0 = ts;
+      var p = Math.min(1, (ts - t0) / dur);
+      el.textContent = String(Math.round(to * ease(p)));
+      if (p < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  var cards = [].slice.call(document.querySelectorAll('.card'));
+  if ('IntersectionObserver' in window){
+    var co = new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        if (e.isIntersecting){
+          var i = cards.indexOf(e.target);
+          e.target.style.transition = 'opacity .7s cubic-bezier(.16,.86,.26,1) ' + (i * 0.09) + 's, transform .7s cubic-bezier(.16,.86,.26,1) ' + (i * 0.09) + 's, border-color .25s ease, box-shadow .25s ease';
+          e.target.style.transform = 'none';
+          e.target.classList.add('in');
+          co.unobserve(e.target);
+        }
+      });
+    }, {threshold: 0.18});
+    cards.forEach(function(c){ c.style.transform = 'translateY(22px)'; co.observe(c); });
+  } else { cards.forEach(function(c){ c.classList.add('in'); }); }
+
+  if (!('IntersectionObserver' in window)){ nums.forEach(run); return; }
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if (e.isIntersecting){
+        var i = nums.indexOf(e.target);
+        setTimeout(function(){ run(e.target); }, i * 120);
+        io.unobserve(e.target);
+      }
+    });
+  }, {threshold: 0.35});
+  nums.forEach(function(n){ io.observe(n); });
+})();
+
+(function(){
+})();
+
+
+
+(function(){
+  var tracks = [].slice.call(document.querySelectorAll('.track'));
+  tracks.forEach(function(t){
+    var lane = t.querySelector('.lane');
+    if (!lane || t.querySelectorAll('.lane').length > 1) return;
+    var clone = lane.cloneNode(true);
+    clone.setAttribute('aria-hidden','true');
+    t.appendChild(clone);
+  });
+})();
+
+(function(){
+  var chips = [].slice.call(document.querySelectorAll('.chip[data-f]'));
+  if (!chips.length) return;
+  var hash = (location.hash || '').replace('#','');
+  if (hash) setTimeout(function(){
+    var c = chips.filter(function(x){ return x.dataset.f === hash; })[0];
+    if (c) c.click();
+  }, 60);
+  var rows = [].slice.call(document.querySelectorAll('.case[data-s], .cs-card[data-s]'));
+  var hero = document.querySelector('.case-hero');
+  chips.forEach(function(c){
+    c.addEventListener('click', function(){
+      var f = c.dataset.f;
+      chips.forEach(function(x){ x.setAttribute('aria-pressed', String(x === c)); });
+      /* У кейса может быть несколько направлений: метки идут списком
+         через пробел, поэтому проверяем вхождение, а не равенство. */
+      var has = function(el){ return f === 'all' ||
+        (' ' + (el.dataset.s || '') + ' ').indexOf(' ' + f + ' ') >= 0; };
+      rows.forEach(function(r){ r.hidden = !has(r); });
+      if (hero) hero.style.display = has(hero) ? '' : 'none';
+    });
+  });
+})();
+
+(function(){
+  var items = [].slice.call(document.querySelectorAll('.rise'));
+  if (!items.length) return;
+  if (!('IntersectionObserver' in window) || matchMedia('(prefers-reduced-motion: reduce)').matches){
+    items.forEach(function(el){ el.classList.add('in'); }); return;
+  }
+  var io = new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if (!e.isIntersecting) return;
+      var sibs = [].slice.call(e.target.parentNode.children).filter(function(n){ return n.classList.contains('rise'); });
+      var i = Math.max(0, sibs.indexOf(e.target));
+      e.target.style.transition = 'opacity .7s cubic-bezier(.16,.86,.26,1) ' + (i * 0.08) + 's, transform .7s cubic-bezier(.16,.86,.26,1) ' + (i * 0.08) + 's';
+      e.target.classList.add('in');
+      io.unobserve(e.target);
+    });
+  }, {threshold: 0.2});
+  items.forEach(function(el){ io.observe(el); });
+})();
+
+/* Форм на странице может быть несколько: главная внизу и короткие
+   формы в блоках услуг. Логика одна, поэтому вешаем её на каждую
+   форму с data-endpoint, а поля берём те, что в ней есть. */
+[].slice.call(document.querySelectorAll('form[data-endpoint]')).forEach(function(form){
+(function(){
+  // .opt — необязательные поля (комментарий): в проверку не входят
+  var fields = [].slice.call(form.querySelectorAll('.field:not(.opt)'));
+  function ok(f){
+    var el = f.querySelector('input, select, textarea');
+    var v = (el.value || '').trim();
+    if (!v) return false;
+    if (el.id === 'lf-contact') return /@/.test(v) ? /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v) : v.replace(/\D/g,'').length >= 10;
+    return true;
+  }
+  fields.forEach(function(f){
+    var el = f.querySelector('input, select, textarea');
+    el.addEventListener('input', function(){ if (f.classList.contains('err') && ok(f)) f.classList.remove('err'); });
+    el.addEventListener('change', function(){ if (f.classList.contains('err') && ok(f)) f.classList.remove('err'); });
+  });
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var bad = null;
+    fields.forEach(function(f){
+      var good = ok(f);
+      f.classList.toggle('err', !good);
+      if (!good && !bad) bad = f;
+    });
+    if (bad){ (bad.querySelector('.sel-btn') || bad.querySelector('input, select, textarea')).focus(); return; }
+    var btn = form.querySelector('button[type=submit]');
+    var url = form.dataset.endpoint || '';
+    form.classList.remove('failed');
+    if (!url || url.charAt(0) === '/'){ form.classList.add('sent'); return; }
+    btn.setAttribute('aria-busy','true');
+    var label = btn.textContent; btn.textContent = 'Отправляем…';
+    fetch(url, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
+      body: JSON.stringify((function(){
+        var d = {page: location.pathname.split('/').pop() || 'index',
+                 _subject: form.dataset.subject || 'Заявка с сайта Вебпрактик.Маркетинг',
+                 _template: 'table', _captcha: 'false'};
+        ['company','contact','topic','comment','name','project'].forEach(function(k){
+          if (form[k]) d[k] = (form[k].value || '').trim();
+        });
+        return d;
+      })())
+    }).then(function(r){ return r.ok ? r.json() : Promise.reject(r.status); })
+      .then(function(){ form.classList.add('sent'); })
+      .catch(function(){ form.classList.add('failed'); })
+      .then(function(){ btn.removeAttribute('aria-busy'); btn.textContent = label; });
+  });
+})();
+});
+
+(function(){
+  var vids = [].slice.call(document.querySelectorAll('.cs-vid[data-autoplay]'));
+  if (!vids.length) return;
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  function play(v){ var p = v.play(); if (p && p.catch) p.catch(function(){}); }
+  if (!('IntersectionObserver' in window)) { vids.forEach(play); return; }
+  var io = new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if (e.isIntersecting) play(e.target); else { try { e.target.pause(); } catch(err){} }
+    });
+  }, {threshold: 0.25});
+  vids.forEach(function(v){ io.observe(v); });
+})();
+
+[].slice.call(document.querySelectorAll('.sel')).forEach(function(wrap){
+(function(){
+  if (!wrap) return;
+  var btn = wrap.querySelector('.sel-btn'),
+      pop = wrap.querySelector('.sel-pop'),
+      list = wrap.querySelector('.sel-list'),
+      rail = wrap.querySelector('.sel-rail'),
+      thumb = wrap.querySelector('.sel-thumb'),
+      val = wrap.querySelector('.sel-val'),
+      native = wrap.querySelector('.sel-native'),
+      opts = [].slice.call(wrap.querySelectorAll('.sel-opt')),
+      field = wrap.closest('.field'),
+      i = -1;
+
+  function bar(){
+    var over = list.scrollHeight - list.clientHeight;
+    if (over <= 1){ rail.hidden = true; return; }
+    rail.hidden = false;
+    var railH = rail.clientHeight;
+    var h = Math.max(24, Math.round(railH * list.clientHeight / list.scrollHeight));
+    thumb.style.height = h + 'px';
+    thumb.style.top = Math.round((railH - h) * list.scrollTop / over) + 'px';
+  }
+  function open(){
+    pop.hidden = false;
+    bar();
+    btn.setAttribute('aria-expanded','true');
+    var sel = opts.findIndex(function(o){ return o.getAttribute('aria-selected') === 'true'; });
+    mark(sel > -1 ? sel : 0, true);
+  }
+  function close(){
+    pop.hidden = true;
+    btn.setAttribute('aria-expanded','false');
+    opts.forEach(function(o){ o.classList.remove('is-active'); });
+    btn.removeAttribute('aria-activedescendant');
+  }
+  function mark(n, scroll){
+    i = Math.max(0, Math.min(opts.length - 1, n));
+    opts.forEach(function(o, k){ o.classList.toggle('is-active', k === i); });
+    btn.setAttribute('aria-activedescendant', opts[i].id);
+    if (scroll) { opts[i].scrollIntoView({block:'nearest'}); bar(); }
+  }
+  function pick(n){
+    var o = opts[n]; if (!o) return;
+    opts.forEach(function(x){ x.setAttribute('aria-selected', String(x === o)); });
+    val.textContent = o.dataset.v;
+    val.classList.remove('is-empty');
+    native.selectedIndex = n + 1;
+    native.dispatchEvent(new Event('change', {bubbles:true}));
+    if (field) field.classList.remove('err');
+    close(); btn.focus();
+  }
+
+  btn.addEventListener('click', function(){ pop.hidden ? open() : close(); });
+  list.addEventListener('scroll', bar, {passive:true});
+  addEventListener('resize', function(){ if (!pop.hidden) bar(); });
+  opts.forEach(function(o, n){
+    o.addEventListener('click', function(){ pick(n); });
+    o.addEventListener('mousemove', function(){ mark(n); });
+  });
+  btn.addEventListener('keydown', function(e){
+    if (e.key === 'ArrowDown' || e.key === 'ArrowUp' || e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      if (pop.hidden) { open(); return; }
+      if (e.key === 'Enter' || e.key === ' ') pick(i);
+      else mark(i + (e.key === 'ArrowDown' ? 1 : -1), true);
+    } else if (e.key === 'Home' && !pop.hidden) { e.preventDefault(); mark(0, true); }
+    else if (e.key === 'End' && !pop.hidden) { e.preventDefault(); mark(opts.length - 1, true); }
+    else if (e.key === 'Escape' && !pop.hidden) { e.preventDefault(); close(); }
+    else if (e.key === 'Tab') close();
+  });
+  document.addEventListener('click', function(e){ if (!wrap.contains(e.target)) close(); });
+  document.addEventListener('focusin', function(e){ if (!wrap.contains(e.target)) close(); });
+})();
+});
+</script>
+<script>
+(function(){
+  var imgs = [].slice.call(document.querySelectorAll('img[data-remote]'));
+  imgs.forEach(function(i){
+    function fail(){
+      var f = i.closest('figure.shot') || i.closest('.cc-cover');
+      if (f) f.setAttribute('data-failed',''); else i.setAttribute('data-failed','');
+    }
+    i.addEventListener('error', fail);
+    if (i.complete && i.naturalWidth === 0) fail();
+  });
+})();
+</script>
+<script>
+/* Раскладка ряда скриншотов: общая высота, ширина по пропорциям,
+   ряд заполняет колонку. Высота ряда = (ширина колонки минус зазоры)
+   делённая на сумму соотношений сторон; выше потолка не поднимаем,
+   иначе пара вертикальных объявлений раздулась бы на весь экран. */
+(function(){
+  var MAX = {'': 400, 'g2': 560};
+  function ready(f){ var i = f.querySelector('img'); return i && i.naturalWidth > 0; }
+  function fit(row){
+    /* Ряд g4 раскладывает CSS-сетка: две колонки, картинка во всю
+       ширину колонки. Общая высота на четыре картинки сжимала их
+       вчетверо — скрипт сюда не лезет. */
+    if (row.classList.contains('g4')){
+      row.querySelectorAll('img').forEach(function(i){
+        i.style.height = ''; i.style.width = ''; i.setAttribute('data-ready', ''); });
+      return;
+    }
+    if (matchMedia('(max-width:720px)').matches){
+      row.querySelectorAll('img').forEach(function(i){ i.style.height = ''; i.style.width = ''; });
+      return;
+    }
+    var figs = [].slice.call(row.querySelectorAll('figure.shot'));
+    if (!figs.length || !figs.every(ready)) return;
+    var gap = parseFloat(getComputedStyle(row).columnGap) || 24;
+    var free = row.clientWidth - gap * (figs.length - 1);
+    if (free <= 0) return;
+    var sum = 0;
+    figs.forEach(function(f){ var i = f.querySelector('img'); sum += i.naturalWidth / i.naturalHeight; });
+    var cap = MAX[row.classList.contains('g2') ? 'g2' : ''];
+    var h = Math.min(free / sum, cap);
+    figs.forEach(function(f){
+      var i = f.querySelector('img');
+      f.style.flex = '0 0 auto';
+      i.setAttribute('data-ready', '');
+      i.style.height = Math.round(h) + 'px';
+      i.style.width = Math.round(h * i.naturalWidth / i.naturalHeight) + 'px';
+    });
+  }
+  var rows = [].slice.call(document.querySelectorAll('.cc-gal'));
+  function all(){ rows.forEach(fit); }
+  rows.forEach(function(row){
+    row.querySelectorAll('img').forEach(function(i){
+      if (i.complete) fit(row); else i.addEventListener('load', function(){ fit(row); });
+      i.addEventListener('error', function(){ fit(row); });
+    });
+  });
+  var t; addEventListener('resize', function(){ clearTimeout(t); t = setTimeout(all, 120); });
+  addEventListener('load', all);
+})();
+</script>
+</body>
+</html>
