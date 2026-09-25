@@ -101,9 +101,9 @@ header.head{padding:16px 24px}
 .has-sub{position:relative;display:inline-flex;align-items:center}
 .has-sub>a,.has-sub>.nav-sec{display:inline-flex;align-items:center;gap:8px}
 .has-sub>a::after,.has-sub>.nav-sec::after{content:'';width:6px;height:6px;border-right:1.5px solid currentColor;
-  border-bottom:1.5px solid currentColor;transform:rotate(45deg) translateY(-1px);
-  transition:transform .2s ease}
-.has-sub.open>a::after,.has-sub.open>.nav-sec::after{transform:rotate(225deg) translateY(-1px)}
+  border-bottom:1.5px solid currentColor;transform:translateY(-1.5px) rotate(45deg);
+  transform-origin:50% 50%;transition:transform .2s ease}
+.has-sub.open>a::after,.has-sub.open>.nav-sec::after{transform:translateY(2.75px) rotate(225deg)}
 .drop{position:absolute;top:calc(100% - 8px);left:var(--x,80px);z-index:5;
   min-width:272px;display:grid;gap:8px;padding:16px;
   background:var(--white);border:1px solid var(--line);border-radius:var(--r-l);
@@ -605,7 +605,7 @@ h3.sh-b:last-child{margin-bottom:0}
    квадратность держим через aspect-ratio, а не через растягивание
    по высоте блока. */
 .mgr .ava{grid-column:1;grid-row:1 / -1;width:152px;height:auto;aspect-ratio:1;
-  align-self:start;border-radius:var(--r-s);object-fit:cover;object-position:50% 20%;
+  align-self:start;border-radius:var(--r-m);object-fit:cover;object-position:50% 20%;
   display:block;background:var(--lilac)}
 .mgr b{grid-column:2;grid-row:1;font-weight:400;font-size:18px;align-self:end}
 .mgr span{grid-column:2;grid-row:2;font-size:15px;color:var(--ink-soft)}
@@ -708,6 +708,8 @@ h3.sh-b:last-child{margin-bottom:0}
   font-weight:400;letter-spacing:0;color:color-mix(in oklab, var(--white) 62%, var(--graphite))}
 .foot-col a{font-size:15px;line-height:1.45;color:color-mix(in oklab, var(--white) 82%, var(--graphite));transition:color .2s ease}
 .foot-col a:hover{color:var(--white)}
+.foot-col h2 a{font:inherit;letter-spacing:inherit;text-transform:inherit;color:inherit;transition:color .2s ease}
+.foot-col h2 a:hover{color:var(--white)}
 .foot-cnt{grid-column:10 / span 3;display:flex;flex-direction:column;gap:8px}
 .foot-cnt b{font-weight:400;font-size:15px}
 .foot-cnt span,.foot-cnt a{font-size:15px;color:color-mix(in oklab, var(--white) 70%, var(--graphite))}
@@ -793,7 +795,7 @@ h3.sh-b:last-child{margin-bottom:0}
 <style>
 .crumbs{display:flex;align-items:center;gap:16px;margin:0 0 24px;font-size:15px;color:var(--ink-soft)}
 .crumbs a{color:var(--ink-soft);transition:color .2s ease}
-.crumbs a:hover{color:var(--indigo-bright)}
+.crumbs a:hover{color:var(--accent)}
 .crumbs .sep{color:var(--ink-faint)}
 .crumbs [aria-current]{color:var(--ink)}
 .ip-hero{padding:40px 0 0}
@@ -983,8 +985,9 @@ h3.sh-b:last-child{margin-bottom:0}
 .pg-stage-name{font-family:'Bounded','Geologica',sans-serif;font-weight:400;
   font-size:clamp(24px,2.2vw,30px);line-height:1;letter-spacing:-.01em;color:var(--accent)}
 /* срок и цена — в самый низ карточки, отбивка как у подвала карточки */
-.pg-stage-foot{margin-top:auto;padding-top:16px;display:flex;flex-wrap:wrap;gap:8px}
-.pg-chip{font-size:14px;color:var(--ink-soft);border:1px solid var(--line);
+.pg-stage-foot{margin-top:auto;padding-top:16px;display:flex;flex-wrap:wrap;
+  justify-content:flex-end;gap:8px}
+.pg-chip{font-size:14px;color:var(--accent);border:1px solid var(--accent);
   border-radius:99px;padding:8px 16px}
 .pg-stage p b{font-weight:500;color:var(--graphite)}
 .pg-stage h3{margin:0;font-family:'Bounded','Geologica',sans-serif;font-weight:400;
@@ -1067,8 +1070,8 @@ h3.sh-b:last-child{margin-bottom:0}
    «минус — плюс», а две равные подписи к этапу. Зелёный в проекте
    занят половиной «стало» в сравнительных блоках. */
 .pg-art,.pg-cp{padding:16px 24px;border-radius:var(--r-m);background:var(--lilac)}
-.pg-art span,.pg-cp span{display:block;font-size:13px;color:var(--ink-faint);
-  margin-bottom:8px}
+.pg-art span,.pg-cp span{display:block;font-size:17px;font-weight:600;
+  line-height:1.3;color:var(--graphite);margin-bottom:8px}
 .pg-art p,.pg-cp p{margin:0;font-size:15px;line-height:1.45;color:var(--ink)}
 
 /* весь блок на фиолетовой плашке: карточки и CTA внутри — белые,
@@ -1537,6 +1540,15 @@ a.pg-card:hover li::before{background:var(--white)}
   .pg-offer.has-form .pg-offer-form{grid-row:auto}
 }
 .pg-offer-head{display:flex;flex-direction:column;gap:16px}
+/* Акцент в заголовке блока: тот же приём, что в h1 — фирменный
+   фиолетовый и наклонная линия, но линия дорисовывается не на загрузке,
+   а когда блок появляется на экране. */
+.pg-offer-head h2 .accent{position:relative;color:var(--accent)}
+.pg-offer-head h2 .bolt{animation:none;transform:skewX(-24deg) scaleX(0);
+  transition:transform .5s cubic-bezier(.2,.8,.2,1) .15s}
+.pg-offer-head h2.in .bolt{transform:skewX(-24deg) scaleX(1)}
+@media (prefers-reduced-motion:reduce){
+  .pg-offer-head h2 .bolt{transition:none;transform:skewX(-24deg) scaleX(1)}}
 .pg-offer h2{margin:0;font-family:'Bounded','Geologica',sans-serif;font-weight:400;
   font-size:clamp(26px,3vw,44px);line-height:1.08;letter-spacing:-.01em;
   color:var(--graphite);hyphens:manual;overflow-wrap:normal;word-break:normal}
@@ -1620,8 +1632,8 @@ a.pg-card:hover li::before{background:var(--white)}
   border-bottom:1px solid var(--line)}
 .pg-db-tag{font-size:13px;font-weight:600;letter-spacing:.02em;
   color:var(--accent)}
-.pg-db-per{flex:none;padding:8px 16px;border-radius:var(--r-s);
-  background:var(--lilac);font-size:14px;color:var(--ink);white-space:nowrap}
+.pg-db-per{flex:none;font-size:13px;font-weight:600;letter-spacing:.02em;
+  color:var(--accent);white-space:nowrap}
 .pg-db-body{display:flex;flex-direction:column;gap:16px;padding:16px}
 /* Верхний ряд: слева одна главная цифра, справа остальные показатели */
 .pg-db-lead{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.6fr);
@@ -1653,6 +1665,9 @@ a.pg-card:hover li::before{background:var(--white)}
 .pg-db-k b{font-family:'Bounded','Geologica',sans-serif;font-weight:400;
   font-size:clamp(24px,2.4vw,32px);line-height:1;color:var(--graphite)}
 .pg-db-k i{font-style:normal;font-size:13px;color:var(--ink-soft)}
+/* Запятая в дробных числах: в Bounded единица встаёт к ней вплотную,
+   поэтому после запятой добавляем немного воздуха. */
+.dcm{margin-right:.07em}
 .pg-db-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
 .pg-db-row.c3{grid-template-columns:repeat(3,minmax(0,1fr))}
 .pg-db-p{display:flex;flex-direction:column;gap:16px;padding:24px;
@@ -1876,6 +1891,11 @@ a.pg-card:hover li::before{background:var(--white)}
 .pg-mg{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);
   gap:var(--gutter);color:var(--ink);padding:40px 48px;
   border-radius:var(--r-l);background:var(--cold)}
+/* Заголовок блока внутри плашки: занимает обе колонки и отбивается
+   от содержимого, чтобы плашка читалась как один блок. */
+.pg-mg.has-head{row-gap:32px}
+.pg-mg-head{grid-column:1 / -1}
+.pg-mg-head .sh-b{max-width:34ch}
 .pg-mg-l{display:flex;flex-direction:column;gap:16px}
 .pg-mg h3{margin:0;font-family:'Bounded','Geologica',sans-serif;font-weight:400;
   font-size:clamp(21px,2.2vw,28px);line-height:1.15;letter-spacing:-.01em;
@@ -1886,8 +1906,8 @@ a.pg-card:hover li::before{background:var(--white)}
   gap:8px 24px;margin:8px 0 0}
 .pg-mg-cols span{position:relative;padding-left:16px;font-size:15px;
   line-height:1.45;color:var(--ink)}
-.pg-mg-cols span::before{content:'';position:absolute;left:0;top:.62em;width:8px;
-  height:1px;background:var(--accent)}
+.pg-mg-cols span::before{content:'';position:absolute;left:0;top:.6em;width:8px;
+  height:2px;border-radius:1px;background:var(--accent)}
 .pg-mg-act{display:flex;flex-direction:column;gap:8px;margin-top:16px}
 .pg-mg-act .btn{align-self:flex-start}
 .pg-mg-note{font-size:14px;color:var(--ink-soft)}
@@ -1979,14 +1999,17 @@ a.pg-card:hover li::before{background:var(--white)}
   color:var(--graphite);hyphens:manual;overflow-wrap:normal;word-break:normal}
 .pg-mini-do{list-style:none;margin:0;padding:0;display:flex;
   flex-direction:column;gap:8px}
-.pg-mini-do li{position:relative;padding-left:32px;font-size:15px;
+.pg-mini-do li{position:relative;padding-left:24px;font-size:15px;
   line-height:1.5;color:var(--ink)}
-.pg-mini-do li::before{content:none}
+.pg-mini-do li::before{content:'';position:absolute;left:0;top:.6em;width:8px;
+  height:8px;border-radius:50%;background:var(--accent)}
 .pg-mini-do li>svg{position:absolute;left:0;top:2px;color:var(--steel)}
 /* Три плитки результата стоят в один ряд: это один набор цифр
    по кейсу, и перенос третьей вниз читался как «ещё один блок».
    Колонка узкая, поэтому цифра и подпись набраны мельче. */
-.pg-mini-st{display:grid;grid-template-columns:repeat(auto-fit,minmax(136px,1fr));gap:8px}
+.pg-mini-st{display:grid;grid-template-columns:repeat(auto-fit,minmax(152px,1fr));gap:8px}
+@media (min-width:901px){
+  .pg-mini-st>div:nth-child(4):last-child{grid-column:span 2}}
 .pg-mini-st>div{min-width:0}
 .pg-mini-st>div{display:flex;flex-direction:column;gap:8px;padding:16px;
   border-radius:var(--r-s);background:var(--lilac)}
@@ -2073,18 +2096,36 @@ a.pg-card.is-case:hover li::before{background:var(--accent)}
 
 /* Процесс: такты в ряд, между ними стрелка. Стрелка и подпись цикла —
    декор, на наведение ничего не реагирует. */
-.pg-flow{display:grid;grid-template-columns:1fr 24px 1fr 24px 1fr;
-  gap:var(--gutter);align-items:stretch}
+.pg-flow{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:var(--gutter);align-items:start}
 .pg-flow-i{display:flex;flex-direction:column;gap:8px}
-.pg-flow-when{align-self:flex-start;font-size:13px;color:var(--white);
-  background:var(--accent);border-radius:99px;padding:8px 16px}
+/* Календарь над тактом — тот же компонент, что на «Стандартах»:
+   обводка, шапка пн-вс, четыре недели клеток. Закрашен день, в который
+   такт случается; периодичность читается подписью под календарём. */
+.pg-flow-cal{display:flex;flex-direction:column;gap:8px;padding:8px;
+  margin:0;max-width:328px;background:var(--white);
+  border:1px solid var(--line);border-radius:var(--r-m)}
+.pg-flow-q,.pg-flow-ms{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));
+  gap:8px}
+.pg-flow-q span{font-size:13px;line-height:16px;text-align:center;
+  color:var(--ink-soft)}
+.pg-flow-m{display:block;aspect-ratio:1;border-radius:8px;
+  background:var(--cold);transform:scale(.6);opacity:0;
+  transition:transform .4s cubic-bezier(.16,.86,.26,1) var(--d,0ms),
+             opacity .4s ease var(--d,0ms)}
+.pg-flow-m.on{background:var(--accent)}
+.pg-flow-i.in .pg-flow-m{transform:none;opacity:1}
+@media (prefers-reduced-motion:reduce){
+  .pg-flow-m{transition:none;transform:none;opacity:1}}
+/* периодичность — лиловый заголовок такта, как в эталоне;
+   название такта идёт под ним чёрным и помельче */
 .pg-flow-i h3{margin:16px 0 0;font-family:'Bounded','Geologica',sans-serif;
   font-weight:400;font-size:19px;line-height:1.25;letter-spacing:-.01em;
   color:var(--accent);hyphens:manual;overflow-wrap:normal;word-break:normal}
-.pg-flow-i p{margin:0;font-size:16px;line-height:1.5;color:var(--ink);
+.pg-flow-n{font-size:17px;font-weight:600;line-height:1.35;
+  color:var(--graphite);hyphens:manual;overflow-wrap:normal;word-break:normal}
+.pg-flow-i p{margin:0;font-size:15px;line-height:1.45;color:var(--ink);
   hyphens:manual;overflow-wrap:normal;word-break:normal}
-.pg-flow-arw{align-self:center;justify-self:center;color:var(--steel);
-  line-height:0}
 .pg-flow-loop{display:block;margin-top:24px;font-size:15px;color:var(--ink-soft)}
 
 /* Миссия: лиловая плашка во всю ширину, крупная строка */
@@ -2372,7 +2413,8 @@ a.pg-card.is-case:hover li::before{background:var(--accent)}
 .pg-cmp h3{margin:0;font-family:'Geologica','Segoe UI',system-ui,sans-serif;font-weight:600;
   font-size:20px;color:var(--ink)}
 .pg-cmp dl{margin:0;display:flex;flex-direction:column;gap:16px}
-.pg-cmp dt{font-size:14px;color:var(--ink-faint)}
+.pg-cmp dt{font-size:17px;font-weight:600;line-height:1.3;color:var(--graphite);
+  margin-bottom:8px}
 .pg-cmp dd{margin:0;font-size:16px;line-height:1.5;color:var(--ink)}
 .pg-nums{display:grid;grid-template-columns:auto minmax(0,1fr);gap:24px var(--gutter);
   align-items:baseline;max-width:92ch}
@@ -2454,8 +2496,7 @@ body section:last-of-type{padding-bottom:136px}
   .pg-pipe-i .dot::after{display:none}
   .pg-offer{padding:32px}
   .pg-stages,.pg-stages.c2{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .pg-flow{grid-template-columns:1fr;gap:16px}
-  .pg-flow-arw{transform:rotate(90deg)}
+  .pg-flow{grid-template-columns:1fr;gap:32px}
   .pg-deck{grid-template-columns:1fr}
   .pg-counter{grid-template-columns:repeat(2,minmax(0,1fr))}
   .pg-step{grid-template-columns:64px minmax(0,1fr)}
@@ -2483,8 +2524,7 @@ body section:last-of-type{padding-bottom:136px}
   /* на телефоне календарь занимает свою ширину, текст под ним */
   .pg-cad{grid-template-columns:1fr;gap:32px}
   .pg-cad-cal{max-width:234px}
-  .pg-flow{grid-template-columns:1fr;gap:16px}
-  .pg-flow-arw{transform:rotate(90deg)}
+  .pg-flow{grid-template-columns:1fr;gap:32px}
   .pg-checks,.pg-stages,.pg-stages.c2,.pg-tl-meta,.pg-deck,.pg-rows.c2{grid-template-columns:1fr}
   .pg-deck .pg-cta .acts{grid-template-columns:1fr}
   .pg-tl-in{grid-template-columns:1fr}
@@ -2517,7 +2557,7 @@ body section:last-of-type{padding-bottom:136px}
    а две компактные панели того же блока: это справочные списки,
    а не самостоятельные темы. */
 .pg-sp{display:grid;grid-template-columns:minmax(0,340px) minmax(0,1fr);
-  gap:var(--gutter);margin-top:var(--gutter)}
+  gap:var(--gutter);margin-top:48px}
 .pg-sp-i{padding:24px;border:1px solid var(--line);border-radius:var(--r-m);
   background:var(--white)}
 .pg-sp-i b{display:block;margin:0 0 16px;font-family:'Bounded','Geologica',sans-serif;
@@ -2538,7 +2578,7 @@ body section:last-of-type{padding-bottom:136px}
 /* ── еженедельная сводка: как она приходит в рабочий чат ────────
    Не макет отчёта, а живые сообщения: подпись периода сверху,
    ниже пузырь сообщения. */
-.pg-sum-h{margin:var(--s-56) 0 0}
+.pg-sum-h{margin:56px 0 0}
 .pg-sum-h b{display:block;font-family:'Bounded','Geologica',sans-serif;
   font-weight:400;font-size:clamp(21px,2.2vw,28px);line-height:1.2;
   letter-spacing:-.02em;color:var(--ink)}
@@ -2659,12 +2699,19 @@ body section:last-of-type{padding-bottom:136px}
    Подложки нет — серая обводка: такой блок замыкает страницу
    и не должен спорить с голубыми плашками материалов. */
 .pg-cta.is-row{display:grid;grid-template-columns:minmax(0,1fr) auto;
-  align-items:center;gap:16px 48px;background:var(--white);
+  align-items:end;gap:16px 48px;background:var(--white);
   border:1px solid var(--line)}
+/* текст — одна колонка сетки, чтобы кнопка равнялась по низу всей плашки,
+   а не по строке заголовка */
+.pg-cta.is-row .pg-cta-txt{grid-column:1;display:flex;flex-direction:column;
+  gap:16px;min-width:0}
+/* Тот же ряд, но на фирменной лиловой плашке: кнопка справа,
+   текст слева, обводка не нужна. */
+.pg-cta.is-row.is-plate{background:var(--lilac);border-color:transparent}
 .pg-cta.is-row h2.sh-a,.pg-cta.is-row h3,.pg-cta.is-row p{grid-column:1}
 .pg-cta.is-row h2.sh-a{max-width:28ch}
 .pg-cta.is-row p{max-width:72ch}
-.pg-cta.is-row .acts{grid-column:2;grid-row:1 / -1;align-self:center}
+.pg-cta.is-row .acts{grid-column:2;align-self:end}
 @media (max-width:900px){
   .pg-cta.is-row{grid-template-columns:1fr}
   .pg-cta.is-row .acts{grid-column:1;grid-row:auto}
@@ -2733,14 +2780,14 @@ body section:last-of-type{padding-bottom:136px}
 <section class="sec" id="roadmap">
   <div class="shell">
     <div class="sec-head"><h2 class="sh-a">Дорожная карта</h2><h3 class="sh-b">Как разворачивается SEO по проекту</h3><p>Слои включаются последовательно: сначала техническое здоровье, затем коммерческий спрос, дальше информационный и потенциальный. У каждого этапа — свои работы, артефакты и контрольные точки.</p></div>
-    <div class="pg-tl"><div class="pg-tl-i rise"><div class="pg-tl-in"><div class="pg-tl-when"><b>1</b><span>мес</span></div><div class="pg-tl-body"><h3>Аудит и стратегия</h3><ul><li>Технический аудит: индексация, дубли, скорость, Core Web Vitals, мобильная версия</li><li>ТЗ на исправление критических ошибок с приоритетами P0—P2</li><li>Сбор и кластеризация семантики, анализ конкурентов и текущей видимости</li><li>Согласование целевого KPI и прогноза: позиции, трафик или лиды</li></ul><div class="pg-tl-meta"><div class="pg-art"><span>Артефакты</span><p>отчёт техаудита, ТЗ на правки, семантическое ядро, стратегия и прогноз</p></div><div class="pg-cp"><span>Контрольная точка</span><p>стратегия и KPI утверждены, критические ошибки в работе разработки</p></div></div></div></div></div><div class="pg-tl-i pg-tl-hid"><div class="pg-tl-in"><div class="pg-tl-when"><b>2</b><span>мес</span></div><div class="pg-tl-body"><h3>Структура и коммерческие страницы</h3><ul><li>План расширения структуры: категории, подкатегории, региональные посадочные</li><li>ТЗ на доработку продуктовых страниц: мета-теги, тексты, перелинковка</li><li>Коммерческие факторы: цены, отзывы, сертификаты, формы, микроразметка</li><li>Ссылочная стратегия и старт внешних сигналов</li></ul><div class="pg-tl-meta"><div class="pg-art"><span>Артефакты</span><p>карта структуры, пакет ТЗ на страницы, контент-план, ссылочный план</p></div><div class="pg-cp"><span>Контрольная точка</span><p>первые страницы в индексе, техздоровье в зелёной зоне</p></div></div></div></div></div><div class="pg-tl-i pg-tl-hid"><div class="pg-tl-in"><div class="pg-tl-when"><b>3—4</b><span>мес</span></div><div class="pg-tl-body"><h3>Экспертный контент и первые результаты</h3><ul><li>Запуск информационного кластера под сценарии пользователей и E-E-A-T</li><li>Подготовка контента, который одновременно работает на органику и AI-цитирование</li><li>Доступность для LLM-краулеров: llms.txt, robots, структура ответов, Q&amp;A-блоки</li><li>Контроль внедрения правок и повторный техсрез</li></ul><div class="pg-tl-meta"><div class="pg-art"><span>Артефакты</span><p>статьи и посадочные, Q&amp;A-блоки, llms.txt, отчёт по внедрению</p></div><div class="pg-cp"><span>Контрольная точка</span><p>рост запросов в топ-30 и топ-10, первые упоминания бренда в AI-ответах</p></div></div></div></div></div><div class="pg-tl-i pg-tl-hid"><div class="pg-tl-in"><div class="pg-tl-when"><b>5—8</b><span>мес</span></div><div class="pg-tl-body"><h3>Масштабирование и рост трафика</h3><ul><li>Наращивание объёма страниц и контента по приоритетным кластерам</li><li>Работа с конверсией органических страниц, A/B-гипотезы</li><li>Систематическая работа с внешними источниками, на которые опираются нейросети</li><li>Еженедельный замер AI-видимости и доли голоса относительно конкурентов</li></ul><div class="pg-tl-meta"><div class="pg-art"><span>Артефакты</span><p>дашборд трафика и позиций, дашборд AI-видимости, бэклог гипотез</p></div><div class="pg-cp"><span>Контрольная точка</span><p>плановый рост небрендового трафика и обращений из органики</p></div></div></div></div></div><div class="pg-tl-i pg-tl-hid"><div class="pg-tl-in"><div class="pg-tl-when"><b>9—18</b><span>мес</span></div><div class="pg-tl-body"><h3>Контентная экспансия и работа на ROI</h3><ul><li>Формирование спроса: новые кластеры, темы и разделы под сегменты ЦА</li><li>Сквозная аналитика и атрибуция органики в CRM, расчёт CPA и ROI</li><li>Пересмотр структуры и семантики по итогам года, обновление прогноза</li><li>Перевод проекта на следующую ступень зрелости</li></ul><div class="pg-tl-meta"><div class="pg-art"><span>Артефакты</span><p>модель ROI и CPA, обновлённая стратегия, план на следующий год</p></div><div class="pg-cp"><span>Контрольная точка</span><p>доля SEO в продажах и CPA органики в целевом коридоре</p></div></div></div></div></div></div>
+    <div class="pg-tl"><div class="pg-tl-i rise"><div class="pg-tl-in"><div class="pg-tl-when"><b>1</b><span>мес</span></div><div class="pg-tl-body"><h3>Аудит и стратегия</h3><ul><li>Технический аудит: индексация, дубли, скорость, Core Web Vitals, мобильная версия</li><li>ТЗ на исправление критических ошибок с приоритетами P0—P2</li><li>Сбор и кластеризация семантики, анализ конкурентов и текущей видимости</li><li>Согласование целевого KPI и прогноза: позиции, трафик или лиды</li></ul><div class="pg-tl-meta"><div class="pg-art"><span>Артефакты</span><p>Отчёт техаудита, ТЗ на правки, семантическое ядро, стратегия и прогноз</p></div><div class="pg-cp"><span>Контрольная точка</span><p>Стратегия и KPI утверждены, критические ошибки в работе разработки</p></div></div></div></div></div><div class="pg-tl-i pg-tl-hid"><div class="pg-tl-in"><div class="pg-tl-when"><b>2</b><span>мес</span></div><div class="pg-tl-body"><h3>Структура и коммерческие страницы</h3><ul><li>План расширения структуры: категории, подкатегории, региональные посадочные</li><li>ТЗ на доработку продуктовых страниц: мета-теги, тексты, перелинковка</li><li>Коммерческие факторы: цены, отзывы, сертификаты, формы, микроразметка</li><li>Ссылочная стратегия и старт внешних сигналов</li></ul><div class="pg-tl-meta"><div class="pg-art"><span>Артефакты</span><p>Карта структуры, пакет ТЗ на страницы, контент-план, ссылочный план</p></div><div class="pg-cp"><span>Контрольная точка</span><p>Первые страницы в индексе, техздоровье в зелёной зоне</p></div></div></div></div></div><div class="pg-tl-i pg-tl-hid"><div class="pg-tl-in"><div class="pg-tl-when"><b>3—4</b><span>мес</span></div><div class="pg-tl-body"><h3>Экспертный контент и первые результаты</h3><ul><li>Запуск информационного кластера под сценарии пользователей и E-E-A-T</li><li>Подготовка контента, который одновременно работает на органику и AI-цитирование</li><li>Доступность для LLM-краулеров: llms.txt, robots, структура ответов, Q&amp;A-блоки</li><li>Контроль внедрения правок и повторный техсрез</li></ul><div class="pg-tl-meta"><div class="pg-art"><span>Артефакты</span><p>Статьи и посадочные, Q&amp;A-блоки, llms.txt, отчёт по внедрению</p></div><div class="pg-cp"><span>Контрольная точка</span><p>Рост запросов в топ-30 и топ-10, первые упоминания бренда в AI-ответах</p></div></div></div></div></div><div class="pg-tl-i pg-tl-hid"><div class="pg-tl-in"><div class="pg-tl-when"><b>5—8</b><span>мес</span></div><div class="pg-tl-body"><h3>Масштабирование и рост трафика</h3><ul><li>Наращивание объёма страниц и контента по приоритетным кластерам</li><li>Работа с конверсией органических страниц, A/B-гипотезы</li><li>Систематическая работа с внешними источниками, на которые опираются нейросети</li><li>Еженедельный замер AI-видимости и доли голоса относительно конкурентов</li></ul><div class="pg-tl-meta"><div class="pg-art"><span>Артефакты</span><p>Дашборд трафика и позиций, дашборд AI-видимости, бэклог гипотез</p></div><div class="pg-cp"><span>Контрольная точка</span><p>Плановый рост небрендового трафика и обращений из органики</p></div></div></div></div></div><div class="pg-tl-i pg-tl-hid"><div class="pg-tl-in"><div class="pg-tl-when"><b>9—18</b><span>мес</span></div><div class="pg-tl-body"><h3>Контентная экспансия и работа на ROI</h3><ul><li>Формирование спроса: новые кластеры, темы и разделы под сегменты ЦА</li><li>Сквозная аналитика и атрибуция органики в CRM, расчёт CPA и ROI</li><li>Пересмотр структуры и семантики по итогам года, обновление прогноза</li><li>Перевод проекта на следующую ступень зрелости</li></ul><div class="pg-tl-meta"><div class="pg-art"><span>Артефакты</span><p>Модель ROI и CPA, обновлённая стратегия, план на следующий год</p></div><div class="pg-cp"><span>Контрольная точка</span><p>Доля SEO в продажах и CPA органики в целевом коридоре</p></div></div></div></div></div></div>
   </div>
 </section>
 
 <section class="sec" id="review">
   <div class="shell">
     <div class="sec-head"><h2>Ревью процесса</h2><p>Три такта, в которых план сверяется с фактом: спринт, квартал и год.</p></div>
-    <div class="pg-flow"><div class="pg-flow-i rise"><span class="pg-flow-when">Каждый месяц</span><h3>Пересмотр спринта</h3><p>Сверяем факт с планом по трафику, позициям и AI-видимости, переприоритизируем бэклог на следующий спринт.</p></div><span class="pg-flow-arw" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M4 12h15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M15 8l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span><div class="pg-flow-i rise"><span class="pg-flow-when">Каждый квартал</span><h3>Пересборка стратегии</h3><p>Пересобираем гипотезы: какие слои дали результат, где упёрлись в ресурс клиента, куда переносим бюджет часов.</p></div><span class="pg-flow-arw" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M4 12h15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M15 8l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span><div class="pg-flow-i rise"><span class="pg-flow-when">Раз в год</span><h3>Новый горизонт</h3><p>Пересчёт прогноза и целей, расширение семантики и структуры, переход на следующую ступень зрелости.</p></div></div>
+    <div class="pg-flow"><div class="pg-flow-i rise"><div class="pg-flow-cal" aria-hidden="true"><div class="pg-flow-q"><span>пн</span><span>вт</span><span>ср</span><span>чт</span><span>пт</span><span>сб</span><span>вс</span></div><div class="pg-flow-ms"><i class="pg-flow-m on" style="--d:0ms"></i><i class="pg-flow-m" style="--d:18ms"></i><i class="pg-flow-m" style="--d:36ms"></i><i class="pg-flow-m" style="--d:54ms"></i><i class="pg-flow-m" style="--d:72ms"></i><i class="pg-flow-m" style="--d:90ms"></i><i class="pg-flow-m" style="--d:108ms"></i><i class="pg-flow-m" style="--d:126ms"></i><i class="pg-flow-m" style="--d:144ms"></i><i class="pg-flow-m" style="--d:162ms"></i><i class="pg-flow-m" style="--d:180ms"></i><i class="pg-flow-m" style="--d:198ms"></i><i class="pg-flow-m" style="--d:216ms"></i><i class="pg-flow-m" style="--d:234ms"></i><i class="pg-flow-m" style="--d:252ms"></i><i class="pg-flow-m" style="--d:270ms"></i><i class="pg-flow-m" style="--d:288ms"></i><i class="pg-flow-m" style="--d:306ms"></i><i class="pg-flow-m" style="--d:324ms"></i><i class="pg-flow-m" style="--d:342ms"></i><i class="pg-flow-m" style="--d:360ms"></i><i class="pg-flow-m" style="--d:378ms"></i><i class="pg-flow-m" style="--d:396ms"></i><i class="pg-flow-m" style="--d:414ms"></i><i class="pg-flow-m" style="--d:432ms"></i><i class="pg-flow-m" style="--d:450ms"></i><i class="pg-flow-m" style="--d:468ms"></i><i class="pg-flow-m" style="--d:486ms"></i></div></div><h3>Каждый месяц</h3><b class="pg-flow-n">Пересмотр спринта</b><p>Сверяем факт с планом по трафику, позициям и AI-видимости, переприоритизируем бэклог на следующий спринт.</p></div><div class="pg-flow-i rise"><div class="pg-flow-cal" aria-hidden="true"><div class="pg-flow-q"><span>пн</span><span>вт</span><span>ср</span><span>чт</span><span>пт</span><span>сб</span><span>вс</span></div><div class="pg-flow-ms"><i class="pg-flow-m on" style="--d:0ms"></i><i class="pg-flow-m" style="--d:18ms"></i><i class="pg-flow-m" style="--d:36ms"></i><i class="pg-flow-m" style="--d:54ms"></i><i class="pg-flow-m" style="--d:72ms"></i><i class="pg-flow-m" style="--d:90ms"></i><i class="pg-flow-m" style="--d:108ms"></i><i class="pg-flow-m" style="--d:126ms"></i><i class="pg-flow-m" style="--d:144ms"></i><i class="pg-flow-m" style="--d:162ms"></i><i class="pg-flow-m" style="--d:180ms"></i><i class="pg-flow-m" style="--d:198ms"></i><i class="pg-flow-m" style="--d:216ms"></i><i class="pg-flow-m" style="--d:234ms"></i><i class="pg-flow-m" style="--d:252ms"></i><i class="pg-flow-m" style="--d:270ms"></i><i class="pg-flow-m" style="--d:288ms"></i><i class="pg-flow-m" style="--d:306ms"></i><i class="pg-flow-m" style="--d:324ms"></i><i class="pg-flow-m" style="--d:342ms"></i><i class="pg-flow-m" style="--d:360ms"></i><i class="pg-flow-m" style="--d:378ms"></i><i class="pg-flow-m" style="--d:396ms"></i><i class="pg-flow-m" style="--d:414ms"></i><i class="pg-flow-m" style="--d:432ms"></i><i class="pg-flow-m" style="--d:450ms"></i><i class="pg-flow-m" style="--d:468ms"></i><i class="pg-flow-m" style="--d:486ms"></i></div></div><h3>Каждый квартал</h3><b class="pg-flow-n">Пересборка стратегии</b><p>Пересобираем гипотезы: какие слои дали результат, где упёрлись в ресурс клиента, куда переносим бюджет часов.</p></div><div class="pg-flow-i rise"><div class="pg-flow-cal" aria-hidden="true"><div class="pg-flow-q"><span>пн</span><span>вт</span><span>ср</span><span>чт</span><span>пт</span><span>сб</span><span>вс</span></div><div class="pg-flow-ms"><i class="pg-flow-m on" style="--d:0ms"></i><i class="pg-flow-m" style="--d:18ms"></i><i class="pg-flow-m" style="--d:36ms"></i><i class="pg-flow-m" style="--d:54ms"></i><i class="pg-flow-m" style="--d:72ms"></i><i class="pg-flow-m" style="--d:90ms"></i><i class="pg-flow-m" style="--d:108ms"></i><i class="pg-flow-m" style="--d:126ms"></i><i class="pg-flow-m" style="--d:144ms"></i><i class="pg-flow-m" style="--d:162ms"></i><i class="pg-flow-m" style="--d:180ms"></i><i class="pg-flow-m" style="--d:198ms"></i><i class="pg-flow-m" style="--d:216ms"></i><i class="pg-flow-m" style="--d:234ms"></i><i class="pg-flow-m" style="--d:252ms"></i><i class="pg-flow-m" style="--d:270ms"></i><i class="pg-flow-m" style="--d:288ms"></i><i class="pg-flow-m" style="--d:306ms"></i><i class="pg-flow-m" style="--d:324ms"></i><i class="pg-flow-m" style="--d:342ms"></i><i class="pg-flow-m" style="--d:360ms"></i><i class="pg-flow-m" style="--d:378ms"></i><i class="pg-flow-m" style="--d:396ms"></i><i class="pg-flow-m" style="--d:414ms"></i><i class="pg-flow-m" style="--d:432ms"></i><i class="pg-flow-m" style="--d:450ms"></i><i class="pg-flow-m" style="--d:468ms"></i><i class="pg-flow-m" style="--d:486ms"></i></div></div><h3>Раз в год</h3><b class="pg-flow-n">Новый горизонт</b><p>Пересчёт прогноза и целей, расширение семантики и структуры, переход на следующую ступень зрелости.</p></div></div>
   </div>
 </section>
 
@@ -2768,13 +2815,13 @@ body section:last-of-type{padding-bottom:136px}
 <section class="sec" id="dash">
   <div class="shell">
     <div class="sec-head"><h2 class="sh-a">Дашборд AI-видимости бренда</h2><h3 class="sh-b">Что видно в еженедельном срезе</h3></div>
-    <figure class="pg-db"><div class="pg-db-top"><span class="pg-db-tag">Пример отчёта</span><span class="pg-db-per">Период: 7 дней · 4 модели</span></div><div class="pg-db-body"><div class="pg-db-lead"><div class="pg-db-hero"><span>Доля AI-видимости</span><b>7%</b><i>28 ответов с брендом из 380 проанализированных</i><div class="pg-db-meter"><s><i style="width:35%"></i></s><span>Цель на квартал — 20%</span></div><div class="pg-db-spark"><svg viewBox="0 0 208 48" width="208" height="48" aria-hidden="true"><polyline points="0.0,27.7 18.2,27.7 36.4,22.3 54.5,22.3 72.7,16.9 90.9,16.9 109.1,11.4 127.3,11.4 145.5,11.4 163.6,6.0 181.8,6.0 200.0,6.0" fill="none" stroke="var(--steel)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="200.0" cy="6.0" r="4" fill="#fff" stroke="currentColor" stroke-width="2"/></svg><span>Доля по неделям, последние 12</span></div></div><div class="pg-db-kpi"><div class="pg-db-k"><span>Всего ответов</span><b>380</b><i>проанализировано за период</i></div><div class="pg-db-k"><span>Ответов с брендом</span><b>28</b><i>7% от всех ответов</i></div><div class="pg-db-k"><span>Со ссылкой на сайт</span><b>11</b><i>3% от всех ответов</i></div><div class="pg-db-k"><span>Тональность</span><b>5,1</b><i>по шкале от 0 до 10</i></div></div></div><div class="pg-db-row"><div class="pg-db-p pg-db-p--wide"><b>Доля голоса</b><p class="pg-db-sub">Шкала упорядочена: слева ответы, где виден только бренд, справа — где его нет вовсе</p><div class="pg-db-stack"><i style="width:7.00%;background:#5C18B5" title="Бренд вместе с конкурентами — 7%"></i><i style="width:11.00%;background:#7927E0" title="Без бренда и конкурентов — 11%"></i><i style="width:82.00%;background:#9D5DED" title="Конкуренты без бренда — 82%"></i></div><div class="pg-db-lg is-row"><div><i style="background:#3A0E7D"></i><span>Только бренд</span><em>0%</em></div><div><i style="background:#5C18B5"></i><span>Бренд вместе с конкурентами</span><em>7%</em></div><div><i style="background:#7927E0"></i><span>Без бренда и конкурентов</span><em>11%</em></div><div><i style="background:#9D5DED"></i><span>Конкуренты без бренда</span><em>82%</em></div></div></div></div><div class="pg-db-row"><div class="pg-db-p"><b>Упоминания относительно конкурентов</b><div class="pg-db-bars"><div class="pg-db-b" title="Конкурент 1 — 230"><u>Конкурент 1</u><s><i style="width:100.0%"></i></s><em>230</em></div><div class="pg-db-b" title="Конкурент 2 — 206"><u>Конкурент 2</u><s><i style="width:89.6%"></i></s><em>206</em></div><div class="pg-db-b" title="Конкурент 3 — 180"><u>Конкурент 3</u><s><i style="width:78.3%"></i></s><em>180</em></div><div class="pg-db-b" title="Конкурент 4 — 168"><u>Конкурент 4</u><s><i style="width:73.0%"></i></s><em>168</em></div><div class="pg-db-b" title="Конкурент 5 — 90"><u>Конкурент 5</u><s><i style="width:39.1%"></i></s><em>90</em></div><div class="pg-db-b is-me" title="Ваш бренд — 28"><u>Ваш бренд</u><s><i style="width:12.2%"></i></s><em>28</em></div></div></div><div class="pg-db-p"><b>Упоминания по моделям</b><div class="pg-db-bars"><div class="pg-db-b" title="Perplexity — 113"><u>Perplexity</u><s><i style="width:100.0%"></i></s><em>113</em></div><div class="pg-db-b" title="Google AI Overview — 103"><u>Google AI Overview</u><s><i style="width:91.2%"></i></s><em>103</em></div><div class="pg-db-b" title="Алиса AI — 72"><u>Алиса AI</u><s><i style="width:63.7%"></i></s><em>72</em></div><div class="pg-db-b" title="DeepSeek — 0"><u>DeepSeek</u><s><i style="width:0.0%"></i></s><em>0</em></div></div></div></div><div class="pg-db-row"><div class="pg-db-p"><b>Топ внешних источников</b><div class="pg-db-bars"><div class="pg-db-b" title="banki.ru — 214"><u>banki.ru</u><s><i style="width:100.0%"></i></s><em>214</em></div><div class="pg-db-b" title="sravni.ru — 168"><u>sravni.ru</u><s><i style="width:78.5%"></i></s><em>168</em></div><div class="pg-db-b" title="vc.ru — 96"><u>vc.ru</u><s><i style="width:44.9%"></i></s><em>96</em></div><div class="pg-db-b" title="habr.com — 74"><u>habr.com</u><s><i style="width:34.6%"></i></s><em>74</em></div><div class="pg-db-b" title="Профильные СМИ — 52"><u>Профильные СМИ</u><s><i style="width:24.3%"></i></s><em>52</em></div></div></div><div class="pg-db-p"><b>Типы страниц-источников</b><div class="pg-db-bars"><div class="pg-db-b" title="Статья — 518"><u>Статья</u><s><i style="width:100.0%"></i></s><em>518</em></div><div class="pg-db-b" title="Карточка — 280"><u>Карточка</u><s><i style="width:54.1%"></i></s><em>280</em></div><div class="pg-db-b" title="Главная — 93"><u>Главная</u><s><i style="width:18.0%"></i></s><em>93</em></div><div class="pg-db-b" title="UGC — 69"><u>UGC</u><s><i style="width:13.3%"></i></s><em>69</em></div><div class="pg-db-b" title="Лендинг — 58"><u>Лендинг</u><s><i style="width:11.2%"></i></s><em>58</em></div></div></div></div><div class="pg-db-row"><div class="pg-db-p pg-db-p--wide"><b>Точки роста: где бренда в ответах нет</b><p class="pg-db-sub">Продукты и модели с нулевой видимостью — с них дешевле всего начинать</p><div class="pg-db-zero"><span>Продукт D · 3 упоминания</span><span>DeepSeek · 0 ответов</span><span>Ипотека · 0</span><span>Автокредит · 0</span><span>Рефинансирование · 0</span></div></div></div></div><figcaption class="pg-db-note">Цифры в примере иллюстративные, по проекту в финтехе</figcaption></figure>
+    <figure class="pg-db"><div class="pg-db-top"><span class="pg-db-tag">Пример отчёта</span><span class="pg-db-per">Период: 7 дней · 4 модели</span></div><div class="pg-db-body"><div class="pg-db-lead"><div class="pg-db-hero"><span>Доля AI-видимости</span><b>7%</b><i>28 ответов с брендом из 380 проанализированных</i><div class="pg-db-meter"><s><i style="width:35%"></i></s><span>Цель на квартал — 20%</span></div><div class="pg-db-spark"><svg viewBox="0 0 208 48" width="208" height="48" aria-hidden="true"><polyline points="0.0,27.7 18.2,27.7 36.4,22.3 54.5,22.3 72.7,16.9 90.9,16.9 109.1,11.4 127.3,11.4 145.5,11.4 163.6,6.0 181.8,6.0 200.0,6.0" fill="none" stroke="var(--steel)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="200.0" cy="6.0" r="4" fill="#fff" stroke="currentColor" stroke-width="2"/></svg><span>Доля по неделям, последние 12</span></div></div><div class="pg-db-kpi"><div class="pg-db-k"><span>Всего ответов</span><b>380</b><i>проанализировано за период</i></div><div class="pg-db-k"><span>Ответов с брендом</span><b>28</b><i>7% от всех ответов</i></div><div class="pg-db-k"><span>Со ссылкой на сайт</span><b>11</b><i>3% от всех ответов</i></div><div class="pg-db-k"><span>Тональность</span><b>5<span class="dcm">,</span>1</b><i>по шкале от 0 до 10</i></div></div></div><div class="pg-db-row"><div class="pg-db-p pg-db-p--wide"><b>Доля голоса</b><p class="pg-db-sub">Шкала упорядочена: слева ответы, где виден только бренд, справа — где его нет вовсе</p><div class="pg-db-stack"><i style="width:7.00%;background:#5C18B5" title="Бренд вместе с конкурентами — 7%"></i><i style="width:11.00%;background:#7927E0" title="Без бренда и конкурентов — 11%"></i><i style="width:82.00%;background:#9D5DED" title="Конкуренты без бренда — 82%"></i></div><div class="pg-db-lg is-row"><div><i style="background:#3A0E7D"></i><span>Только бренд</span><em>0%</em></div><div><i style="background:#5C18B5"></i><span>Бренд вместе с конкурентами</span><em>7%</em></div><div><i style="background:#7927E0"></i><span>Без бренда и конкурентов</span><em>11%</em></div><div><i style="background:#9D5DED"></i><span>Конкуренты без бренда</span><em>82%</em></div></div></div></div><div class="pg-db-row"><div class="pg-db-p"><b>Упоминания относительно конкурентов</b><div class="pg-db-bars"><div class="pg-db-b" title="Конкурент 1 — 230"><u>Конкурент 1</u><s><i style="width:100.0%"></i></s><em>230</em></div><div class="pg-db-b" title="Конкурент 2 — 206"><u>Конкурент 2</u><s><i style="width:89.6%"></i></s><em>206</em></div><div class="pg-db-b" title="Конкурент 3 — 180"><u>Конкурент 3</u><s><i style="width:78.3%"></i></s><em>180</em></div><div class="pg-db-b" title="Конкурент 4 — 168"><u>Конкурент 4</u><s><i style="width:73.0%"></i></s><em>168</em></div><div class="pg-db-b" title="Конкурент 5 — 90"><u>Конкурент 5</u><s><i style="width:39.1%"></i></s><em>90</em></div><div class="pg-db-b is-me" title="Ваш бренд — 28"><u>Ваш бренд</u><s><i style="width:12.2%"></i></s><em>28</em></div></div></div><div class="pg-db-p"><b>Упоминания по моделям</b><div class="pg-db-bars"><div class="pg-db-b" title="Perplexity — 113"><u>Perplexity</u><s><i style="width:100.0%"></i></s><em>113</em></div><div class="pg-db-b" title="Google AI Overview — 103"><u>Google AI Overview</u><s><i style="width:91.2%"></i></s><em>103</em></div><div class="pg-db-b" title="Алиса AI — 72"><u>Алиса AI</u><s><i style="width:63.7%"></i></s><em>72</em></div><div class="pg-db-b" title="DeepSeek — 0"><u>DeepSeek</u><s><i style="width:0.0%"></i></s><em>0</em></div></div></div></div><div class="pg-db-row"><div class="pg-db-p"><b>Топ внешних источников</b><div class="pg-db-bars"><div class="pg-db-b" title="banki.ru — 214"><u>banki.ru</u><s><i style="width:100.0%"></i></s><em>214</em></div><div class="pg-db-b" title="sravni.ru — 168"><u>sravni.ru</u><s><i style="width:78.5%"></i></s><em>168</em></div><div class="pg-db-b" title="vc.ru — 96"><u>vc.ru</u><s><i style="width:44.9%"></i></s><em>96</em></div><div class="pg-db-b" title="habr.com — 74"><u>habr.com</u><s><i style="width:34.6%"></i></s><em>74</em></div><div class="pg-db-b" title="Профильные СМИ — 52"><u>Профильные СМИ</u><s><i style="width:24.3%"></i></s><em>52</em></div></div></div><div class="pg-db-p"><b>Типы страниц-источников</b><div class="pg-db-bars"><div class="pg-db-b" title="Статья — 518"><u>Статья</u><s><i style="width:100.0%"></i></s><em>518</em></div><div class="pg-db-b" title="Карточка — 280"><u>Карточка</u><s><i style="width:54.1%"></i></s><em>280</em></div><div class="pg-db-b" title="Главная — 93"><u>Главная</u><s><i style="width:18.0%"></i></s><em>93</em></div><div class="pg-db-b" title="UGC — 69"><u>UGC</u><s><i style="width:13.3%"></i></s><em>69</em></div><div class="pg-db-b" title="Лендинг — 58"><u>Лендинг</u><s><i style="width:11.2%"></i></s><em>58</em></div></div></div></div><div class="pg-db-row"><div class="pg-db-p pg-db-p--wide"><b>Точки роста: где бренда в ответах нет</b><p class="pg-db-sub">Продукты и модели с нулевой видимостью — с них дешевле всего начинать</p><div class="pg-db-zero"><span>Продукт D · 3 упоминания</span><span>DeepSeek · 0 ответов</span><span>Ипотека · 0</span><span>Автокредит · 0</span><span>Рефинансирование · 0</span></div></div></div></div><figcaption class="pg-db-note">Цифры в примере иллюстративные, по проекту в финтехе</figcaption></figure>
   </div>
 </section>
 
 <section class="sec" id="measure">
   <div class="shell">
-    <div class="pg-offer has-form"><div class="pg-offer-head"><h2>Бесплатный замер AI-видимости: соберём срез по 30—50 вашим запросам</h2><p>Сравним с конкурентами и покажем, откуда нейросети берут ответы. Без обязательств и без договора — один замер и разбор результатов.</p></div><div class="pg-offer-nums"><div><b>30—50</b><span>ваших запросов в срезе</span></div><div><b>3—5</b><span>конкурентов для сравнения</span></div><div><b>5 дней</b><span>срок подготовки</span></div></div><ul class="pg-offer-list"><li><svg class="tick" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Доля AI-видимости бренда и доля голоса против конкурентов</span></li><li><svg class="tick" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Разбивка по четырём моделям и типам ответов</span></li><li><svg class="tick" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Список источников, на которые опираются нейросети</span></li><li><svg class="tick" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Продукты и темы с нулевой видимостью — точки роста</span></li><li><svg class="tick" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Тридцатиминутный разбор результата с командой</span></li></ul><form class="pg-offer-form" id="measure-form" data-endpoint="https://formsubmit.co/ajax/nastasyshka1@gmail.com" data-subject="Запрос замера AI-видимости" novalidate><b>Запросить замер</b><div class="field"><label for="measure-form-name">Имя</label><input id="measure-form-name" name="name" type="text" autocomplete="name" placeholder="Как к вам обращаться"><span class="msg">Укажите имя</span></div><div class="field"><label for="measure-form-contact">Почта или телефон</label><input id="measure-form-contact" name="contact" type="text" autocomplete="email" placeholder="name@company.ru"><span class="msg">Нужен рабочий email или телефон</span></div><div class="field"><label for="measure-form-project">Проект</label><input id="measure-form-project" name="project" type="text" autocomplete="url" placeholder="Сайт или название компании"><span class="msg">Укажите проект</span></div><button class="btn btn-primary" type="submit">Запросить замер</button><p class="note">Нажимая кнопку, вы соглашаетесь с обработкой персональных данных.</p><p class="lead-err">Не удалось отправить. Напишите, пожалуйста, напрямую на <a href="mailto:m.parinova@webpractik.ru">m.parinova@webpractik.ru</a>.</p><span class="lead-ok">Заявка отправлена. Вернёмся с результатом в оговорённый срок.</span></form></div>
+    <div class="pg-offer has-form"><div class="pg-offer-head"><h2 class="rise"><span class="accent">Бесплатный замер AI-видимости<span class="bolt"></span></span> по вашему бренду, разовый замер</h2><p>Сравним с конкурентами и покажем, откуда нейросети берут ответы. Без обязательств и без договора — один замер и разбор результатов.</p></div><div class="pg-offer-nums"><div><b>30—50</b><span>ваших запросов в срезе</span></div><div><b>3—5</b><span>конкурентов для сравнения</span></div><div><b>5 дней</b><span>срок подготовки</span></div></div><ul class="pg-offer-list"><li><svg class="tick" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Доля AI-видимости бренда и доля голоса против конкурентов</span></li><li><svg class="tick" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Разбивка по четырём моделям и типам ответов</span></li><li><svg class="tick" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Список источников, на которые опираются нейросети</span></li><li><svg class="tick" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Продукты и темы с нулевой видимостью — точки роста</span></li><li><svg class="tick" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Тридцатиминутный разбор результата с командой</span></li></ul><form class="pg-offer-form" id="measure-form" data-endpoint="https://formsubmit.co/ajax/nastasyshka1@gmail.com" data-subject="Запрос замера AI-видимости" novalidate><b>Запросить замер</b><div class="field"><label for="measure-form-name">Имя</label><input id="measure-form-name" name="name" type="text" autocomplete="name" placeholder="Как к вам обращаться"><span class="msg">Укажите имя</span></div><div class="field"><label for="measure-form-contact">Почта или телефон</label><input id="measure-form-contact" name="contact" type="text" autocomplete="email" placeholder="name@company.ru"><span class="msg">Нужен рабочий email или телефон</span></div><div class="field"><label for="measure-form-project">Проект</label><input id="measure-form-project" name="project" type="text" autocomplete="url" placeholder="Сайт или название компании"><span class="msg">Укажите проект</span></div><button class="btn btn-primary" type="submit">Запросить замер</button><p class="note">Нажимая кнопку, вы соглашаетесь с обработкой персональных данных.</p><p class="lead-err">Не удалось отправить. Напишите, пожалуйста, напрямую на <a href="mailto:m.parinova@webpractik.ru">m.parinova@webpractik.ru</a>.</p><span class="lead-ok">Заявка отправлена. Вернёмся с результатом в оговорённый срок.</span></form></div>
   </div>
 </section>
 
@@ -2801,14 +2848,13 @@ body section:last-of-type{padding-bottom:136px}
 
 <section class="sec" id="deck">
   <div class="shell">
-    <div class="sec-head"><h2 class="sh-a">Материал для скачивания</h2><h3 class="sh-b">Презентация «SEO + GEO. Методология, KPI и кейсы»</h3><p>Собираем методологию, кейсы и визуальные схемы в один материал.</p></div>
-    <div class="pg-mg"><div class="pg-mg-l"><h3>SEO и GEO: методология, KPI и кейсы</h3><p>Четыре слоя покрытия спроса, три ступени зрелости проекта, целевой KPI в GEO и проекты, на которых это отработано.</p><div class="pg-mg-cols"><span>Четыре слоя покрытия спроса</span><span>Как выбрать пакет</span><span>Целевой KPI в GEO и как его мерить</span><span>Кейсы: ОТП Банк, Ростелеком, СК-10, Авеню</span><span>Ритм работы: неделя, месяц, квартал</span><span>Что входит в еженедельный отчёт</span></div><div class="pg-mg-act"><a class="btn btn-primary" href="../a1/384bc629d57a7698.pdf" download="wp-seo-geo-metodologiya.pdf">Скачать презентацию (PDF) <svg class="dlic" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9.32 11.59L11.88 14.15L14.44 11.59" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M11.88 4V14.17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M20 12.18C20 16.6 17 20.18 12 20.18C7 20.18 4 16.6 4 12.18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a><span class="pg-mg-note">Без регистрации и e-mail</span></div></div><div class="pg-mg-r"><b>Как пользоваться</b><div class="pg-mg-st"><i>1</i><span>Пройдите по слоям и отметьте, какие у вас уже закрыты</span></div><div class="pg-mg-st"><i>2</i><span>Выберите ступень зрелости, на которой находится проект</span></div><div class="pg-mg-st"><i>3</i><span>Сверьте свой KPI с целевым — по нему и строим прогноз</span></div></div></div>
+    <div class="pg-mg has-head"><div class="sec-head pg-mg-head"><h2 class="sh-a">Материал для скачивания</h2><h3 class="sh-b">Презентация «SEO + GEO. Методология, KPI и кейсы»</h3><p>Собираем методологию, кейсы и визуальные схемы в один материал.</p></div><div class="pg-mg-l"><h3>SEO и GEO: методология, KPI и кейсы</h3><p>Четыре слоя покрытия спроса, три ступени зрелости проекта, целевой KPI в GEO и проекты, на которых это отработано.</p><div class="pg-mg-cols"><span>Четыре слоя покрытия спроса</span><span>Как выбрать пакет</span><span>Целевой KPI в GEO и как его мерить</span><span>Кейсы: ОТП Банк, Ростелеком, СК-10, Авеню</span><span>Ритм работы: неделя, месяц, квартал</span><span>Что входит в еженедельный отчёт</span></div><div class="pg-mg-act"><a class="btn btn-primary" href="../a1/384bc629d57a7698.pdf" download="wp-seo-geo-metodologiya.pdf">Скачать презентацию (PDF) <svg class="dlic" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9.32 11.59L11.88 14.15L14.44 11.59" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M11.88 4V14.17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M20 12.18C20 16.6 17 20.18 12 20.18C7 20.18 4 16.6 4 12.18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a><span class="pg-mg-note">Без регистрации и e-mail</span></div></div><div class="pg-mg-r"><b>Как пользоваться</b><div class="pg-mg-st"><i>1</i><span>Пройдите по слоям и отметьте, какие у вас уже закрыты</span></div><div class="pg-mg-st"><i>2</i><span>Выберите ступень зрелости, на которой находится проект</span></div><div class="pg-mg-st"><i>3</i><span>Сверьте свой KPI с целевым — по нему и строим прогноз</span></div></div></div>
   </div>
 </section>
 
 <section class="sec-cta">
   <div class="shell">
-    <div class="pg-cta"><h2 class="sh-a">Следующий шаг</h2><h3 class="sh-b">Посмотрим на вашу AI-видимость</h3><p>Пришлём срез: как бренд представлен в ответах ChatGPT, Perplexity, Алисы и Google AI Overview по вашим запросам — за 5 рабочих дней.</p><div class="acts"><a class="btn btn-primary" href="../wp-marketing-home.html#contacts">Обсудить задачу</a></div></div>
+    <div class="pg-cta is-row is-plate"><div class="pg-cta-txt"><h2 class="sh-a">Следующий шаг</h2><h3 class="sh-b">Посмотрим на вашу AI-видимость</h3><p>Пришлём срез: как бренд представлен в ответах ChatGPT, Perplexity, Алисы и Google AI Overview по вашим запросам — за 5 рабочих дней.</p></div><div class="acts"><a class="btn btn-primary" href="../wp-marketing-home.html#contacts">Обсудить задачу</a></div></div>
   </div>
 </section>
 
@@ -2838,7 +2884,7 @@ body section:last-of-type{padding-bottom:136px}
       </div>
     </div>
     <div class="foot-col">
-      <h2>Услуги</h2>
+      <h2><a href="wp-marketing-services.html">Услуги</a></h2>
       <a href="wp-marketing-services-consulting.html">Консалтинг и стратегия</a>
       <a href="wp-marketing-services-seo-geo.html">SEO &amp; GEO / AEO</a>
       <a href="wp-marketing-services-ppc.html">PPC &amp; Лидогенерация</a>

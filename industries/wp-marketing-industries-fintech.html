@@ -101,9 +101,9 @@ header.head{padding:16px 24px}
 .has-sub{position:relative;display:inline-flex;align-items:center}
 .has-sub>a,.has-sub>.nav-sec{display:inline-flex;align-items:center;gap:8px}
 .has-sub>a::after,.has-sub>.nav-sec::after{content:'';width:6px;height:6px;border-right:1.5px solid currentColor;
-  border-bottom:1.5px solid currentColor;transform:rotate(45deg) translateY(-1px);
-  transition:transform .2s ease}
-.has-sub.open>a::after,.has-sub.open>.nav-sec::after{transform:rotate(225deg) translateY(-1px)}
+  border-bottom:1.5px solid currentColor;transform:translateY(-1.5px) rotate(45deg);
+  transform-origin:50% 50%;transition:transform .2s ease}
+.has-sub.open>a::after,.has-sub.open>.nav-sec::after{transform:translateY(2.75px) rotate(225deg)}
 .drop{position:absolute;top:calc(100% - 8px);left:var(--x,80px);z-index:5;
   min-width:272px;display:grid;gap:8px;padding:16px;
   background:var(--white);border:1px solid var(--line);border-radius:var(--r-l);
@@ -605,7 +605,7 @@ h3.sh-b:last-child{margin-bottom:0}
    квадратность держим через aspect-ratio, а не через растягивание
    по высоте блока. */
 .mgr .ava{grid-column:1;grid-row:1 / -1;width:152px;height:auto;aspect-ratio:1;
-  align-self:start;border-radius:var(--r-s);object-fit:cover;object-position:50% 20%;
+  align-self:start;border-radius:var(--r-m);object-fit:cover;object-position:50% 20%;
   display:block;background:var(--lilac)}
 .mgr b{grid-column:2;grid-row:1;font-weight:400;font-size:18px;align-self:end}
 .mgr span{grid-column:2;grid-row:2;font-size:15px;color:var(--ink-soft)}
@@ -708,6 +708,8 @@ h3.sh-b:last-child{margin-bottom:0}
   font-weight:400;letter-spacing:0;color:color-mix(in oklab, var(--white) 62%, var(--graphite))}
 .foot-col a{font-size:15px;line-height:1.45;color:color-mix(in oklab, var(--white) 82%, var(--graphite));transition:color .2s ease}
 .foot-col a:hover{color:var(--white)}
+.foot-col h2 a{font:inherit;letter-spacing:inherit;text-transform:inherit;color:inherit;transition:color .2s ease}
+.foot-col h2 a:hover{color:var(--white)}
 .foot-cnt{grid-column:10 / span 3;display:flex;flex-direction:column;gap:8px}
 .foot-cnt b{font-weight:400;font-size:15px}
 .foot-cnt span,.foot-cnt a{font-size:15px;color:color-mix(in oklab, var(--white) 70%, var(--graphite))}
@@ -793,7 +795,7 @@ h3.sh-b:last-child{margin-bottom:0}
 <style>
 .crumbs{display:flex;align-items:center;gap:16px;margin:0 0 24px;font-size:15px;color:var(--ink-soft)}
 .crumbs a{color:var(--ink-soft);transition:color .2s ease}
-.crumbs a:hover{color:var(--indigo-bright)}
+.crumbs a:hover{color:var(--accent)}
 .crumbs .sep{color:var(--ink-faint)}
 .crumbs [aria-current]{color:var(--ink)}
 .ip-hero{padding:40px 0 0}
@@ -983,8 +985,9 @@ h3.sh-b:last-child{margin-bottom:0}
 .pg-stage-name{font-family:'Bounded','Geologica',sans-serif;font-weight:400;
   font-size:clamp(24px,2.2vw,30px);line-height:1;letter-spacing:-.01em;color:var(--accent)}
 /* срок и цена — в самый низ карточки, отбивка как у подвала карточки */
-.pg-stage-foot{margin-top:auto;padding-top:16px;display:flex;flex-wrap:wrap;gap:8px}
-.pg-chip{font-size:14px;color:var(--ink-soft);border:1px solid var(--line);
+.pg-stage-foot{margin-top:auto;padding-top:16px;display:flex;flex-wrap:wrap;
+  justify-content:flex-end;gap:8px}
+.pg-chip{font-size:14px;color:var(--accent);border:1px solid var(--accent);
   border-radius:99px;padding:8px 16px}
 .pg-stage p b{font-weight:500;color:var(--graphite)}
 .pg-stage h3{margin:0;font-family:'Bounded','Geologica',sans-serif;font-weight:400;
@@ -1067,8 +1070,8 @@ h3.sh-b:last-child{margin-bottom:0}
    «минус — плюс», а две равные подписи к этапу. Зелёный в проекте
    занят половиной «стало» в сравнительных блоках. */
 .pg-art,.pg-cp{padding:16px 24px;border-radius:var(--r-m);background:var(--lilac)}
-.pg-art span,.pg-cp span{display:block;font-size:13px;color:var(--ink-faint);
-  margin-bottom:8px}
+.pg-art span,.pg-cp span{display:block;font-size:17px;font-weight:600;
+  line-height:1.3;color:var(--graphite);margin-bottom:8px}
 .pg-art p,.pg-cp p{margin:0;font-size:15px;line-height:1.45;color:var(--ink)}
 
 /* весь блок на фиолетовой плашке: карточки и CTA внутри — белые,
@@ -1620,8 +1623,8 @@ a.pg-card:hover li::before{background:var(--white)}
   border-bottom:1px solid var(--line)}
 .pg-db-tag{font-size:13px;font-weight:600;letter-spacing:.02em;
   color:var(--accent)}
-.pg-db-per{flex:none;padding:8px 16px;border-radius:var(--r-s);
-  background:var(--lilac);font-size:14px;color:var(--ink);white-space:nowrap}
+.pg-db-per{flex:none;font-size:13px;font-weight:600;letter-spacing:.02em;
+  color:var(--accent);white-space:nowrap}
 .pg-db-body{display:flex;flex-direction:column;gap:16px;padding:16px}
 /* Верхний ряд: слева одна главная цифра, справа остальные показатели */
 .pg-db-lead{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.6fr);
@@ -1876,6 +1879,11 @@ a.pg-card:hover li::before{background:var(--white)}
 .pg-mg{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);
   gap:var(--gutter);color:var(--ink);padding:40px 48px;
   border-radius:var(--r-l);background:var(--cold)}
+/* Заголовок блока внутри плашки: занимает обе колонки и отбивается
+   от содержимого, чтобы плашка читалась как один блок. */
+.pg-mg.has-head{row-gap:32px}
+.pg-mg-head{grid-column:1 / -1}
+.pg-mg-head .sh-b{max-width:34ch}
 .pg-mg-l{display:flex;flex-direction:column;gap:16px}
 .pg-mg h3{margin:0;font-family:'Bounded','Geologica',sans-serif;font-weight:400;
   font-size:clamp(21px,2.2vw,28px);line-height:1.15;letter-spacing:-.01em;
@@ -1886,8 +1894,8 @@ a.pg-card:hover li::before{background:var(--white)}
   gap:8px 24px;margin:8px 0 0}
 .pg-mg-cols span{position:relative;padding-left:16px;font-size:15px;
   line-height:1.45;color:var(--ink)}
-.pg-mg-cols span::before{content:'';position:absolute;left:0;top:.62em;width:8px;
-  height:1px;background:var(--accent)}
+.pg-mg-cols span::before{content:'';position:absolute;left:0;top:.6em;width:8px;
+  height:2px;border-radius:1px;background:var(--accent)}
 .pg-mg-act{display:flex;flex-direction:column;gap:8px;margin-top:16px}
 .pg-mg-act .btn{align-self:flex-start}
 .pg-mg-note{font-size:14px;color:var(--ink-soft)}
@@ -1979,14 +1987,17 @@ a.pg-card:hover li::before{background:var(--white)}
   color:var(--graphite);hyphens:manual;overflow-wrap:normal;word-break:normal}
 .pg-mini-do{list-style:none;margin:0;padding:0;display:flex;
   flex-direction:column;gap:8px}
-.pg-mini-do li{position:relative;padding-left:32px;font-size:15px;
+.pg-mini-do li{position:relative;padding-left:24px;font-size:15px;
   line-height:1.5;color:var(--ink)}
-.pg-mini-do li::before{content:none}
+.pg-mini-do li::before{content:'';position:absolute;left:0;top:.6em;width:8px;
+  height:8px;border-radius:50%;background:var(--accent)}
 .pg-mini-do li>svg{position:absolute;left:0;top:2px;color:var(--steel)}
 /* Три плитки результата стоят в один ряд: это один набор цифр
    по кейсу, и перенос третьей вниз читался как «ещё один блок».
    Колонка узкая, поэтому цифра и подпись набраны мельче. */
-.pg-mini-st{display:grid;grid-template-columns:repeat(auto-fit,minmax(136px,1fr));gap:8px}
+.pg-mini-st{display:grid;grid-template-columns:repeat(auto-fit,minmax(152px,1fr));gap:8px}
+@media (min-width:901px){
+  .pg-mini-st>div:nth-child(4):last-child{grid-column:span 2}}
 .pg-mini-st>div{min-width:0}
 .pg-mini-st>div{display:flex;flex-direction:column;gap:8px;padding:16px;
   border-radius:var(--r-s);background:var(--lilac)}
@@ -2372,7 +2383,8 @@ a.pg-card.is-case:hover li::before{background:var(--accent)}
 .pg-cmp h3{margin:0;font-family:'Geologica','Segoe UI',system-ui,sans-serif;font-weight:600;
   font-size:20px;color:var(--ink)}
 .pg-cmp dl{margin:0;display:flex;flex-direction:column;gap:16px}
-.pg-cmp dt{font-size:14px;color:var(--ink-faint)}
+.pg-cmp dt{font-size:17px;font-weight:600;line-height:1.3;color:var(--graphite);
+  margin-bottom:8px}
 .pg-cmp dd{margin:0;font-size:16px;line-height:1.5;color:var(--ink)}
 .pg-nums{display:grid;grid-template-columns:auto minmax(0,1fr);gap:24px var(--gutter);
   align-items:baseline;max-width:92ch}
@@ -2517,7 +2529,7 @@ body section:last-of-type{padding-bottom:136px}
    а две компактные панели того же блока: это справочные списки,
    а не самостоятельные темы. */
 .pg-sp{display:grid;grid-template-columns:minmax(0,340px) minmax(0,1fr);
-  gap:var(--gutter);margin-top:var(--gutter)}
+  gap:var(--gutter);margin-top:48px}
 .pg-sp-i{padding:24px;border:1px solid var(--line);border-radius:var(--r-m);
   background:var(--white)}
 .pg-sp-i b{display:block;margin:0 0 16px;font-family:'Bounded','Geologica',sans-serif;
@@ -2538,7 +2550,7 @@ body section:last-of-type{padding-bottom:136px}
 /* ── еженедельная сводка: как она приходит в рабочий чат ────────
    Не макет отчёта, а живые сообщения: подпись периода сверху,
    ниже пузырь сообщения. */
-.pg-sum-h{margin:var(--s-56) 0 0}
+.pg-sum-h{margin:56px 0 0}
 .pg-sum-h b{display:block;font-family:'Bounded','Geologica',sans-serif;
   font-weight:400;font-size:clamp(21px,2.2vw,28px);line-height:1.2;
   letter-spacing:-.02em;color:var(--ink)}
@@ -2659,12 +2671,19 @@ body section:last-of-type{padding-bottom:136px}
    Подложки нет — серая обводка: такой блок замыкает страницу
    и не должен спорить с голубыми плашками материалов. */
 .pg-cta.is-row{display:grid;grid-template-columns:minmax(0,1fr) auto;
-  align-items:center;gap:16px 48px;background:var(--white);
+  align-items:end;gap:16px 48px;background:var(--white);
   border:1px solid var(--line)}
+/* текст — одна колонка сетки, чтобы кнопка равнялась по низу всей плашки,
+   а не по строке заголовка */
+.pg-cta.is-row .pg-cta-txt{grid-column:1;display:flex;flex-direction:column;
+  gap:16px;min-width:0}
+/* Тот же ряд, но на фирменной лиловой плашке: кнопка справа,
+   текст слева, обводка не нужна. */
+.pg-cta.is-row.is-plate{background:var(--lilac);border-color:transparent}
 .pg-cta.is-row h2.sh-a,.pg-cta.is-row h3,.pg-cta.is-row p{grid-column:1}
 .pg-cta.is-row h2.sh-a{max-width:28ch}
 .pg-cta.is-row p{max-width:72ch}
-.pg-cta.is-row .acts{grid-column:2;grid-row:1 / -1;align-self:center}
+.pg-cta.is-row .acts{grid-column:2;align-self:end}
 @media (max-width:900px){
   .pg-cta.is-row{grid-template-columns:1fr}
   .pg-cta.is-row .acts{grid-column:1;grid-row:auto}
@@ -2718,8 +2737,10 @@ body section:last-of-type{padding-bottom:136px}
 
 <section class="ip-logos" aria-label="Опыт работы с финансовыми компаниями">
   <div class="shell">
-    <p class="ls-lbl">Опыт работы с финансовыми компаниями</p>
-    <div class="ls-row"><span class="ls-i"><span class="slot ls-slot" title="ОТП Банк"><img class="lg" style="--h:36px" alt="ОТП Банк" src="../a2/b951476ae01ad4c4.webp"></span></span><span class="ls-i"><span class="slot ls-slot" title="Ренессанс Банк"><img class="lg" style="--h:38px" alt="Ренессанс Банк" src="../a2/c785c495fda9d28c.webp"></span></span><span class="ls-i"><span class="slot ls-slot" title="Банк России"><img class="lg" style="--h:40px" alt="Банк России" src="../a1/7327f99d90deaf69.webp"></span></span><span class="ls-i"><span class="slot ls-slot" title="Почта Банк"><img class="lg" style="--h:50px" alt="Почта Банк" src="../a1/3d21911b7b07e27b.webp"></span></span><span class="ls-i"><span class="slot ls-slot" title="Согласие"><img class="lg" style="--h:40px" alt="Согласие" src="../a1/59bdec93ad7fd675.webp"></span></span></div>
+    <p class="ls-lbl">Опыт работы с финансовыми компаниями</p>
+  </div>
+  <div class="marquee" role="group" aria-label="Банки и страховые компании">
+    <div class="track" style="--dur:44s"><div class="lane"><span class="slot" title="ОТП Банк"><img class="lg" style="--h:36px" alt="ОТП Банк" src="../a2/b951476ae01ad4c4.webp"></span><span class="slot" title="Ренессанс Банк"><img class="lg" style="--h:38px" alt="Ренессанс Банк" src="../a2/c785c495fda9d28c.webp"></span><span class="slot" title="ПСБ"><img class="lg" style="--h:30px" alt="ПСБ" src="../a1/logo-psb.svg"></span><span class="slot" title="Локо-Банк"><img class="lg" style="--h:40px" alt="Локо-Банк" src="../a1/logo-loko.svg"></span><span class="slot" title="Сбер"><img class="lg" style="--h:30px" alt="Сбер" src="../a1/logo-sber.svg"></span><span class="slot" title="Согласие"><img class="lg" style="--h:40px" alt="Согласие" src="../a1/59bdec93ad7fd675.webp"></span><span class="slot" title="Центр-инвест"><img class="lg" style="--h:42px" alt="Центр-инвест" src="../a1/logo-centr-invest.svg"></span><span class="slot" title="Ozon Банк"><img class="lg" style="--h:26px" alt="Ozon Банк" src="../a1/logo-ozon.svg"></span></div></div>
   </div>
 </section>
 
@@ -2761,7 +2782,7 @@ body section:last-of-type{padding-bottom:136px}
 <section class="sec" id="results">
   <div class="shell">
     <div class="sec-head"><h2 class="sh-a">Кейсы</h2><h3 class="sh-b">Проекты и решения, которые из них выросли</h3></div>
-    <div class="pg-mini"><div class="pg-mini-i"><span class="pg-mini-c">FinTech · GEO</span><span class="pg-mini-n">27% AI-видимости</span><b>ОТП Банк</b><p>Устойчивый прирост позиций по продуктовым направлениям и одно из первых внедрений QAPage-разметки в нише.</p></div><div class="pg-mini-i"><span class="pg-mini-c">FinTech · SEO</span><span class="pg-mini-n">7k → 32k</span><b>Ренессанс Банк</b><p>Правки без релизов: корректировки страниц выкатывали через подготовленный файл, ресурсы разработки не расходовались.</p></div><div class="pg-mini-i"><span class="pg-mini-c">Insurance · Performance</span><span class="pg-mini-n">−38% CPL</span><b>Согласие</b><p>Пересборка посадочных под интенты и перераспределение спроса между направлениями.</p></div></div><div class="pg-mini-act"><a class="btn btn-ghost" href="../cases/wp-marketing-cases.html">Смотреть все кейсы</a></div><div class="pg-note"><p>ПСБ — пример третьего направления: ведём только ссылочный профиль, SEO сайта остаётся на стороне клиента</p></div>
+    <div class="pg-mini"><div class="pg-mini-i"><span class="pg-mini-c">FinTech · GEO</span><span class="pg-mini-n">27% AI-видимости</span><b>ОТП Банк</b><p>Устойчивый прирост позиций по продуктовым направлениям и одно из первых внедрений QAPage-разметки в нише.</p></div><div class="pg-mini-i"><span class="pg-mini-c">FinTech · SEO</span><span class="pg-mini-n">7k → 32k</span><b>Ренессанс Банк</b><p>Правки без релизов: корректировки страниц выкатывали через подготовленный файл, ресурсы разработки не расходовались.</p></div><div class="pg-mini-i"><span class="pg-mini-c">Insurance · Performance</span><span class="pg-mini-n">−38% CPL</span><b>Согласие</b><p>Пересборка посадочных под интенты и перераспределение спроса между направлениями.</p></div></div><div class="pg-mini-act"><a class="btn btn-ghost" href="../cases/wp-marketing-cases.html">Смотреть все кейсы</a></div><!-- скрыто по просьбе заказчика: <div class="pg-note"><p>ПСБ — пример третьего направления: ведём только ссылочный профиль, SEO сайта остаётся на стороне клиента</p></div> -->
   </div>
 </section>
 
@@ -2805,7 +2826,7 @@ body section:last-of-type{padding-bottom:136px}
       </div>
     </div>
     <div class="foot-col">
-      <h2>Услуги</h2>
+      <h2><a href="../services/wp-marketing-services.html">Услуги</a></h2>
       <a href="../services/wp-marketing-services-consulting.html">Консалтинг и стратегия</a>
       <a href="../services/wp-marketing-services-seo-geo.html">SEO &amp; GEO / AEO</a>
       <a href="../services/wp-marketing-services-ppc.html">PPC &amp; Лидогенерация</a>

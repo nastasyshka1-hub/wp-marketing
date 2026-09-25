@@ -101,9 +101,9 @@ header.head{padding:16px 24px}
 .has-sub{position:relative;display:inline-flex;align-items:center}
 .has-sub>a,.has-sub>.nav-sec{display:inline-flex;align-items:center;gap:8px}
 .has-sub>a::after,.has-sub>.nav-sec::after{content:'';width:6px;height:6px;border-right:1.5px solid currentColor;
-  border-bottom:1.5px solid currentColor;transform:rotate(45deg) translateY(-1px);
-  transition:transform .2s ease}
-.has-sub.open>a::after,.has-sub.open>.nav-sec::after{transform:rotate(225deg) translateY(-1px)}
+  border-bottom:1.5px solid currentColor;transform:translateY(-1.5px) rotate(45deg);
+  transform-origin:50% 50%;transition:transform .2s ease}
+.has-sub.open>a::after,.has-sub.open>.nav-sec::after{transform:translateY(2.75px) rotate(225deg)}
 .drop{position:absolute;top:calc(100% - 8px);left:var(--x,80px);z-index:5;
   min-width:272px;display:grid;gap:8px;padding:16px;
   background:var(--white);border:1px solid var(--line);border-radius:var(--r-l);
@@ -605,7 +605,7 @@ h3.sh-b:last-child{margin-bottom:0}
    квадратность держим через aspect-ratio, а не через растягивание
    по высоте блока. */
 .mgr .ava{grid-column:1;grid-row:1 / -1;width:152px;height:auto;aspect-ratio:1;
-  align-self:start;border-radius:var(--r-s);object-fit:cover;object-position:50% 20%;
+  align-self:start;border-radius:var(--r-m);object-fit:cover;object-position:50% 20%;
   display:block;background:var(--lilac)}
 .mgr b{grid-column:2;grid-row:1;font-weight:400;font-size:18px;align-self:end}
 .mgr span{grid-column:2;grid-row:2;font-size:15px;color:var(--ink-soft)}
@@ -708,6 +708,8 @@ h3.sh-b:last-child{margin-bottom:0}
   font-weight:400;letter-spacing:0;color:color-mix(in oklab, var(--white) 62%, var(--graphite))}
 .foot-col a{font-size:15px;line-height:1.45;color:color-mix(in oklab, var(--white) 82%, var(--graphite));transition:color .2s ease}
 .foot-col a:hover{color:var(--white)}
+.foot-col h2 a{font:inherit;letter-spacing:inherit;text-transform:inherit;color:inherit;transition:color .2s ease}
+.foot-col h2 a:hover{color:var(--white)}
 .foot-cnt{grid-column:10 / span 3;display:flex;flex-direction:column;gap:8px}
 .foot-cnt b{font-weight:400;font-size:15px}
 .foot-cnt span,.foot-cnt a{font-size:15px;color:color-mix(in oklab, var(--white) 70%, var(--graphite))}
@@ -793,7 +795,7 @@ h3.sh-b:last-child{margin-bottom:0}
 <style>
 .crumbs{display:flex;align-items:center;gap:16px;margin:0 0 24px;font-size:15px;color:var(--ink-soft)}
 .crumbs a{color:var(--ink-soft);transition:color .2s ease}
-.crumbs a:hover{color:var(--indigo-bright)}
+.crumbs a:hover{color:var(--accent)}
 .crumbs .sep{color:var(--ink-faint)}
 .crumbs [aria-current]{color:var(--ink)}
 .ip-hero{padding:40px 0 0}
@@ -983,8 +985,9 @@ h3.sh-b:last-child{margin-bottom:0}
 .pg-stage-name{font-family:'Bounded','Geologica',sans-serif;font-weight:400;
   font-size:clamp(24px,2.2vw,30px);line-height:1;letter-spacing:-.01em;color:var(--accent)}
 /* срок и цена — в самый низ карточки, отбивка как у подвала карточки */
-.pg-stage-foot{margin-top:auto;padding-top:16px;display:flex;flex-wrap:wrap;gap:8px}
-.pg-chip{font-size:14px;color:var(--ink-soft);border:1px solid var(--line);
+.pg-stage-foot{margin-top:auto;padding-top:16px;display:flex;flex-wrap:wrap;
+  justify-content:flex-end;gap:8px}
+.pg-chip{font-size:14px;color:var(--accent);border:1px solid var(--accent);
   border-radius:99px;padding:8px 16px}
 .pg-stage p b{font-weight:500;color:var(--graphite)}
 .pg-stage h3{margin:0;font-family:'Bounded','Geologica',sans-serif;font-weight:400;
@@ -1067,8 +1070,8 @@ h3.sh-b:last-child{margin-bottom:0}
    «минус — плюс», а две равные подписи к этапу. Зелёный в проекте
    занят половиной «стало» в сравнительных блоках. */
 .pg-art,.pg-cp{padding:16px 24px;border-radius:var(--r-m);background:var(--lilac)}
-.pg-art span,.pg-cp span{display:block;font-size:13px;color:var(--ink-faint);
-  margin-bottom:8px}
+.pg-art span,.pg-cp span{display:block;font-size:17px;font-weight:600;
+  line-height:1.3;color:var(--graphite);margin-bottom:8px}
 .pg-art p,.pg-cp p{margin:0;font-size:15px;line-height:1.45;color:var(--ink)}
 
 /* весь блок на фиолетовой плашке: карточки и CTA внутри — белые,
@@ -1620,8 +1623,8 @@ a.pg-card:hover li::before{background:var(--white)}
   border-bottom:1px solid var(--line)}
 .pg-db-tag{font-size:13px;font-weight:600;letter-spacing:.02em;
   color:var(--accent)}
-.pg-db-per{flex:none;padding:8px 16px;border-radius:var(--r-s);
-  background:var(--lilac);font-size:14px;color:var(--ink);white-space:nowrap}
+.pg-db-per{flex:none;font-size:13px;font-weight:600;letter-spacing:.02em;
+  color:var(--accent);white-space:nowrap}
 .pg-db-body{display:flex;flex-direction:column;gap:16px;padding:16px}
 /* Верхний ряд: слева одна главная цифра, справа остальные показатели */
 .pg-db-lead{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.6fr);
@@ -1705,6 +1708,12 @@ a.pg-card:hover li::before{background:var(--white)}
 
 /* карточка заявки без макета справа: поля в две колонки на всю ширину */
 .pg-ms-form.is-solo{padding:48px}
+/* Заголовок блока внутри карточки: снаружи он читался как отдельный
+   блок, хотя относится к этой же заявке. */
+.pg-ms-form .sec-head{margin:0 0 8px}
+.pg-ms-form .sec-head p{max-width:80ch}
+/* Вариант на фирменной лиловой плашке: без обводки, поля белые */
+.pg-ms-form.is-plate{background:var(--lilac);border-color:transparent}
 .pg-ms-ht{display:flex;flex-direction:column;gap:8px}
 .pg-ms-chip{align-self:flex-start;padding:8px 16px;border-radius:32px;
   background:var(--lilac-deep);color:var(--accent);font-size:13px;
@@ -1876,6 +1885,11 @@ a.pg-card:hover li::before{background:var(--white)}
 .pg-mg{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);
   gap:var(--gutter);color:var(--ink);padding:40px 48px;
   border-radius:var(--r-l);background:var(--cold)}
+/* Заголовок блока внутри плашки: занимает обе колонки и отбивается
+   от содержимого, чтобы плашка читалась как один блок. */
+.pg-mg.has-head{row-gap:32px}
+.pg-mg-head{grid-column:1 / -1}
+.pg-mg-head .sh-b{max-width:34ch}
 .pg-mg-l{display:flex;flex-direction:column;gap:16px}
 .pg-mg h3{margin:0;font-family:'Bounded','Geologica',sans-serif;font-weight:400;
   font-size:clamp(21px,2.2vw,28px);line-height:1.15;letter-spacing:-.01em;
@@ -1886,8 +1900,8 @@ a.pg-card:hover li::before{background:var(--white)}
   gap:8px 24px;margin:8px 0 0}
 .pg-mg-cols span{position:relative;padding-left:16px;font-size:15px;
   line-height:1.45;color:var(--ink)}
-.pg-mg-cols span::before{content:'';position:absolute;left:0;top:.62em;width:8px;
-  height:1px;background:var(--accent)}
+.pg-mg-cols span::before{content:'';position:absolute;left:0;top:.6em;width:8px;
+  height:2px;border-radius:1px;background:var(--accent)}
 .pg-mg-act{display:flex;flex-direction:column;gap:8px;margin-top:16px}
 .pg-mg-act .btn{align-self:flex-start}
 .pg-mg-note{font-size:14px;color:var(--ink-soft)}
@@ -1979,14 +1993,17 @@ a.pg-card:hover li::before{background:var(--white)}
   color:var(--graphite);hyphens:manual;overflow-wrap:normal;word-break:normal}
 .pg-mini-do{list-style:none;margin:0;padding:0;display:flex;
   flex-direction:column;gap:8px}
-.pg-mini-do li{position:relative;padding-left:32px;font-size:15px;
+.pg-mini-do li{position:relative;padding-left:24px;font-size:15px;
   line-height:1.5;color:var(--ink)}
-.pg-mini-do li::before{content:none}
+.pg-mini-do li::before{content:'';position:absolute;left:0;top:.6em;width:8px;
+  height:8px;border-radius:50%;background:var(--accent)}
 .pg-mini-do li>svg{position:absolute;left:0;top:2px;color:var(--steel)}
 /* Три плитки результата стоят в один ряд: это один набор цифр
    по кейсу, и перенос третьей вниз читался как «ещё один блок».
    Колонка узкая, поэтому цифра и подпись набраны мельче. */
-.pg-mini-st{display:grid;grid-template-columns:repeat(auto-fit,minmax(136px,1fr));gap:8px}
+.pg-mini-st{display:grid;grid-template-columns:repeat(auto-fit,minmax(152px,1fr));gap:8px}
+@media (min-width:901px){
+  .pg-mini-st>div:nth-child(4):last-child{grid-column:span 2}}
 .pg-mini-st>div{min-width:0}
 .pg-mini-st>div{display:flex;flex-direction:column;gap:8px;padding:16px;
   border-radius:var(--r-s);background:var(--lilac)}
@@ -2372,7 +2389,8 @@ a.pg-card.is-case:hover li::before{background:var(--accent)}
 .pg-cmp h3{margin:0;font-family:'Geologica','Segoe UI',system-ui,sans-serif;font-weight:600;
   font-size:20px;color:var(--ink)}
 .pg-cmp dl{margin:0;display:flex;flex-direction:column;gap:16px}
-.pg-cmp dt{font-size:14px;color:var(--ink-faint)}
+.pg-cmp dt{font-size:17px;font-weight:600;line-height:1.3;color:var(--graphite);
+  margin-bottom:8px}
 .pg-cmp dd{margin:0;font-size:16px;line-height:1.5;color:var(--ink)}
 .pg-nums{display:grid;grid-template-columns:auto minmax(0,1fr);gap:24px var(--gutter);
   align-items:baseline;max-width:92ch}
@@ -2517,7 +2535,7 @@ body section:last-of-type{padding-bottom:136px}
    а две компактные панели того же блока: это справочные списки,
    а не самостоятельные темы. */
 .pg-sp{display:grid;grid-template-columns:minmax(0,340px) minmax(0,1fr);
-  gap:var(--gutter);margin-top:var(--gutter)}
+  gap:var(--gutter);margin-top:48px}
 .pg-sp-i{padding:24px;border:1px solid var(--line);border-radius:var(--r-m);
   background:var(--white)}
 .pg-sp-i b{display:block;margin:0 0 16px;font-family:'Bounded','Geologica',sans-serif;
@@ -2538,7 +2556,7 @@ body section:last-of-type{padding-bottom:136px}
 /* ── еженедельная сводка: как она приходит в рабочий чат ────────
    Не макет отчёта, а живые сообщения: подпись периода сверху,
    ниже пузырь сообщения. */
-.pg-sum-h{margin:var(--s-56) 0 0}
+.pg-sum-h{margin:56px 0 0}
 .pg-sum-h b{display:block;font-family:'Bounded','Geologica',sans-serif;
   font-weight:400;font-size:clamp(21px,2.2vw,28px);line-height:1.2;
   letter-spacing:-.02em;color:var(--ink)}
@@ -2659,12 +2677,19 @@ body section:last-of-type{padding-bottom:136px}
    Подложки нет — серая обводка: такой блок замыкает страницу
    и не должен спорить с голубыми плашками материалов. */
 .pg-cta.is-row{display:grid;grid-template-columns:minmax(0,1fr) auto;
-  align-items:center;gap:16px 48px;background:var(--white);
+  align-items:end;gap:16px 48px;background:var(--white);
   border:1px solid var(--line)}
+/* текст — одна колонка сетки, чтобы кнопка равнялась по низу всей плашки,
+   а не по строке заголовка */
+.pg-cta.is-row .pg-cta-txt{grid-column:1;display:flex;flex-direction:column;
+  gap:16px;min-width:0}
+/* Тот же ряд, но на фирменной лиловой плашке: кнопка справа,
+   текст слева, обводка не нужна. */
+.pg-cta.is-row.is-plate{background:var(--lilac);border-color:transparent}
 .pg-cta.is-row h2.sh-a,.pg-cta.is-row h3,.pg-cta.is-row p{grid-column:1}
 .pg-cta.is-row h2.sh-a{max-width:28ch}
 .pg-cta.is-row p{max-width:72ch}
-.pg-cta.is-row .acts{grid-column:2;grid-row:1 / -1;align-self:center}
+.pg-cta.is-row .acts{grid-column:2;align-self:end}
 @media (max-width:900px){
   .pg-cta.is-row{grid-template-columns:1fr}
   .pg-cta.is-row .acts{grid-column:1;grid-row:auto}
@@ -2726,7 +2751,7 @@ body section:last-of-type{padding-bottom:136px}
 <section class="sec" id="layers">
   <div class="shell">
     <div class="sec-head"><h2 class="sh-a">Методология</h2><h3 class="sh-b">4 слоя, из которых собирается поток лидов</h3><p>Первые два слоя — фундамент и экономика. Третий даёт тёплый трафик без бюджета на рекламу. Четвёртый ловит горячий спрос и добирает лиды в перформансе и ответах AI.</p></div>
-    <div class="pg-tl"><div class="pg-tl-i rise"><div class="pg-tl-in"><div class="pg-tl-when"><b>L1</b><span>15—20 дней</span></div><div class="pg-tl-body"><h3>Фундамент</h3><span class="pg-tl-layer">JTBD-позиционирование и карта болей</span><p>Выделяем работы, на которые пользователи «нанимают» продукт. Сдвигаем фокус с сухих функций на закрытие коммерческих болей ЛПР (CIO, CTO, CEO) и отстраиваемся от топ-3 конкурентов.</p><div class="pg-tl-meta"><div class="pg-art"><span>Артефакты</span><p>JTBD-карта, матрица болей ЛПР, текстовая структура конвертящего лендинга</p></div><div class="pg-cp"><span>Контрольная точка</span><p>оффер, который считывается за 5 секунд</p></div></div></div></div></div><div class="pg-tl-i pg-tl-hid"><div class="pg-tl-in"><div class="pg-tl-when"><b>L2</b><span>5—7 дней</span></div><div class="pg-tl-body"><h3>Финансы</h3><span class="pg-tl-layer">Математическое моделирование воронки</span><p>Считаем экономику каналов до старта: CPL, MQL, SQL, CAC, LTV. Отсекаем гипотезы, которые не сойдутся по юниту, ещё до первого потраченного рубля.</p><div class="pg-tl-meta"><div class="pg-art"><span>Артефакты</span><p>финансовая модель воронки, план по каналам с целевыми CPL и SQL</p></div><div class="pg-cp"><span>Контрольная точка</span><p>план со сходящейся юнит-экономикой</p></div></div></div></div></div><div class="pg-tl-i pg-tl-hid"><div class="pg-tl-in"><div class="pg-tl-when"><b>L3</b><span>7—14 дней</span></div><div class="pg-tl-body"><h3>Органика и аутрич</h3><span class="pg-tl-layer">Покрытие бесплатными и недорогими каналами</span><p>Занимаем позиции в профильных B2B-каталогах, геосервисах, отзовиках и отраслевых профилях. Настраиваем AEO-разметку под ответы AI-ассистентов и голосовой поиск. Запускаем аутрич: Habr, Telegram, закрытые сообщества, отраслевые эксперты и вебинары — нативные цепочки касаний до демо-звонка.</p><div class="pg-tl-meta"><div class="pg-art"><span>Артефакты</span><p>профили до 15 источников, производство контента под них, схемы структурированных данных, репутационный контур, медиаплан аутрича и вебинаров</p></div><div class="pg-cp"><span>Контрольная точка</span><p>тёплый трафик и доверие без бюджета на рекламу</p></div></div></div></div></div><div class="pg-tl-i pg-tl-hid"><div class="pg-tl-in"><div class="pg-tl-when"><b>L4</b><span>10—14 дней</span></div><div class="pg-tl-body"><h3>Поиск, перформанс и GEO</h3><span class="pg-tl-layer">SEO, Директ, посевы и присутствие в ответах AI</span><p>Ловим горячий интент по продуктовым и конкурентным запросам в SEO и Яндекс.Директе: готовые B2B-минусовки, ретаргет на посетителей документации и alternatives-страниц. Проводим посевы в профильных каналах. Добиваем GEO: присутствие бренда в ответах ChatGPT, Perplexity, Алисы и Gemini.</p><div class="pg-tl-meta"><div class="pg-art"><span>Артефакты</span><p>семантическое ядро, посадочные под кластеры, кампании в Директе, план посевов, GEO-контент и схемы данных</p></div><div class="pg-cp"><span>Контрольная точка</span><p>квалифицированные лиды по целевому CPL</p></div></div></div></div></div></div>
+    <div class="pg-tl"><div class="pg-tl-i rise"><div class="pg-tl-in"><div class="pg-tl-when"><b>L1</b><span>15—20 дней</span></div><div class="pg-tl-body"><h3>Фундамент</h3><span class="pg-tl-layer">JTBD-позиционирование и карта болей</span><p>Выделяем работы, на которые пользователи «нанимают» продукт. Сдвигаем фокус с сухих функций на закрытие коммерческих болей ЛПР (CIO, CTO, CEO) и отстраиваемся от топ-3 конкурентов.</p><div class="pg-tl-meta"><div class="pg-art"><span>Артефакты</span><p>JTBD-карта, матрица болей ЛПР, текстовая структура конвертящего лендинга</p></div><div class="pg-cp"><span>Контрольная точка</span><p>Оффер, который считывается за 5 секунд</p></div></div></div></div></div><div class="pg-tl-i pg-tl-hid"><div class="pg-tl-in"><div class="pg-tl-when"><b>L2</b><span>5—7 дней</span></div><div class="pg-tl-body"><h3>Финансы</h3><span class="pg-tl-layer">Математическое моделирование воронки</span><p>Считаем экономику каналов до старта: CPL, MQL, SQL, CAC, LTV. Отсекаем гипотезы, которые не сойдутся по юниту, ещё до первого потраченного рубля.</p><div class="pg-tl-meta"><div class="pg-art"><span>Артефакты</span><p>Финансовая модель воронки, план по каналам с целевыми CPL и SQL</p></div><div class="pg-cp"><span>Контрольная точка</span><p>План со сходящейся юнит-экономикой</p></div></div></div></div></div><div class="pg-tl-i pg-tl-hid"><div class="pg-tl-in"><div class="pg-tl-when"><b>L3</b><span>7—14 дней</span></div><div class="pg-tl-body"><h3>Органика и аутрич</h3><span class="pg-tl-layer">Покрытие бесплатными и недорогими каналами</span><p>Занимаем позиции в профильных B2B-каталогах, геосервисах, отзовиках и отраслевых профилях. Настраиваем AEO-разметку под ответы AI-ассистентов и голосовой поиск. Запускаем аутрич: Habr, Telegram, закрытые сообщества, отраслевые эксперты и вебинары — нативные цепочки касаний до демо-звонка.</p><div class="pg-tl-meta"><div class="pg-art"><span>Артефакты</span><p>Профили до 15 источников, производство контента под них, схемы структурированных данных, репутационный контур, медиаплан аутрича и вебинаров</p></div><div class="pg-cp"><span>Контрольная точка</span><p>Тёплый трафик и доверие без бюджета на рекламу</p></div></div></div></div></div><div class="pg-tl-i pg-tl-hid"><div class="pg-tl-in"><div class="pg-tl-when"><b>L4</b><span>10—14 дней</span></div><div class="pg-tl-body"><h3>Поиск, перформанс и GEO</h3><span class="pg-tl-layer">SEO, Директ, посевы и присутствие в ответах AI</span><p>Ловим горячий интент по продуктовым и конкурентным запросам в SEO и Яндекс.Директе: готовые B2B-минусовки, ретаргет на посетителей документации и alternatives-страниц. Проводим посевы в профильных каналах. Добиваем GEO: присутствие бренда в ответах ChatGPT, Perplexity, Алисы и Gemini.</p><div class="pg-tl-meta"><div class="pg-art"><span>Артефакты</span><p>Семантическое ядро, посадочные под кластеры, кампании в Директе, план посевов, GEO-контент и схемы данных</p></div><div class="pg-cp"><span>Контрольная точка</span><p>Квалифицированные лиды по целевому CPL</p></div></div></div></div></div></div>
   </div>
 </section>
 
@@ -2754,7 +2779,7 @@ body section:last-of-type{padding-bottom:136px}
 <section class="sec" id="ip-cases">
   <div class="shell">
     <div class="sec-head"><h2 class="sh-a">Кейсы</h2><h3 class="sh-b">Как это работает на практике</h3><p>Проекты обезличены по требованию клиентов: показываем логику решений и результат, без названий брендов.</p></div>
-    <div class="pg-mini c2"><div class="pg-mini-i is-full"><span class="pg-mini-c">SaaS · платформа корпоративных коммуникаций</span><b class="pg-mini-h">Выход из горячего спроса: контентно-медийная воронка вместо перформанса «в лоб»</b><p>Низкая узнаваемость на фоне экосистемных конкурентов, ограниченный горячий спрос (до 1 200 запросов в месяц) и 15 рекламных объявлений на 25 мест в выдаче. Перформанс приносил лиды, но они дорожали месяц к месяцу.</p><ul class="pg-mini-do"><li><svg class="li-arw" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 5.5L15.5 12L9 18.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Перенесли коммуникацию на верхние этапы воронки: контентные связки под боли, а не под продукт.</li><li><svg class="li-arw" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 5.5L15.5 12L9 18.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Заменили CTA «заявка на демо» на регистрацию на вебинар — более логичный первый шаг для холодной аудитории.</li><li><svg class="li-arw" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 5.5L15.5 12L9 18.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Собрали посадочные под отдельные модули и отрасли, упростили квиз, протестировали механики для последующих запусков.</li></ul><div class="pg-mini-st"><div><b>×4,7</b><span>рост результативных кликов к перформансу</span></div><div><b>×6,7</b><span>больше заявок при том же типе аудитории</span></div><div><b>128</b><span>регистраций на вебинар против 19 заявок на демо</span></div><div><b>−45%</b><span>стоимость результативного клика</span></div></div><p class="pg-mini-out"><b>Вывод для стратегии:</b> качественный перформанс — это связка охватных и контентных кампаний с горячим спросом, а не только горячий спрос.</p></div><div class="pg-mini-i is-full"><span class="pg-mini-c">ИТ-экосистема · VK Tech</span><b class="pg-mini-h">Brandformance-модель для экосистемы корпоративного ПО: синхронизация бренда и перформанса</b><p>VK Tech объединяет несколько продуктовых направлений: VK Cloud, VK Workspace и другие корпоративные сервисы. Маркетинг развивался внутри продуктов, из-за чего кампании пересекались в аукционе, а бюджеты распределялись по продуктовой логике, а не по бизнес-ценности. Оптимизация шла по промежуточным метрикам — кликам и регистрациям.</p><ul class="pg-mini-do"><li><svg class="li-arw" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 5.5L15.5 12L9 18.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Привели структуру аккаунтов к единому стандарту и завязали оптимизацию на бизнес-метрики: SQL-лид, подключения, оплаты.</li><li><svg class="li-arw" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 5.5L15.5 12L9 18.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Убрали внутреннюю конкуренцию: кросс-минусовка брендовых запросов между продуктами и разделение бюджетов по ценности для бизнеса.</li><li><svg class="li-arw" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 5.5L15.5 12L9 18.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Связали бренд и перформанс: вебинары, исследования и конференции стали точками входа в воронку с ретаргетингом на вовлечённую аудиторию.</li><li><svg class="li-arw" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 5.5L15.5 12L9 18.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Перезапустили VK Ads и снизили цену целевого действия на 67% при сопоставимом бюджете; оптимизировали Яндекс.Директ под CPL приоритетных событий.</li></ul><div class="pg-mini-st"><div><b>−51%</b><span>стоимость подключения</span></div><div><b>−41%</b><span>стоимость SQL-лида</span></div><div><b>−6,7 п. п.</b><span>доля рекламных расходов</span></div><div><b>+25—30%</b><span>рост органического трафика</span></div></div><p class="pg-mini-out"><b>Вывод для стратегии:</b> в экосистеме ИТ-продуктов маркетинг работает как единая brandformance-архитектура, а не изолированные бренд и перформанс.</p></div></div><div class="pg-mini-act"><a class="btn btn-ghost" href="../cases/wp-marketing-cases.html#ppc">Смотреть все кейсы</a></div>
+    <div class="pg-mini c2"><div class="pg-mini-i is-full"><span class="pg-mini-c">SaaS · платформа корпоративных коммуникаций</span><b class="pg-mini-h">Выход из горячего спроса: контентно-медийная воронка вместо перформанса «в лоб»</b><p>Низкая узнаваемость на фоне экосистемных конкурентов, ограниченный горячий спрос (до 1 200 запросов в месяц) и 15 рекламных объявлений на 25 мест в выдаче. Перформанс приносил лиды, но они дорожали месяц к месяцу.</p><ul class="pg-mini-do"><li>Перенесли коммуникацию на верхние этапы воронки: контентные связки под боли, а не под продукт.</li><li>Заменили CTA «заявка на демо» на регистрацию на вебинар — более логичный первый шаг для холодной аудитории.</li><li>Собрали посадочные под отдельные модули и отрасли, упростили квиз, протестировали механики для последующих запусков.</li></ul><div class="pg-mini-st"><div><b>×4,7</b><span>рост результативных кликов к перформансу</span></div><div><b>×6,7</b><span>больше заявок при том же типе аудитории</span></div><div><b>128</b><span>регистраций на вебинар против 19 заявок на демо</span></div><div><b>−45%</b><span>стоимость результативного клика</span></div></div><p class="pg-mini-out"><b>Вывод для стратегии:</b> качественный перформанс — это связка охватных и контентных кампаний с горячим спросом, а не только горячий спрос.</p></div><div class="pg-mini-i is-full"><span class="pg-mini-c">ИТ-экосистема · VK Tech</span><b class="pg-mini-h">Brandformance-модель для экосистемы корпоративного ПО: синхронизация бренда и перформанса</b><p>VK Tech объединяет несколько продуктовых направлений: VK Cloud, VK Workspace и другие корпоративные сервисы. Маркетинг развивался внутри продуктов, из-за чего кампании пересекались в аукционе, а бюджеты распределялись по продуктовой логике, а не по бизнес-ценности. Оптимизация шла по промежуточным метрикам — кликам и регистрациям.</p><ul class="pg-mini-do"><li>Привели структуру аккаунтов к единому стандарту и завязали оптимизацию на бизнес-метрики: SQL-лид, подключения, оплаты.</li><li>Убрали внутреннюю конкуренцию: кросс-минусовка брендовых запросов между продуктами и разделение бюджетов по ценности для бизнеса.</li><li>Связали бренд и перформанс: вебинары, исследования и конференции стали точками входа в воронку с ретаргетингом на вовлечённую аудиторию.</li><li>Перезапустили VK Ads и снизили цену целевого действия на 67% при сопоставимом бюджете; оптимизировали Яндекс.Директ под CPL приоритетных событий.</li></ul><div class="pg-mini-st"><div><b>−51%</b><span>стоимость подключения</span></div><div><b>−41%</b><span>стоимость SQL-лида</span></div><div><b>−6,7 п. п.</b><span>доля рекламных расходов</span></div><div><b>+25—30%</b><span>рост органического трафика</span></div></div><p class="pg-mini-out"><b>Вывод для стратегии:</b> в экосистеме ИТ-продуктов маркетинг работает как единая brandformance-архитектура, а не изолированные бренд и перформанс.</p></div></div><div class="pg-mini-act"><a class="btn btn-ghost" href="../cases/wp-marketing-cases.html#ppc">Смотреть все кейсы</a></div>
   </div>
 </section>
 
@@ -2767,15 +2792,13 @@ body section:last-of-type{padding-bottom:136px}
 
 <section class="sec" id="roadmap">
   <div class="shell">
-    <div class="sec-head"><h2 class="sh-a">Дорожная карта</h2><h3 class="sh-b">Персональная дорожная карта лидогенерации под ваш продукт</h3><p>За 3 рабочих дня соберём пошаговый план: какие каналы включить, что сделать в первый месяц и как оценить результат.</p></div>
-    <form class="pg-ms-form is-solo" id="ip-roadmap-form" data-endpoint="https://formsubmit.co/ajax/nastasyshka1@gmail.com" data-subject="Дорожная карта лидогенерации" novalidate><div class="pg-ms-h"><span class="pg-ms-ic"><svg class="ic" width="24" height="24" aria-hidden="true" shape-rendering="geometricPrecision" xmlns="http://www.w3.org/2000/svg" viewBox="340.00 488.00 24 24" fill="none"><path d="M342 507.77C342 509.36 342.6 510 344.1 510H359.9C361.4 510 362 509.36 362 507.77V503.73C362 502.14 361.4 501.5 359.9 501.5H344.1C342.6 501.5 342 502.14 342 503.73" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M362 492.23C362 490.64 361.4 490 359.9 490H344.1C342.6 490 342 490.64 342 492.23V496.27C342 497.86 342.6 498.5 344.1 498.5H359.9C361.4 498.5 362 497.86 362 496.27" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></span><div class="pg-ms-ht"></div></div><p>Без общих шаблонов — только под ваш продукт, аудиторию и текущий уровень зрелости.</p><div class="pg-ms-fields"><div class="field"><label for="ip-roadmap-form-name">Как к вам обращаться</label><input id="ip-roadmap-form-name" name="name" type="text" autocomplete="name" placeholder="Имя"><span class="msg">Укажите, как к вам обращаться</span></div><div class="field"><label for="ip-roadmap-form-company">Компания и сайт</label><input id="ip-roadmap-form-company" name="company" type="text" autocomplete="organization" placeholder="ООО «Пример», example.com"><span class="msg">Укажите компанию</span></div><div class="field"><label for="ip-roadmap-form-contact">Email или телефон</label><input id="ip-roadmap-form-contact" name="contact" type="text" autocomplete="email" placeholder="Контакт для связи"><span class="msg">Укажите контакт для связи</span></div><div class="field wide"><label for="ip-roadmap-form-comment">Кратко о продукте и целевой аудитории</label><textarea id="ip-roadmap-form-comment" name="comment" rows="3" placeholder="SaaS для финансового сектора, ЛПР — CFO и CISO"></textarea><span class="msg">Опишите продукт в двух словах</span></div></div><button class="btn btn-primary" type="submit">Получить дорожную карту</button><p class="note">Нажимая кнопку, вы соглашаетесь с обработкой персональных данных.</p><p class="lead-err">Не удалось отправить. Напишите, пожалуйста, напрямую на <a href="mailto:m.parinova@webpractik.ru">m.parinova@webpractik.ru</a>.</p><span class="lead-ok">Заявка отправлена. Вернёмся с результатом в оговорённый срок.</span></form>
+    <form class="pg-ms-form is-solo" id="ip-roadmap-form" data-endpoint="https://formsubmit.co/ajax/nastasyshka1@gmail.com" data-subject="Дорожная карта лидогенерации" novalidate><div class="sec-head pg-mg-head"><h2 class="sh-a">Дорожная карта</h2><h3 class="sh-b">Персональная дорожная карта лидогенерации под ваш продукт</h3><p>За 3 рабочих дня соберём пошаговый план: какие каналы включить, что сделать в первый месяц и как оценить результат.</p></div><p>Без общих шаблонов — только под ваш продукт, аудиторию и текущий уровень зрелости.</p><div class="pg-ms-fields"><div class="field"><label for="ip-roadmap-form-name">Как к вам обращаться</label><input id="ip-roadmap-form-name" name="name" type="text" autocomplete="name" placeholder="Имя"><span class="msg">Укажите, как к вам обращаться</span></div><div class="field"><label for="ip-roadmap-form-company">Компания и сайт</label><input id="ip-roadmap-form-company" name="company" type="text" autocomplete="organization" placeholder="ООО «Пример», example.com"><span class="msg">Укажите компанию</span></div><div class="field"><label for="ip-roadmap-form-contact">Email или телефон</label><input id="ip-roadmap-form-contact" name="contact" type="text" autocomplete="email" placeholder="Контакт для связи"><span class="msg">Укажите контакт для связи</span></div><div class="field wide"><label for="ip-roadmap-form-comment">Кратко о продукте и целевой аудитории</label><textarea id="ip-roadmap-form-comment" name="comment" rows="3" placeholder="SaaS для финансового сектора, ЛПР — CFO и CISO"></textarea><span class="msg">Опишите продукт в двух словах</span></div></div><button class="btn btn-primary" type="submit">Получить дорожную карту</button><p class="note">Нажимая кнопку, вы соглашаетесь с обработкой персональных данных.</p><p class="lead-err">Не удалось отправить. Напишите, пожалуйста, напрямую на <a href="mailto:m.parinova@webpractik.ru">m.parinova@webpractik.ru</a>.</p><span class="lead-ok">Заявка отправлена. Вернёмся с результатом в оговорённый срок.</span></form>
   </div>
 </section>
 
 <section class="sec" id="review">
   <div class="shell">
-    <div class="sec-head"><h2 class="sh-a">Экспертная диагностика</h2><h3 class="sh-b">Разбор вашей текущей воронки лидогенерации</h3><p>Не стратегия, а оперативная диагностика. За 60 минут разберём, где течёт бюджет, где застревают лиды и какие 3 изменения дадут эффект в первый месяц.</p></div>
-    <form class="pg-ms-form is-solo" id="ip-review-form" data-endpoint="https://formsubmit.co/ajax/nastasyshka1@gmail.com" data-subject="Разбор воронки лидогенерации" novalidate><div class="pg-ms-h"><span class="pg-ms-ic"><svg class="ic" width="24" height="24" aria-hidden="true" shape-rendering="geometricPrecision" xmlns="http://www.w3.org/2000/svg" viewBox="252.00 488.00 24 24" fill="none"><path d="M268.05 495.67C267.81 495.49 267.61 495.26 267.5 495.03L265.74 491.51C264.79 489.6 263.23 489.6 262.27 491.51L260.5 495.03C260.38 495.28 260.16 495.51 259.91 495.7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M257.28 506.65L257.85 504.18C257.98 503.6 257.75 502.79 257.33 502.37L254.85 499.89C253.39 498.43 253.86 496.95 255.9 496.61" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M272.1 496.61C274.14 496.95 274.62 498.43 273.15 499.89L270.67 502.37C270.25 502.79 270.02 503.6 270.15 504.18L270.86 507.25C271.42 509.68 270.13 510.62 267.98 509.35L264.99 507.58C264.45 507.26 263.56 507.26 263.01 507.58L260.02 509.35" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M274 490L254 510" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></span><div class="pg-ms-ht"><span class="pg-ms-chip">Экспертная диагностика</span></div></div><p>Формат: онлайн-встреча, выдаём конкретные точки роста и приоритеты.</p><div class="pg-ms-fields"><div class="field"><label for="ip-review-form-name">Как к вам обращаться</label><input id="ip-review-form-name" name="name" type="text" autocomplete="name" placeholder="Имя"><span class="msg">Укажите, как к вам обращаться</span></div><div class="field"><label for="ip-review-form-company">Компания и сайт</label><input id="ip-review-form-company" name="company" type="text" autocomplete="organization" placeholder="ООО «Пример», example.com"><span class="msg">Укажите компанию</span></div><div class="field"><label for="ip-review-form-contact">Email или телефон</label><input id="ip-review-form-contact" name="contact" type="text" autocomplete="email" placeholder="Контакт для связи"><span class="msg">Укажите контакт для связи</span></div><div class="field wide"><label for="ip-review-form-comment">Что сейчас не устраивает в лидогенерации</label><textarea id="ip-review-form-comment" name="comment" rows="3" placeholder="Дорогие лиды, плохая конверсия в сделку, непонятно, какой канал работает"></textarea><span class="msg">Опишите, что не устраивает</span></div></div><button class="btn btn-primary" type="submit">Записаться на разбор</button><p class="note">Нажимая кнопку, вы соглашаетесь с обработкой персональных данных.</p><p class="lead-err">Не удалось отправить. Напишите, пожалуйста, напрямую на <a href="mailto:m.parinova@webpractik.ru">m.parinova@webpractik.ru</a>.</p><span class="lead-ok">Заявка отправлена. Вернёмся с результатом в оговорённый срок.</span></form>
+    <form class="pg-ms-form is-solo is-plate" id="ip-review-form" data-endpoint="https://formsubmit.co/ajax/nastasyshka1@gmail.com" data-subject="Разбор воронки лидогенерации" novalidate><div class="sec-head pg-mg-head"><h2 class="sh-a">Экспертная диагностика</h2><h3 class="sh-b">Разбор вашей текущей воронки лидогенерации</h3><p>Не стратегия, а оперативная диагностика. За 60 минут разберём, где течёт бюджет, где застревают лиды и какие 3 изменения дадут эффект в первый месяц.</p></div><div class="pg-ms-h"><div class="pg-ms-ht"></div></div><p>Формат: онлайн-встреча, выдаём конкретные точки роста и приоритеты.</p><div class="pg-ms-fields"><div class="field"><label for="ip-review-form-name">Как к вам обращаться</label><input id="ip-review-form-name" name="name" type="text" autocomplete="name" placeholder="Имя"><span class="msg">Укажите, как к вам обращаться</span></div><div class="field"><label for="ip-review-form-company">Компания и сайт</label><input id="ip-review-form-company" name="company" type="text" autocomplete="organization" placeholder="ООО «Пример», example.com"><span class="msg">Укажите компанию</span></div><div class="field"><label for="ip-review-form-contact">Email или телефон</label><input id="ip-review-form-contact" name="contact" type="text" autocomplete="email" placeholder="Контакт для связи"><span class="msg">Укажите контакт для связи</span></div><div class="field wide"><label for="ip-review-form-comment">Что сейчас не устраивает в лидогенерации</label><textarea id="ip-review-form-comment" name="comment" rows="3" placeholder="Дорогие лиды, плохая конверсия в сделку, непонятно, какой канал работает"></textarea><span class="msg">Опишите, что не устраивает</span></div></div><button class="btn btn-primary" type="submit">Записаться на разбор</button><p class="note">Нажимая кнопку, вы соглашаетесь с обработкой персональных данных.</p><p class="lead-err">Не удалось отправить. Напишите, пожалуйста, напрямую на <a href="mailto:m.parinova@webpractik.ru">m.parinova@webpractik.ru</a>.</p><span class="lead-ok">Заявка отправлена. Вернёмся с результатом в оговорённый срок.</span></form>
   </div>
 </section>
 
@@ -2805,7 +2828,7 @@ body section:last-of-type{padding-bottom:136px}
       </div>
     </div>
     <div class="foot-col">
-      <h2>Услуги</h2>
+      <h2><a href="../services/wp-marketing-services.html">Услуги</a></h2>
       <a href="../services/wp-marketing-services-consulting.html">Консалтинг и стратегия</a>
       <a href="../services/wp-marketing-services-seo-geo.html">SEO &amp; GEO / AEO</a>
       <a href="../services/wp-marketing-services-ppc.html">PPC &amp; Лидогенерация</a>

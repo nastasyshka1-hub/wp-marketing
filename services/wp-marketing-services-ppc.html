@@ -101,9 +101,9 @@ header.head{padding:16px 24px}
 .has-sub{position:relative;display:inline-flex;align-items:center}
 .has-sub>a,.has-sub>.nav-sec{display:inline-flex;align-items:center;gap:8px}
 .has-sub>a::after,.has-sub>.nav-sec::after{content:'';width:6px;height:6px;border-right:1.5px solid currentColor;
-  border-bottom:1.5px solid currentColor;transform:rotate(45deg) translateY(-1px);
-  transition:transform .2s ease}
-.has-sub.open>a::after,.has-sub.open>.nav-sec::after{transform:rotate(225deg) translateY(-1px)}
+  border-bottom:1.5px solid currentColor;transform:translateY(-1.5px) rotate(45deg);
+  transform-origin:50% 50%;transition:transform .2s ease}
+.has-sub.open>a::after,.has-sub.open>.nav-sec::after{transform:translateY(2.75px) rotate(225deg)}
 .drop{position:absolute;top:calc(100% - 8px);left:var(--x,80px);z-index:5;
   min-width:272px;display:grid;gap:8px;padding:16px;
   background:var(--white);border:1px solid var(--line);border-radius:var(--r-l);
@@ -605,7 +605,7 @@ h3.sh-b:last-child{margin-bottom:0}
    квадратность держим через aspect-ratio, а не через растягивание
    по высоте блока. */
 .mgr .ava{grid-column:1;grid-row:1 / -1;width:152px;height:auto;aspect-ratio:1;
-  align-self:start;border-radius:var(--r-s);object-fit:cover;object-position:50% 20%;
+  align-self:start;border-radius:var(--r-m);object-fit:cover;object-position:50% 20%;
   display:block;background:var(--lilac)}
 .mgr b{grid-column:2;grid-row:1;font-weight:400;font-size:18px;align-self:end}
 .mgr span{grid-column:2;grid-row:2;font-size:15px;color:var(--ink-soft)}
@@ -708,6 +708,8 @@ h3.sh-b:last-child{margin-bottom:0}
   font-weight:400;letter-spacing:0;color:color-mix(in oklab, var(--white) 62%, var(--graphite))}
 .foot-col a{font-size:15px;line-height:1.45;color:color-mix(in oklab, var(--white) 82%, var(--graphite));transition:color .2s ease}
 .foot-col a:hover{color:var(--white)}
+.foot-col h2 a{font:inherit;letter-spacing:inherit;text-transform:inherit;color:inherit;transition:color .2s ease}
+.foot-col h2 a:hover{color:var(--white)}
 .foot-cnt{grid-column:10 / span 3;display:flex;flex-direction:column;gap:8px}
 .foot-cnt b{font-weight:400;font-size:15px}
 .foot-cnt span,.foot-cnt a{font-size:15px;color:color-mix(in oklab, var(--white) 70%, var(--graphite))}
@@ -793,7 +795,7 @@ h3.sh-b:last-child{margin-bottom:0}
 <style>
 .crumbs{display:flex;align-items:center;gap:16px;margin:0 0 24px;font-size:15px;color:var(--ink-soft)}
 .crumbs a{color:var(--ink-soft);transition:color .2s ease}
-.crumbs a:hover{color:var(--indigo-bright)}
+.crumbs a:hover{color:var(--accent)}
 .crumbs .sep{color:var(--ink-faint)}
 .crumbs [aria-current]{color:var(--ink)}
 .ip-hero{padding:40px 0 0}
@@ -983,8 +985,9 @@ h3.sh-b:last-child{margin-bottom:0}
 .pg-stage-name{font-family:'Bounded','Geologica',sans-serif;font-weight:400;
   font-size:clamp(24px,2.2vw,30px);line-height:1;letter-spacing:-.01em;color:var(--accent)}
 /* срок и цена — в самый низ карточки, отбивка как у подвала карточки */
-.pg-stage-foot{margin-top:auto;padding-top:16px;display:flex;flex-wrap:wrap;gap:8px}
-.pg-chip{font-size:14px;color:var(--ink-soft);border:1px solid var(--line);
+.pg-stage-foot{margin-top:auto;padding-top:16px;display:flex;flex-wrap:wrap;
+  justify-content:flex-end;gap:8px}
+.pg-chip{font-size:14px;color:var(--accent);border:1px solid var(--accent);
   border-radius:99px;padding:8px 16px}
 .pg-stage p b{font-weight:500;color:var(--graphite)}
 .pg-stage h3{margin:0;font-family:'Bounded','Geologica',sans-serif;font-weight:400;
@@ -1067,8 +1070,8 @@ h3.sh-b:last-child{margin-bottom:0}
    «минус — плюс», а две равные подписи к этапу. Зелёный в проекте
    занят половиной «стало» в сравнительных блоках. */
 .pg-art,.pg-cp{padding:16px 24px;border-radius:var(--r-m);background:var(--lilac)}
-.pg-art span,.pg-cp span{display:block;font-size:13px;color:var(--ink-faint);
-  margin-bottom:8px}
+.pg-art span,.pg-cp span{display:block;font-size:17px;font-weight:600;
+  line-height:1.3;color:var(--graphite);margin-bottom:8px}
 .pg-art p,.pg-cp p{margin:0;font-size:15px;line-height:1.45;color:var(--ink)}
 
 /* весь блок на фиолетовой плашке: карточки и CTA внутри — белые,
@@ -1620,8 +1623,8 @@ a.pg-card:hover li::before{background:var(--white)}
   border-bottom:1px solid var(--line)}
 .pg-db-tag{font-size:13px;font-weight:600;letter-spacing:.02em;
   color:var(--accent)}
-.pg-db-per{flex:none;padding:8px 16px;border-radius:var(--r-s);
-  background:var(--lilac);font-size:14px;color:var(--ink);white-space:nowrap}
+.pg-db-per{flex:none;font-size:13px;font-weight:600;letter-spacing:.02em;
+  color:var(--accent);white-space:nowrap}
 .pg-db-body{display:flex;flex-direction:column;gap:16px;padding:16px}
 /* Верхний ряд: слева одна главная цифра, справа остальные показатели */
 .pg-db-lead{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.6fr);
@@ -1876,6 +1879,11 @@ a.pg-card:hover li::before{background:var(--white)}
 .pg-mg{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);
   gap:var(--gutter);color:var(--ink);padding:40px 48px;
   border-radius:var(--r-l);background:var(--cold)}
+/* Заголовок блока внутри плашки: занимает обе колонки и отбивается
+   от содержимого, чтобы плашка читалась как один блок. */
+.pg-mg.has-head{row-gap:32px}
+.pg-mg-head{grid-column:1 / -1}
+.pg-mg-head .sh-b{max-width:34ch}
 .pg-mg-l{display:flex;flex-direction:column;gap:16px}
 .pg-mg h3{margin:0;font-family:'Bounded','Geologica',sans-serif;font-weight:400;
   font-size:clamp(21px,2.2vw,28px);line-height:1.15;letter-spacing:-.01em;
@@ -1886,8 +1894,8 @@ a.pg-card:hover li::before{background:var(--white)}
   gap:8px 24px;margin:8px 0 0}
 .pg-mg-cols span{position:relative;padding-left:16px;font-size:15px;
   line-height:1.45;color:var(--ink)}
-.pg-mg-cols span::before{content:'';position:absolute;left:0;top:.62em;width:8px;
-  height:1px;background:var(--accent)}
+.pg-mg-cols span::before{content:'';position:absolute;left:0;top:.6em;width:8px;
+  height:2px;border-radius:1px;background:var(--accent)}
 .pg-mg-act{display:flex;flex-direction:column;gap:8px;margin-top:16px}
 .pg-mg-act .btn{align-self:flex-start}
 .pg-mg-note{font-size:14px;color:var(--ink-soft)}
@@ -1979,14 +1987,17 @@ a.pg-card:hover li::before{background:var(--white)}
   color:var(--graphite);hyphens:manual;overflow-wrap:normal;word-break:normal}
 .pg-mini-do{list-style:none;margin:0;padding:0;display:flex;
   flex-direction:column;gap:8px}
-.pg-mini-do li{position:relative;padding-left:32px;font-size:15px;
+.pg-mini-do li{position:relative;padding-left:24px;font-size:15px;
   line-height:1.5;color:var(--ink)}
-.pg-mini-do li::before{content:none}
+.pg-mini-do li::before{content:'';position:absolute;left:0;top:.6em;width:8px;
+  height:8px;border-radius:50%;background:var(--accent)}
 .pg-mini-do li>svg{position:absolute;left:0;top:2px;color:var(--steel)}
 /* Три плитки результата стоят в один ряд: это один набор цифр
    по кейсу, и перенос третьей вниз читался как «ещё один блок».
    Колонка узкая, поэтому цифра и подпись набраны мельче. */
-.pg-mini-st{display:grid;grid-template-columns:repeat(auto-fit,minmax(136px,1fr));gap:8px}
+.pg-mini-st{display:grid;grid-template-columns:repeat(auto-fit,minmax(152px,1fr));gap:8px}
+@media (min-width:901px){
+  .pg-mini-st>div:nth-child(4):last-child{grid-column:span 2}}
 .pg-mini-st>div{min-width:0}
 .pg-mini-st>div{display:flex;flex-direction:column;gap:8px;padding:16px;
   border-radius:var(--r-s);background:var(--lilac)}
@@ -2372,7 +2383,8 @@ a.pg-card.is-case:hover li::before{background:var(--accent)}
 .pg-cmp h3{margin:0;font-family:'Geologica','Segoe UI',system-ui,sans-serif;font-weight:600;
   font-size:20px;color:var(--ink)}
 .pg-cmp dl{margin:0;display:flex;flex-direction:column;gap:16px}
-.pg-cmp dt{font-size:14px;color:var(--ink-faint)}
+.pg-cmp dt{font-size:17px;font-weight:600;line-height:1.3;color:var(--graphite);
+  margin-bottom:8px}
 .pg-cmp dd{margin:0;font-size:16px;line-height:1.5;color:var(--ink)}
 .pg-nums{display:grid;grid-template-columns:auto minmax(0,1fr);gap:24px var(--gutter);
   align-items:baseline;max-width:92ch}
@@ -2517,7 +2529,7 @@ body section:last-of-type{padding-bottom:136px}
    а две компактные панели того же блока: это справочные списки,
    а не самостоятельные темы. */
 .pg-sp{display:grid;grid-template-columns:minmax(0,340px) minmax(0,1fr);
-  gap:var(--gutter);margin-top:var(--gutter)}
+  gap:var(--gutter);margin-top:48px}
 .pg-sp-i{padding:24px;border:1px solid var(--line);border-radius:var(--r-m);
   background:var(--white)}
 .pg-sp-i b{display:block;margin:0 0 16px;font-family:'Bounded','Geologica',sans-serif;
@@ -2538,7 +2550,7 @@ body section:last-of-type{padding-bottom:136px}
 /* ── еженедельная сводка: как она приходит в рабочий чат ────────
    Не макет отчёта, а живые сообщения: подпись периода сверху,
    ниже пузырь сообщения. */
-.pg-sum-h{margin:var(--s-56) 0 0}
+.pg-sum-h{margin:56px 0 0}
 .pg-sum-h b{display:block;font-family:'Bounded','Geologica',sans-serif;
   font-weight:400;font-size:clamp(21px,2.2vw,28px);line-height:1.2;
   letter-spacing:-.02em;color:var(--ink)}
@@ -2659,12 +2671,19 @@ body section:last-of-type{padding-bottom:136px}
    Подложки нет — серая обводка: такой блок замыкает страницу
    и не должен спорить с голубыми плашками материалов. */
 .pg-cta.is-row{display:grid;grid-template-columns:minmax(0,1fr) auto;
-  align-items:center;gap:16px 48px;background:var(--white);
+  align-items:end;gap:16px 48px;background:var(--white);
   border:1px solid var(--line)}
+/* текст — одна колонка сетки, чтобы кнопка равнялась по низу всей плашки,
+   а не по строке заголовка */
+.pg-cta.is-row .pg-cta-txt{grid-column:1;display:flex;flex-direction:column;
+  gap:16px;min-width:0}
+/* Тот же ряд, но на фирменной лиловой плашке: кнопка справа,
+   текст слева, обводка не нужна. */
+.pg-cta.is-row.is-plate{background:var(--lilac);border-color:transparent}
 .pg-cta.is-row h2.sh-a,.pg-cta.is-row h3,.pg-cta.is-row p{grid-column:1}
 .pg-cta.is-row h2.sh-a{max-width:28ch}
 .pg-cta.is-row p{max-width:72ch}
-.pg-cta.is-row .acts{grid-column:2;grid-row:1 / -1;align-self:center}
+.pg-cta.is-row .acts{grid-column:2;align-self:end}
 @media (max-width:900px){
   .pg-cta.is-row{grid-template-columns:1fr}
   .pg-cta.is-row .acts{grid-column:1;grid-row:auto}
@@ -2725,22 +2744,22 @@ body section:last-of-type{padding-bottom:136px}
 
 <section class="sec" id="concept">
   <div class="shell">
-    <div class="sec-head"><h2 class="sh-a">Концепция</h2><h3 class="sh-b">Управляемая воронка вместо разрозненных кампаний</h3><p>Конверсионные связки — способ из того же трафика получать больше качественных заявок. Мы собираем их под финмодель клиента и регулярно тестируем: масштабируем рабочие, отключаем слабые.</p></div>
-    <div class="pg-cards c4"><div class="pg-card rise"><span class="pg-ic"><svg class="ic" width="32" height="32" aria-hidden="true" shape-rendering="geometricPrecision" xmlns="http://www.w3.org/2000/svg" viewBox="164.00 248.00 24 24" fill="none"><path d="M176 260C178.761 260 181 257.761 181 255C181 252.239 178.761 250 176 250C173.239 250 171 252.239 171 255C171 257.761 173.239 260 176 260Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M184.59 270C184.59 266.13 180.74 263 176 263C171.26 263 167.41 266.13 167.41 270" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></span><b>Сегмент ЦА</b><span>Определяем сегменты и приоритеты по финмодели: кому и зачем продаём в этом периоде.</span></div><div class="pg-card rise"><span class="pg-ic"><svg class="ic" width="32" height="32" aria-hidden="true" shape-rendering="geometricPrecision" xmlns="http://www.w3.org/2000/svg" viewBox="1044.00 672.00 24 24" fill="none"><path d="M1056.07 693.98C1054.66 693.98 1053.24 693.44 1052.17 692.37L1047.64 687.84C1046.54 686.74 1045.96 685.22 1046.03 683.67L1046.27 678.67C1046.38 676.28 1048.27 674.39 1050.67 674.27L1055.67 674.03C1057.22 673.97 1058.74 674.54 1059.84 675.64L1064.37 680.17C1066.52 682.32 1066.52 685.83 1064.37 687.98L1059.98 692.37C1058.9 693.44 1057.49 693.98 1056.07 693.98ZM1048.7 686.77L1053.23 691.3C1053.99 692.06 1055 692.48 1056.07 692.48C1057.14 692.48 1058.15 692.06 1058.91 691.3L1063.3 686.91C1064.06 686.15 1064.48 685.14 1064.48 684.07C1064.48 683 1064.06 681.99 1063.3 681.23L1058.77 676.7C1057.97 675.9 1056.86 675.47 1055.74 675.53L1050.74 675.77C1049.11 675.84 1047.84 677.11 1047.76 678.73L1047.52 683.73C1047.47 684.86 1047.9 685.97 1048.7 686.77Z" fill="currentColor"></path><path d="M1053.5 684.75C1051.71 684.75 1050.25 683.29 1050.25 681.5C1050.25 679.71 1051.71 678.25 1053.5 678.25C1055.29 678.25 1056.75 679.71 1056.75 681.5C1056.75 683.29 1055.29 684.75 1053.5 684.75ZM1053.5 679.75C1052.54 679.75 1051.75 680.54 1051.75 681.5C1051.75 682.46 1052.54 683.25 1053.5 683.25C1054.46 683.25 1055.25 682.46 1055.25 681.5C1055.25 680.54 1054.46 679.75 1053.5 679.75Z" fill="currentColor"></path></svg></span><b>Оффер</b><span>Ценностное предложение под сегмент и стадию воронки — от лид-магнита до продукта.</span></div><div class="pg-card rise"><span class="pg-ic"><svg class="ic" width="32" height="32" aria-hidden="true" shape-rendering="geometricPrecision" xmlns="http://www.w3.org/2000/svg" viewBox="596.00 248.00 24 24" fill="none"><path d="M602.44 250H613.55C617.11 250 618 250.89 618 254.44V260.77C618 264.33 617.11 265.21 613.56 265.21H602.44C598.89 265.22 598 264.33 598 260.78V254.44C598 250.89 598.89 250 602.44 250Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M608 265.22V270" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M598 261H618" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M603.5 270H612.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></span><b>Посадочная</b><span>Конверсионный лендинг или квиз под связку. Модульная система, A/B-тесты, скорость запуска.</span></div><div class="pg-card rise"><span class="pg-ic"><svg class="ic" width="32" height="32" aria-hidden="true" shape-rendering="geometricPrecision" xmlns="http://www.w3.org/2000/svg" viewBox="244.00 673.00 24 24" fill="none"><path d="M260.5 693.75H251.5C250.75 693.75 250.2 693.72 249.73 693.65C246.41 693.29 245.75 691.3 245.75 688V682C245.75 678.7 246.41 676.71 249.76 676.34C250.2 676.28 250.75 676.25 251.5 676.25H260.5C261.25 676.25 261.8 676.28 262.27 676.35C265.59 676.71 266.25 678.7 266.25 682V688C266.25 691.3 265.59 693.29 262.24 693.66C261.8 693.72 261.25 693.75 260.5 693.75ZM251.5 677.75C250.82 677.75 250.34 677.78 249.95 677.83C247.92 678.06 247.25 678.69 247.25 682V688C247.25 691.31 247.92 691.94 249.92 692.17C250.34 692.23 250.82 692.25 251.5 692.25H260.5C261.18 692.25 261.66 692.22 262.05 692.17C264.08 691.95 264.75 691.31 264.75 688V682C264.75 678.69 264.08 678.06 262.08 677.83C261.66 677.77 261.18 677.75 260.5 677.75H251.5Z" fill="currentColor"></path><path d="M261 683.75H257.5C257.09 683.75 256.75 683.41 256.75 683C256.75 682.59 257.09 682.25 257.5 682.25H261C261.41 682.25 261.75 682.59 261.75 683C261.75 683.41 261.41 683.75 261 683.75Z" fill="currentColor"></path><path d="M254.1 684C253.55 684 253.1 683.55 253.1 683C253.1 682.45 253.54 682 254.1 682H254.11C254.66 682 255.11 682.45 255.11 683C255.11 683.55 254.66 684 254.1 684Z" fill="currentColor"></path><path d="M251.1 684C250.55 684 250.1 683.55 250.1 683C250.1 682.45 250.54 682 251.1 682C251.65 682 252.1 682.45 252.1 683C252.1 683.55 251.66 684 251.1 684Z" fill="currentColor"></path><path d="M261 689.25H251.02C250.61 689.25 250.26 688.91 250.26 688.5C250.26 688.09 250.59 687.75 251 687.75H261C261.41 687.75 261.75 688.09 261.75 688.5C261.75 688.91 261.41 689.25 261 689.25Z" fill="currentColor"></path></svg></span><b>Контент и креативы</b><span>Тексты, баннеры, видео, лид-магниты. Единый стиль и логика по всем каналам.</span></div></div><div class="pg-note"><p>Ломается одно звено — не работает вся связка, и оптимизация ставок этого не лечит. Собираем связки под финмодель клиента и регулярно тестируем: масштабируем рабочие, отключаем слабые</p></div>
+    <div class="sec-head"><h2 class="sh-a">Концепция</h2><h3 class="sh-b">Управляемая воронка вместо разрозненных кампаний</h3></div>
+    <div class="pg-cards c4"><div class="pg-card rise"><span class="pg-ic"><svg class="ic" width="32" height="32" aria-hidden="true" shape-rendering="geometricPrecision" xmlns="http://www.w3.org/2000/svg" viewBox="164.00 248.00 24 24" fill="none"><path d="M176 260C178.761 260 181 257.761 181 255C181 252.239 178.761 250 176 250C173.239 250 171 252.239 171 255C171 257.761 173.239 260 176 260Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M184.59 270C184.59 266.13 180.74 263 176 263C171.26 263 167.41 266.13 167.41 270" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></span><b>Сегмент ЦА</b><span>Определяем сегменты и приоритеты по финмодели: кому и зачем продаём в этом периоде.</span></div><div class="pg-card rise"><span class="pg-ic"><svg class="ic" width="32" height="32" aria-hidden="true" shape-rendering="geometricPrecision" xmlns="http://www.w3.org/2000/svg" viewBox="1044.00 672.00 24 24" fill="none"><path d="M1056.07 693.98C1054.66 693.98 1053.24 693.44 1052.17 692.37L1047.64 687.84C1046.54 686.74 1045.96 685.22 1046.03 683.67L1046.27 678.67C1046.38 676.28 1048.27 674.39 1050.67 674.27L1055.67 674.03C1057.22 673.97 1058.74 674.54 1059.84 675.64L1064.37 680.17C1066.52 682.32 1066.52 685.83 1064.37 687.98L1059.98 692.37C1058.9 693.44 1057.49 693.98 1056.07 693.98ZM1048.7 686.77L1053.23 691.3C1053.99 692.06 1055 692.48 1056.07 692.48C1057.14 692.48 1058.15 692.06 1058.91 691.3L1063.3 686.91C1064.06 686.15 1064.48 685.14 1064.48 684.07C1064.48 683 1064.06 681.99 1063.3 681.23L1058.77 676.7C1057.97 675.9 1056.86 675.47 1055.74 675.53L1050.74 675.77C1049.11 675.84 1047.84 677.11 1047.76 678.73L1047.52 683.73C1047.47 684.86 1047.9 685.97 1048.7 686.77Z" fill="currentColor"></path><path d="M1053.5 684.75C1051.71 684.75 1050.25 683.29 1050.25 681.5C1050.25 679.71 1051.71 678.25 1053.5 678.25C1055.29 678.25 1056.75 679.71 1056.75 681.5C1056.75 683.29 1055.29 684.75 1053.5 684.75ZM1053.5 679.75C1052.54 679.75 1051.75 680.54 1051.75 681.5C1051.75 682.46 1052.54 683.25 1053.5 683.25C1054.46 683.25 1055.25 682.46 1055.25 681.5C1055.25 680.54 1054.46 679.75 1053.5 679.75Z" fill="currentColor"></path></svg></span><b>Оффер</b><span>Ценностное предложение под сегмент и стадию воронки — от лид-магнита до продукта.</span></div><div class="pg-card rise"><span class="pg-ic"><svg class="ic" width="32" height="32" aria-hidden="true" shape-rendering="geometricPrecision" xmlns="http://www.w3.org/2000/svg" viewBox="596.00 248.00 24 24" fill="none"><path d="M602.44 250H613.55C617.11 250 618 250.89 618 254.44V260.77C618 264.33 617.11 265.21 613.56 265.21H602.44C598.89 265.22 598 264.33 598 260.78V254.44C598 250.89 598.89 250 602.44 250Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M608 265.22V270" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M598 261H618" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M603.5 270H612.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></span><b>Посадочная</b><span>Конверсионный лендинг или квиз под связку. Модульная система, A/B-тесты, скорость запуска.</span></div><div class="pg-card rise"><span class="pg-ic"><svg class="ic" width="32" height="32" aria-hidden="true" shape-rendering="geometricPrecision" xmlns="http://www.w3.org/2000/svg" viewBox="244.00 673.00 24 24" fill="none"><path d="M260.5 693.75H251.5C250.75 693.75 250.2 693.72 249.73 693.65C246.41 693.29 245.75 691.3 245.75 688V682C245.75 678.7 246.41 676.71 249.76 676.34C250.2 676.28 250.75 676.25 251.5 676.25H260.5C261.25 676.25 261.8 676.28 262.27 676.35C265.59 676.71 266.25 678.7 266.25 682V688C266.25 691.3 265.59 693.29 262.24 693.66C261.8 693.72 261.25 693.75 260.5 693.75ZM251.5 677.75C250.82 677.75 250.34 677.78 249.95 677.83C247.92 678.06 247.25 678.69 247.25 682V688C247.25 691.31 247.92 691.94 249.92 692.17C250.34 692.23 250.82 692.25 251.5 692.25H260.5C261.18 692.25 261.66 692.22 262.05 692.17C264.08 691.95 264.75 691.31 264.75 688V682C264.75 678.69 264.08 678.06 262.08 677.83C261.66 677.77 261.18 677.75 260.5 677.75H251.5Z" fill="currentColor"></path><path d="M261 683.75H257.5C257.09 683.75 256.75 683.41 256.75 683C256.75 682.59 257.09 682.25 257.5 682.25H261C261.41 682.25 261.75 682.59 261.75 683C261.75 683.41 261.41 683.75 261 683.75Z" fill="currentColor"></path><path d="M254.1 684C253.55 684 253.1 683.55 253.1 683C253.1 682.45 253.54 682 254.1 682H254.11C254.66 682 255.11 682.45 255.11 683C255.11 683.55 254.66 684 254.1 684Z" fill="currentColor"></path><path d="M251.1 684C250.55 684 250.1 683.55 250.1 683C250.1 682.45 250.54 682 251.1 682C251.65 682 252.1 682.45 252.1 683C252.1 683.55 251.66 684 251.1 684Z" fill="currentColor"></path><path d="M261 689.25H251.02C250.61 689.25 250.26 688.91 250.26 688.5C250.26 688.09 250.59 687.75 251 687.75H261C261.41 687.75 261.75 688.09 261.75 688.5C261.75 688.91 261.41 689.25 261 689.25Z" fill="currentColor"></path></svg></span><b>Контент и креативы</b><span>Тексты, баннеры, видео, лид-магниты. Единый стиль и логика по всем каналам.</span></div></div><div class="pg-note"><p>Конверсионные связки — способ из того же трафика получать больше качественных заявок. Мы собираем их под финмодель клиента и регулярно тестируем: масштабируем рабочие, отключаем слабые.</p></div>
   </div>
 </section>
 
 <section class="sec" id="packages">
   <div class="shell">
     <div class="sec-head"><h2 class="sh-a">Пакеты сотрудничества</h2><h3 class="sh-b">Четыре уровня зрелости проекта</h3></div>
-    <div class="pg-stages c2"><div class="pg-stage rise"><b class="pg-stage-name">Стратегия · 4—6 нед</b><h3>Дорожная карта успеха</h3><p><b>Для кого.</b> Новый продукт, новый рынок или пересмотр текущей стратегии.</p><p><b>Состав.</b> Анализ рынка и конкурентов, JTBD и сегментация ЦА, позиционирование, CJM, канальная стратегия и медиаплан с KPI.</p><ul><li>Стратегический фундамент и позиционирование</li><li>Дорожная карта запуска с приоритетами и таймингом</li><li>Медиастратегия и прогноз распределения бюджета</li></ul><div class="pg-stage-foot"><span class="pg-chip">от 100 000 ₽</span></div></div><div class="pg-stage rise s1"><b class="pg-stage-name">Старт · 130 000 ₽/мес</b><h3>Фундамент и первые связки</h3><p><b>Для кого.</b> Компании, которые только начинают работу с платным трафиком или запускают новый продукт.</p><p><b>Состав.</b> Аудит аналитики, исследование ЦА, первые офферы и конверсионные лендинги, запуск контекста и таргета, поиск рабочих связок.</p><ul><li>Корректное отслеживание конверсий</li><li>Стабильный поток лидов за 2—3 месяца</li><li>Выявление лучших связок «сегмент — оффер — посадочная»</li></ul><div class="pg-stage-foot"><span class="pg-chip">от 130 000 ₽ в месяц</span></div></div><div class="pg-stage rise s2"><b class="pg-stage-name">Рост · 170 000 ₽/мес</b><h3>Масштабирование воронки</h3><p><b>Для кого.</b> Есть настроенная база лидогенерации, нужно кратно расти по объёму и охвату.</p><p><b>Состав.</b> Медиастратегия, расширенная сегментация и CJM, линейка офферов, performance и brand-каналы, дашборды в реальном времени, мониторинг конкурентов.</p><ul><li>Кратный рост лидов при контроле качества</li><li>Максимальный охват в выбранных каналах</li><li>Рост конверсии на каждом этапе воронки</li></ul><div class="pg-stage-foot"><span class="pg-chip">от 170 000 ₽ в месяц</span></div></div><div class="pg-stage rise s3"><b class="pg-stage-name">Лидер · 250 000 ₽/мес</b><h3>Автоматизация и превосходство</h3><p><b>Для кого.</b> Зрелый проект, готовый к полной автоматизации воронки и захвату доли рынка.</p><p><b>Состав.</b> Комплексная performance-экосистема, интеграция с CRM, ретаргетинг и автоматизация, персонализированные лендинги, brand + performance на всех площадках.</p><ul><li>Максимизация ROI по каналам</li><li>Предсказуемая генерация лидов</li><li>Рост доли рынка в digital</li></ul><div class="pg-stage-foot"><span class="pg-chip">от 250 000 ₽ в месяц</span></div></div></div>
+    <div class="pg-stages c2"><div class="pg-stage rise"><b class="pg-stage-name">Стратегия</b><h3>Дорожная карта успеха</h3><p><b>Для кого.</b> Новый продукт, новый рынок или пересмотр текущей стратегии.</p><p><b>Состав.</b> Анализ рынка и конкурентов, JTBD и сегментация ЦА, позиционирование, CJM, канальная стратегия и медиаплан с KPI.</p><ul><li>Стратегический фундамент и позиционирование</li><li>Дорожная карта запуска с приоритетами и таймингом</li><li>Медиастратегия и прогноз распределения бюджета</li></ul><div class="pg-stage-foot"><span class="pg-chip">от 100 000 ₽</span><span class="pg-chip">4—6 недель</span></div></div><div class="pg-stage rise s1"><b class="pg-stage-name">Старт</b><h3>Фундамент и первые связки</h3><p><b>Для кого.</b> Компании, которые только начинают работу с платным трафиком или запускают новый продукт.</p><p><b>Состав.</b> Аудит аналитики, исследование ЦА, первые офферы и конверсионные лендинги, запуск контекста и таргета, поиск рабочих связок.</p><ul><li>Корректное отслеживание конверсий</li><li>Стабильный поток лидов за 2—3 месяца</li><li>Выявление лучших связок «сегмент — оффер — посадочная»</li></ul><div class="pg-stage-foot"><span class="pg-chip">от 130 000 ₽ в месяц</span></div></div><div class="pg-stage rise s2"><b class="pg-stage-name">Рост</b><h3>Масштабирование воронки</h3><p><b>Для кого.</b> Есть настроенная база лидогенерации, нужно кратно расти по объёму и охвату.</p><p><b>Состав.</b> Медиастратегия, расширенная сегментация и CJM, линейка офферов, performance и brand-каналы, дашборды в реальном времени, мониторинг конкурентов.</p><ul><li>Кратный рост лидов при контроле качества</li><li>Максимальный охват в выбранных каналах</li><li>Рост конверсии на каждом этапе воронки</li></ul><div class="pg-stage-foot"><span class="pg-chip">от 170 000 ₽ в месяц</span></div></div><div class="pg-stage rise s3"><b class="pg-stage-name">Лидер</b><h3>Автоматизация и превосходство</h3><p><b>Для кого.</b> Зрелый проект, готовый к полной автоматизации воронки и захвату доли рынка.</p><p><b>Состав.</b> Комплексная performance-экосистема, интеграция с CRM, ретаргетинг и автоматизация, персонализированные лендинги, brand + performance на всех площадках.</p><ul><li>Максимизация ROI по каналам</li><li>Предсказуемая генерация лидов</li><li>Рост доли рынка в digital</li></ul><div class="pg-stage-foot"><span class="pg-chip">от 250 000 ₽ в месяц</span></div></div></div>
   </div>
 </section>
 
 <section class="sec" id="cases">
   <div class="shell">
-    <div class="sec-head"><h2 class="sh-a">Кейсы</h2><h3 class="sh-b">Результаты в B2B и сложных ИТ-продуктах</h3><p>Проекты по платному трафику с зафиксированными KPI: качественные MQL и SQL, а не «заявки любой ценой».</p></div>
-    <div class="pg-mini c2"><div class="pg-mini-i is-full"><span class="pg-mini-c">B2B-экосистема · Brandformance</span><span class="pg-mini-w">VK Tech</span><b class="pg-mini-h">−51% стоимости подключения при перевыполнении плана</b><p>Перестроили маркетинг в единую brandformance-архитектуру: распределение бюджетов по бизнес-ценности, кросс-минусовка между продуктами экосистемы, оптимизация по SQL и подключениям.</p><div class="pg-mini-st"><div><b>−51%</b><span>стоимость подключения</span></div><div><b>651</b><span>SQL при плане 389</span></div><div><b>4 722</b><span>подключения при плане 2 320</span></div></div></div><div class="pg-mini-i is-full"><span class="pg-mini-c">Облачный провайдер · Лидогенерация с нуля</span><span class="pg-mini-w">Т1 Облако</span><b class="pg-mini-h">Конверсия 35% в MQL в нише почти без прямого спроса</b><p>Запустили лидогенерацию там, где её не было: работа с околосемантикой, 20+ гипотез и 10+ креативов, поиск рабочих связок «оффер + аудитория» при перегретом аукционе.</p><div class="pg-mini-st"><div><b>35%</b><span>конверсия в MQL</span></div><div><b>7</b><span>MQL при плане 5</span></div><div><b>3</b><span>рабочих оффера</span></div></div></div><div class="pg-mini-i is-full"><span class="pg-mini-c">Enterprise UC-платформа · Качество лидов</span><span class="pg-mini-w">DION</span><b class="pg-mini-h">60 MQL вместо плановых 15</b><p>Выстроили отсев нецелевых заявок на ранних этапах и вышли на стабильные ~10 качественных MQL в месяц от компаний enterprise-уровня.</p><div class="pg-mini-st"><div><b>60</b><span>MQL при плане 15</span></div><div><b>11%</b><span>первичная → MQL</span></div><div><b>543</b><span>первичные конверсии</span></div></div></div><div class="pg-mini-i is-full"><span class="pg-mini-c">Промышленное ИТ</span><span class="pg-mini-w">Северсталь-инфоком</span><b class="pg-mini-h">10 MQL и −69% CPL</b><p>Продвижение пяти сложных промышленных продуктов (MES, ТОиР, IPS, AR/VR) в условиях ограниченного спроса: точечная семантика и офферы под каждый продукт.</p><div class="pg-mini-st"><div><b>10</b><span>MQL при плане 6</span></div><div><b>43%</b><span>конверсия в MQL</span></div><div><b>−69%</b><span>стоимость лида</span></div></div></div><div class="pg-mini-i is-full"><span class="pg-mini-c">ИТ-продукт · Enterprise-сегмент</span><span class="pg-mini-w">Т1, проект «Сфера»</span><b class="pg-mini-h">65 SQL от компаний с оборотом от 10 млрд рублей</b><p>Протестировали 15 гипотез под узкий enterprise-сегмент; лучше всего сработали поисковые кампании по продуктовым запросам.</p><div class="pg-mini-st"><div><b>65</b><span>SQL за период</span></div><div><b>15</b><span>протестированных гипотез</span></div><div><b>32</b><span>лида с поиска</span></div></div></div><div class="pg-mini-i is-full"><span class="pg-mini-c">Госсектор · Мультиканальная кампания</span><span class="pg-mini-w">Российский экспортный центр</span><b class="pg-mini-h">+50% небрендового трафика и вдвое выше конверсия в регистрацию</b><p>Мультиканальная кампания под поиск экспортёров: поиск, РСЯ и КМС, таргет и ретаргетинг, плюс SEO под высокочастотные запросы.</p><div class="pg-mini-st"><div><b>+50%</b><span>небрендовый трафик</span></div><div><b>2,5 → 4%</b><span>конверсия в регистрацию</span></div><div><b>×8</b><span>промежуточных целей</span></div></div></div></div><div class="pg-mini-act"><a class="btn btn-ghost" href="../cases/wp-marketing-cases.html#ppc">Смотреть все кейсы</a></div>
+    <div class="sec-head"><h2 class="sh-a">Кейсы</h2><h3 class="sh-b">Результаты в B2B и сложных ИТ-продуктах</h3><p>Проекты по платному трафику с зафиксированными KPI: качественные MQL и SQL, а не «заявки любой ценой». Часть данных под NDA.</p></div>
+    <div class="pg-mini c2"><div class="pg-mini-i is-full"><span class="pg-mini-c">B2B-экосистема · brandformance</span><span class="pg-mini-w">VK Tech</span><b class="pg-mini-h">−51% стоимости подключения при перевыполнении плана</b><p>Перестроили маркетинг в единую brandformance-архитектуру: распределение бюджетов по бизнес-ценности, кросс-минусовка между продуктами экосистемы, оптимизация по SQL и подключениям.</p><div class="pg-mini-st"><div><b>−51%</b><span>стоимость подключения</span></div><div><b>651</b><span>SQL при плане 389</span></div><div><b>4 722</b><span>подключения (план 2 320)</span></div></div></div><div class="pg-mini-i is-full"><span class="pg-mini-c">Облачный провайдер · лидогенерация с нуля</span><span class="pg-mini-w">Т1 Облако</span><b class="pg-mini-h">Конверсия 35% в MQL в нише почти без прямого спроса</b><p>Запустили лидогенерацию там, где её не было: работа с околосемантикой, 20+ гипотез и 10+ креативов, поиск рабочих связок «оффер + аудитория» при перегретом аукционе.</p><div class="pg-mini-st"><div><b>35%</b><span>конверсия в MQL</span></div><div><b>7</b><span>MQL при плане 5</span></div><div><b>3</b><span>рабочих оффера</span></div></div></div><div class="pg-mini-i is-full"><span class="pg-mini-c">Enterprise UC-платформа · качество лидов</span><span class="pg-mini-w">DION</span><b class="pg-mini-h">60 MQL вместо плановых 15</b><p>Выстроили отсев нецелевых заявок на ранних этапах и вышли на стабильные ~10 качественных MQL в месяц от компаний enterprise-уровня.</p><div class="pg-mini-st"><div><b>60</b><span>MQL при плане 15</span></div><div><b>11%</b><span>первичная → MQL</span></div><div><b>543</b><span>первичные конверсии</span></div></div></div><div class="pg-mini-i is-full"><span class="pg-mini-c">Промышленное ИТ</span><span class="pg-mini-w">Северсталь-инфоком</span><b class="pg-mini-h">10 MQL и −69% CPL</b><p>Продвижение пяти сложных промышленных продуктов (MES, ТОиР, IPS, AR/VR) в условиях ограниченного спроса: точечная семантика и офферы под каждый продукт.</p><div class="pg-mini-st"><div><b>10</b><span>MQL при плане 6</span></div><div><b>43%</b><span>конверсия в MQL</span></div><div><b>−69%</b><span>стоимость лида</span></div></div></div><div class="pg-mini-i is-full"><span class="pg-mini-c">ИТ-холдинг · MQL enterprise-уровня</span><span class="pg-mini-w">Т1, проект «Сфера»</span><b class="pg-mini-h">Прирост MQL через digital с нуля</b><p>MQL = компании с оборотом от 10 млрд ₽ и командой от 300 разработчиков. Протестировали 15 гипотез; лучше всего сработали поисковые кампании и посевы в узких Telegram-каналах.</p><div class="pg-mini-st"><div><b>65</b><span>SQL</span></div><div><b>15</b><span>протестированных гипотез</span></div><div><b>32</b><span>лида с поиска</span></div></div></div><div class="pg-mini-i is-full"><span class="pg-mini-c">Госсектор · регистрации</span><span class="pg-mini-w">Российский экспортный центр</span><b class="pg-mini-h">2 364 регистрации юрлиц при плане 2 000</b><p>Мультиканальная performance-кампания под платформу «Одно окно»: поиск, РСЯ и КМС, таргет и ретаргетинг, медийно-контекстный баннер, email-рассылки и SEO.</p><div class="pg-mini-st"><div><b>2 364</b><span>регистрации (план 2 000)</span></div><div><b>103 млн</b><span>показов</span></div><div><b>593 тыс.</b><span>кликов</span></div></div></div></div><div class="pg-mini-act"><a class="btn btn-ghost" href="../cases/wp-marketing-cases.html#ppc">Смотреть все кейсы</a></div>
   </div>
 </section>
 
@@ -2795,8 +2814,7 @@ body section:last-of-type{padding-bottom:136px}
 
 <section class="sec" id="deck">
   <div class="shell">
-    <div class="sec-head"><h2 class="sh-a">Материал для скачивания</h2><h3 class="sh-b">Презентация «Архитектура качественной лидогенерации»</h3></div>
-    <div class="pg-mg"><div class="pg-mg-l"><h3>Презентация «Архитектура качественной лидогенерации»</h3><p>12 страниц: как мы строим управляемую воронку платного трафика, четыре пакета зрелости с ценами и KPI, матрица ответственности, каналы и инструменты, этапы запуска, ритм ведения и подход к аналитике.</p><div class="pg-mg-cols"><span>Концепция связок «сегмент → оффер → посадочная → контент»</span><span>Четыре пакета: Стратегия / Старт / Рост / Лидер с ценами</span><span>Матрица ответственности агентства и клиента</span><span>Ритм ведения кампаний: день · неделя · месяц</span></div><div class="pg-mg-act"><a class="btn btn-primary" href="../a2/88eafc27fb6e38c6.pdf" download="wp-arhitektura-lidogeneracii.pdf">Скачать презентацию (PDF) <svg class="dlic" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9.32 11.59L11.88 14.15L14.44 11.59" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M11.88 4V14.17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M20 12.18C20 16.6 17 20.18 12 20.18C7 20.18 4 16.6 4 12.18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a><span class="pg-mg-note">PDF · 12 страниц · без регистрации</span></div></div><div class="pg-mg-r"><b>Оглавление</b><div class="pg-mg-st"><i>1</i><span>Digital-маркетинг для качественной лидогенерации</span></div><div class="pg-mg-st"><i>2</i><span>Что происходит на рынке платного трафика</span></div><div class="pg-mg-st"><i>3</i><span>Концепция управляемой воронки</span></div><div class="pg-mg-st"><i>4</i><span>Пакет «Стратегия»: дорожная карта</span></div><div class="pg-mg-st"><i>5</i><span>Пакет «Старт»: фундамент и первые связки</span></div><div class="pg-mg-st"><i>6</i><span>Пакет «Рост»: масштабирование воронки</span></div><div class="pg-mg-st"><i>7</i><span>Пакет «Лидер»: автоматизация и превосходство</span></div><div class="pg-mg-st"><i>8</i><span>Каналы и инструменты</span></div><div class="pg-mg-st"><i>9</i><span>Матрица ответственности</span></div><div class="pg-mg-st"><i>10</i><span>Этапы старта и ведение проекта</span></div><div class="pg-mg-st"><i>11</i><span>Подход к аналитике и отчётности</span></div><div class="pg-mg-st"><i>12</i><span>Следующий шаг: расчёт плана по лидам</span></div></div></div>
+    <div class="pg-mg has-head"><div class="sec-head pg-mg-head"><h2 class="sh-a">Материал для скачивания</h2><h3 class="sh-b">Презентация «Архитектура качественной лидогенерации»</h3></div><div class="pg-mg-l"><p>12 страниц: как мы строим управляемую воронку платного трафика, четыре пакета зрелости с ценами и KPI, матрица ответственности, каналы и инструменты, этапы запуска, ритм ведения и подход к аналитике.</p><div class="pg-mg-cols"><span>Концепция связок «сегмент → оффер → посадочная → контент»</span><span>Четыре пакета: Стратегия / Старт / Рост / Лидер с ценами</span><span>Матрица ответственности агентства и клиента</span><span>Ритм ведения кампаний: день · неделя · месяц</span></div><div class="pg-mg-act"><a class="btn btn-primary" href="../a2/88eafc27fb6e38c6.pdf" download="wp-arhitektura-lidogeneracii.pdf">Скачать презентацию (PDF) <svg class="dlic" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9.32 11.59L11.88 14.15L14.44 11.59" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M11.88 4V14.17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M20 12.18C20 16.6 17 20.18 12 20.18C7 20.18 4 16.6 4 12.18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a><span class="pg-mg-note">PDF · 12 страниц · без регистрации</span></div></div><div class="pg-mg-r"><b>Оглавление</b><div class="pg-mg-st"><i>1</i><span>Digital-маркетинг для качественной лидогенерации</span></div><div class="pg-mg-st"><i>2</i><span>Что происходит на рынке платного трафика</span></div><div class="pg-mg-st"><i>3</i><span>Концепция управляемой воронки</span></div><div class="pg-mg-st"><i>4</i><span>Пакет «Стратегия»: дорожная карта</span></div><div class="pg-mg-st"><i>5</i><span>Пакет «Старт»: фундамент и первые связки</span></div><div class="pg-mg-st"><i>6</i><span>Пакет «Рост»: масштабирование воронки</span></div><div class="pg-mg-st"><i>7</i><span>Пакет «Лидер»: автоматизация и превосходство</span></div><div class="pg-mg-st"><i>8</i><span>Каналы и инструменты</span></div><div class="pg-mg-st"><i>9</i><span>Матрица ответственности</span></div><div class="pg-mg-st"><i>10</i><span>Этапы старта и ведение проекта</span></div><div class="pg-mg-st"><i>11</i><span>Подход к аналитике и отчётности</span></div><div class="pg-mg-st"><i>12</i><span>Следующий шаг: расчёт плана по лидам</span></div></div></div>
   </div>
 </section>
 
@@ -2832,7 +2850,7 @@ body section:last-of-type{padding-bottom:136px}
       </div>
     </div>
     <div class="foot-col">
-      <h2>Услуги</h2>
+      <h2><a href="wp-marketing-services.html">Услуги</a></h2>
       <a href="wp-marketing-services-consulting.html">Консалтинг и стратегия</a>
       <a href="wp-marketing-services-seo-geo.html">SEO &amp; GEO / AEO</a>
       <a href="wp-marketing-services-ppc.html">PPC &amp; Лидогенерация</a>

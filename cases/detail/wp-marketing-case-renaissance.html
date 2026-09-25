@@ -101,9 +101,9 @@ header.head{padding:16px 24px}
 .has-sub{position:relative;display:inline-flex;align-items:center}
 .has-sub>a,.has-sub>.nav-sec{display:inline-flex;align-items:center;gap:8px}
 .has-sub>a::after,.has-sub>.nav-sec::after{content:'';width:6px;height:6px;border-right:1.5px solid currentColor;
-  border-bottom:1.5px solid currentColor;transform:rotate(45deg) translateY(-1px);
-  transition:transform .2s ease}
-.has-sub.open>a::after,.has-sub.open>.nav-sec::after{transform:rotate(225deg) translateY(-1px)}
+  border-bottom:1.5px solid currentColor;transform:translateY(-1.5px) rotate(45deg);
+  transform-origin:50% 50%;transition:transform .2s ease}
+.has-sub.open>a::after,.has-sub.open>.nav-sec::after{transform:translateY(2.75px) rotate(225deg)}
 .drop{position:absolute;top:calc(100% - 8px);left:var(--x,80px);z-index:5;
   min-width:272px;display:grid;gap:8px;padding:16px;
   background:var(--white);border:1px solid var(--line);border-radius:var(--r-l);
@@ -605,7 +605,7 @@ h3.sh-b:last-child{margin-bottom:0}
    квадратность держим через aspect-ratio, а не через растягивание
    по высоте блока. */
 .mgr .ava{grid-column:1;grid-row:1 / -1;width:152px;height:auto;aspect-ratio:1;
-  align-self:start;border-radius:var(--r-s);object-fit:cover;object-position:50% 20%;
+  align-self:start;border-radius:var(--r-m);object-fit:cover;object-position:50% 20%;
   display:block;background:var(--lilac)}
 .mgr b{grid-column:2;grid-row:1;font-weight:400;font-size:18px;align-self:end}
 .mgr span{grid-column:2;grid-row:2;font-size:15px;color:var(--ink-soft)}
@@ -708,6 +708,8 @@ h3.sh-b:last-child{margin-bottom:0}
   font-weight:400;letter-spacing:0;color:color-mix(in oklab, var(--white) 62%, var(--graphite))}
 .foot-col a{font-size:15px;line-height:1.45;color:color-mix(in oklab, var(--white) 82%, var(--graphite));transition:color .2s ease}
 .foot-col a:hover{color:var(--white)}
+.foot-col h2 a{font:inherit;letter-spacing:inherit;text-transform:inherit;color:inherit;transition:color .2s ease}
+.foot-col h2 a:hover{color:var(--white)}
 .foot-cnt{grid-column:10 / span 3;display:flex;flex-direction:column;gap:8px}
 .foot-cnt b{font-weight:400;font-size:15px}
 .foot-cnt span,.foot-cnt a{font-size:15px;color:color-mix(in oklab, var(--white) 70%, var(--graphite))}
@@ -799,18 +801,18 @@ h3.sh-b:last-child{margin-bottom:0}
 /* палитру задаёт сборщик страницы: PALETTE в build_case_copy.py */
 .crumbs{display:flex;flex-wrap:wrap;align-items:center;gap:16px;margin:0 0 24px;font-size:15px;color:var(--ink-soft)}
 .crumbs a{color:var(--ink-soft);transition:color .2s ease}
-.crumbs a:hover{color:var(--indigo-bright)}
+.crumbs a:hover{color:var(--accent)}
 .crumbs .sep{color:var(--ink-faint)}
 .crumbs [aria-current]{color:var(--ink)}
 
 /* картинки с боевого сайта: если не загрузились — остаётся подпись */
 figure.shot{margin:0;display:flex;flex-direction:column;gap:16px}
-/* Скриншоты идут без скругления: на боевых страницах у них свои
-   поля и своя рамка, а наш радиус срезал её по углам. */
-figure.shot img{display:block;width:100%;height:auto;border-radius:0;
+/* Один радиус на все изображения кейсов: разнобой скруглений
+   бросался в глаза при переходе между кейсами. */
+figure.shot img{display:block;width:100%;height:auto;border-radius:var(--r-m);
   background:var(--white)}
 /* обводка нужна только светлому скриншоту: он иначе сливается с белым фоном */
-figure.shot.framed img{border:1px solid var(--line)}
+figure.shot.framed img{border:0}
 figure.shot figcaption{font-size:14px;line-height:1.45;color:var(--ink-faint)}
 figure.shot[data-failed] img{display:none}
 figure.shot[data-failed]::before{content:attr(data-plate);display:flex;align-items:center;justify-content:center;
@@ -819,7 +821,7 @@ figure.shot[data-failed]::before{content:attr(data-plate);display:flex;align-ite
 
 .cc-hero{padding:40px 0 0}
 .cc-hero .shell>:last-child{margin-bottom:0}
-.cc-cover{margin:0 0 40px;border-radius:var(--r-l);overflow:hidden;background:var(--cb-bg)}
+.cc-cover{margin:0 0 40px;border-radius:var(--r-m);overflow:hidden;background:var(--cb-bg)}
 .cc-cover img{display:block;width:100%;height:auto;max-height:min(46dvh,420px);object-fit:cover}
 .cc-cover[data-failed] img{display:none}
 .cc-cover[data-failed]::before{content:attr(data-plate);display:flex;align-items:center;justify-content:center;
@@ -1078,7 +1080,7 @@ figure.shot[data-failed]::before{content:attr(data-plate);display:flex;align-ite
 .cc-figrow .cc-sides{gap:0;height:100%}
 .cc-figrow figure.shot{height:100%}
 .cc-figrow figure.shot img{height:100%;width:100%;object-fit:cover;
-  border-radius:0;background:transparent}
+  border-radius:var(--r-m);background:transparent}
 /* Цифры уступом: итог крупно, слагаемые под ним помельче */
 .cc-tiers{display:flex;flex-direction:column;gap:40px;margin:32px 0 0}
 .cc-tier{display:flex;flex-direction:column;gap:8px}
@@ -1092,7 +1094,7 @@ figure.shot[data-failed]::before{content:attr(data-plate);display:flex;align-ite
 .cc-tl{margin:32px 0 0}
 /* Без скругления: радиус срезал годы, которые стоят у самых краёв.
    Селектор с figure.shot — иначе базовое правило перебивает по весу. */
-figure.shot.cc-tl img{display:block;width:100%;height:auto;border-radius:0}
+figure.shot.cc-tl img{display:block;width:100%;height:auto;border-radius:var(--r-m)}
 /* Графики по продуктам — по два в ряд во всю ширину колонки:
    четыре в строку сжимались до нечитаемых подписей, а высота
    в 400px оставляла половину контейнера пустой. Скругления снимаем:
@@ -1100,7 +1102,7 @@ figure.shot.cc-tl img{display:block;width:100%;height:auto;border-radius:0}
 .cc-gal.g4{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--gutter)}
 .cc-gal.g4 figure.shot{flex:none}
 .cc-gal.g4 figure.shot img{width:100%;height:auto;max-height:none;object-fit:contain;
-  border-radius:0}
+  border-radius:var(--r-m)}
 .cc-gal.g4 figure.shot[data-failed]::before{height:auto;min-height:280px}
 /* Команда — плитка людей с линейкой слева. Строки во всю ширину
    с горизонтальными разделителями читались как таблица ставок. */
@@ -1283,7 +1285,7 @@ figure.shot.cc-tl img{display:block;width:100%;height:auto;border-radius:0}
     <h2>Контент и структура</h2>
     <div class="cc-split"><div><p>В семантическом ядре проекта было более 2000 «ключей», и под большинство из них не было посадочных страниц. Поэтому следующим этапом стало создание новых SEO-лендингов, которые позволили охватить весь спрос и обеспечили дальнейший рост позиций.</p><p>Переработали мета-теги, тексты, предложили вывести на страницы форму заявки на банковские продукты. Совместно с командой банка добавили калькулятор по кредитам и вкладам — этот функционал напрямую влияет на конверсию, так как особенно важно было забрать трафик по высококонкурентным запросам: «кредитный калькулятор», «подать заявку на кредит» и «оформить вклад онлайн».</p><p>Параллельно шло масштабное расширение структуры: создали 200 новых страниц, каждая из которых была адаптирована под узкий сегмент спроса. Такой подход повысил вывод сайта банка в топ-10 по большинству ключевых запросов семантического ядра: в Яндексе с 2% до 28%, в Google с 3% до 42% по итогу двух лет работы.</p><p>После запуска большого числа узконаправленных страниц сосредоточились на доработке их контента.</p></div><div class="cc-sides"><div class="cc-aside"><p>Техническая оптимизация и расширение структуры позволили попасть в топ-10 по запросам.</p></div><div class="cc-aside"><p>Уникальные тексты усилили релевантность страниц и привели к росту доли запросов в топ-3, что увеличило конверсию в заявку.</p></div></div></div><div class="cc-sub">
       <h3>Результаты по приоритетным продуктам</h3>
-      <div class="cc-gal g4"><figure class="shot" data-plate="Кредиты, Яндекс: рост до 51% выхода в топ-10"><img src="../../a2/d0b54d87a842c5b3.webp" alt="Кредиты, Яндекс: рост до 51% выхода в топ-10" loading="lazy" decoding="async"></figure><figure class="shot" data-plate="Кредиты, Google: рост до 70% выхода в топ-10"><img src="../../a2/a357e77afdc5adbd.webp" alt="Кредиты, Google: рост до 70% выхода в топ-10" loading="lazy" decoding="async"></figure><figure class="shot" data-plate="Кредитные карты, Яндекс: рост до 23% выхода в топ-10"><img src="../../a2/f9b040d6b2497810.webp" alt="Кредитные карты, Яндекс: рост до 23% выхода в топ-10" loading="lazy" decoding="async"></figure><figure class="shot" data-plate="Кредитные карты, Google: рост до 69% выхода в топ-10"><img src="../../a1/729289082437445b.webp" alt="Кредитные карты, Google: рост до 69% выхода в топ-10" loading="lazy" decoding="async"></figure></div>
+      <div class="cc-gal g4"><figure class="shot" data-plate="Кредиты, Яндекс: рост до 51% выхода в топ-10" style="max-width:1360px"><img src="../../a2/d0b54d87a842c5b3.webp" alt="Кредиты, Яндекс: рост до 51% выхода в топ-10" loading="lazy" decoding="async"></figure><figure class="shot" data-plate="Кредиты, Google: рост до 70% выхода в топ-10" style="max-width:1360px"><img src="../../a2/a357e77afdc5adbd.webp" alt="Кредиты, Google: рост до 70% выхода в топ-10" loading="lazy" decoding="async"></figure><figure class="shot" data-plate="Кредитные карты, Яндекс: рост до 23% выхода в топ-10" style="max-width:1360px"><img src="../../a2/f9b040d6b2497810.webp" alt="Кредитные карты, Яндекс: рост до 23% выхода в топ-10" loading="lazy" decoding="async"></figure><figure class="shot" data-plate="Кредитные карты, Google: рост до 69% выхода в топ-10" style="max-width:1360px"><img src="../../a1/729289082437445b.webp" alt="Кредитные карты, Google: рост до 69% выхода в топ-10" loading="lazy" decoding="async"></figure></div>
     </div>
 
   </div>
@@ -1306,7 +1308,7 @@ figure.shot.cc-tl img{display:block;width:100%;height:auto;border-radius:0}
 <section class="cc-sec">
   <div class="shell">
     <h2>Блог как канал доверия</h2>
-    <div class="cc-split"><div><p>Разработали техническое задание на создание блога на сайте и с января 2024 года запустили полноценную работу по этому направлению. Наполнение блога контентом производилось не только ради SEO, но и для повышения финансовой грамотности клиентов. Материалы помогают пользователям разобраться в сложных продуктах: инвестициях, кредитовании, управлении личными финансами. Мы публиковали 4 новых статьи каждый месяц. Это дало мощный прирост информационного трафика, а также увеличило время нахождения пользователей на сайте и их вовлечённость. Уже через 4 месяца трафик на страницы блога составил 16 000 пользователей.</p></div><div class="cc-sides"><div class="cc-aside"><p>Блог увеличил вовлечённость и трафик на 16 000 пользователей в месяц.</p></div></div></div><div class="cc-figrow"><div><div class="cc-tiers"><div class="cc-tier is-lead"><b>62</b><span>статьи для блога</span></div><div class="cc-tier-row"><div class="cc-tier"><b>10</b><span>статей за 2023 год</span></div><div class="cc-tier"><b>52</b><span>статьи за 2024 год</span></div></div></div></div><div class="cc-sides"><figure class="shot" data-plate="Статьи блога «Ренессанс Банка»"><img src="../../a2/8b46ba0fc34dc50c.webp" alt="Статьи блога «Ренессанс Банка»" loading="lazy" decoding="async"></figure></div></div>
+    <div class="cc-split"><div><p>Разработали техническое задание на создание блога на сайте и с января 2024 года запустили полноценную работу по этому направлению. Наполнение блога контентом производилось не только ради SEO, но и для повышения финансовой грамотности клиентов. Материалы помогают пользователям разобраться в сложных продуктах: инвестициях, кредитовании, управлении личными финансами. Мы публиковали 4 новых статьи каждый месяц. Это дало мощный прирост информационного трафика, а также увеличило время нахождения пользователей на сайте и их вовлечённость. Уже через 4 месяца трафик на страницы блога составил 16 000 пользователей.</p></div><div class="cc-sides"><div class="cc-aside"><p>Блог увеличил вовлечённость и трафик на 16 000 пользователей в месяц.</p></div></div></div><div class="cc-figrow"><div><div class="cc-tiers"><div class="cc-tier is-lead"><b>62</b><span>статьи для блога</span></div><div class="cc-tier-row"><div class="cc-tier"><b>10</b><span>статей за 2023 год</span></div><div class="cc-tier"><b>52</b><span>статьи за 2024 год</span></div></div></div></div><div class="cc-sides"><figure class="shot" data-plate="Статьи блога «Ренессанс Банка»" style="max-width:956px"><img src="../../a2/8b46ba0fc34dc50c.webp" alt="Статьи блога «Ренессанс Банка»" loading="lazy" decoding="async"></figure></div></div>
   </div>
 </section>
 
@@ -1447,7 +1449,7 @@ figure.shot.cc-tl img{display:block;width:100%;height:auto;border-radius:0}
       <p class="lead-err" role="alert">Не удалось отправить заявку. Напишите, пожалуйста, напрямую на <a href="mailto:m.parinova@webpractik.ru">m.parinova@webpractik.ru</a> — ответим в течение рабочего дня.</p>
       <div class="lead-ok" role="status" aria-live="polite">
         <b>Заявка отправлена</b>
-        <span>Мария свяжется с вами в течение рабочего дня и пришлёт план первой встречи.</span>
+        <span>Свяжемся с вами в течение рабочего дня и пришлём план первой встречи.</span>
       </div>
     </form>
   </div>
@@ -1477,7 +1479,7 @@ figure.shot.cc-tl img{display:block;width:100%;height:auto;border-radius:0}
       </div>
     </div>
     <div class="foot-col">
-      <h2>Услуги</h2>
+      <h2><a href="../../services/wp-marketing-services.html">Услуги</a></h2>
       <a href="../../services/wp-marketing-services-consulting.html">Консалтинг и стратегия</a>
       <a href="../../services/wp-marketing-services-seo-geo.html">SEO &amp; GEO / AEO</a>
       <a href="../../services/wp-marketing-services-ppc.html">PPC &amp; Лидогенерация</a>

@@ -101,9 +101,9 @@ header.head{padding:16px 24px}
 .has-sub{position:relative;display:inline-flex;align-items:center}
 .has-sub>a,.has-sub>.nav-sec{display:inline-flex;align-items:center;gap:8px}
 .has-sub>a::after,.has-sub>.nav-sec::after{content:'';width:6px;height:6px;border-right:1.5px solid currentColor;
-  border-bottom:1.5px solid currentColor;transform:rotate(45deg) translateY(-1px);
-  transition:transform .2s ease}
-.has-sub.open>a::after,.has-sub.open>.nav-sec::after{transform:rotate(225deg) translateY(-1px)}
+  border-bottom:1.5px solid currentColor;transform:translateY(-1.5px) rotate(45deg);
+  transform-origin:50% 50%;transition:transform .2s ease}
+.has-sub.open>a::after,.has-sub.open>.nav-sec::after{transform:translateY(2.75px) rotate(225deg)}
 .drop{position:absolute;top:calc(100% - 8px);left:var(--x,80px);z-index:5;
   min-width:272px;display:grid;gap:8px;padding:16px;
   background:var(--white);border:1px solid var(--line);border-radius:var(--r-l);
@@ -605,7 +605,7 @@ h3.sh-b:last-child{margin-bottom:0}
    квадратность держим через aspect-ratio, а не через растягивание
    по высоте блока. */
 .mgr .ava{grid-column:1;grid-row:1 / -1;width:152px;height:auto;aspect-ratio:1;
-  align-self:start;border-radius:var(--r-s);object-fit:cover;object-position:50% 20%;
+  align-self:start;border-radius:var(--r-m);object-fit:cover;object-position:50% 20%;
   display:block;background:var(--lilac)}
 .mgr b{grid-column:2;grid-row:1;font-weight:400;font-size:18px;align-self:end}
 .mgr span{grid-column:2;grid-row:2;font-size:15px;color:var(--ink-soft)}
@@ -708,6 +708,8 @@ h3.sh-b:last-child{margin-bottom:0}
   font-weight:400;letter-spacing:0;color:color-mix(in oklab, var(--white) 62%, var(--graphite))}
 .foot-col a{font-size:15px;line-height:1.45;color:color-mix(in oklab, var(--white) 82%, var(--graphite));transition:color .2s ease}
 .foot-col a:hover{color:var(--white)}
+.foot-col h2 a{font:inherit;letter-spacing:inherit;text-transform:inherit;color:inherit;transition:color .2s ease}
+.foot-col h2 a:hover{color:var(--white)}
 .foot-cnt{grid-column:10 / span 3;display:flex;flex-direction:column;gap:8px}
 .foot-cnt b{font-weight:400;font-size:15px}
 .foot-cnt span,.foot-cnt a{font-size:15px;color:color-mix(in oklab, var(--white) 70%, var(--graphite))}
@@ -793,7 +795,7 @@ h3.sh-b:last-child{margin-bottom:0}
 <style>
 .crumbs{display:flex;flex-wrap:wrap;align-items:center;gap:16px;margin:0 0 24px;font-size:15px;color:var(--ink-soft)}
 .crumbs a{color:var(--ink-soft);transition:color .2s ease}
-.crumbs a:hover{color:var(--indigo-bright)}
+.crumbs a:hover{color:var(--accent)}
 .crumbs .sep{color:var(--ink-faint)}
 .crumbs [aria-current]{color:var(--ink)}
 
@@ -804,7 +806,7 @@ h3.sh-b:last-child{margin-bottom:0}
 .cp-hero .shell>:last-child{margin-bottom:0}
 .cp-full{margin:0;background:var(--cb-bg)}
 .cp-full img{display:block;width:100%;height:auto}
-.cp-media{margin:0 0 40px;border-radius:var(--r-l);overflow:hidden;background:var(--cb-bg)}
+.cp-media{margin:0 0 40px;border-radius:var(--r-m);overflow:hidden;background:var(--cb-bg)}
 /* обложка не загрузилась — остаётся плашка с подписью */
 .cp-media[data-failed] img{display:none}
 .cp-media[data-failed]::before{content:attr(data-plate);display:flex;align-items:center;
@@ -966,8 +968,8 @@ svg.cp-stat-ic{color:var(--cb);border-radius:0}
 .cp-shots{margin:24px 0 0;display:grid;
   grid-template-columns:repeat(var(--n,2),minmax(0,1fr));gap:var(--gutter)}
 .cp-shot{margin:0;display:flex;flex-direction:column;gap:8px}
-.cp-shot img{display:block;width:100%;height:auto;border:1px solid var(--line);
-  border-radius:var(--r-s)}
+.cp-shot img{display:block;width:100%;height:auto;border:0;
+  border-radius:var(--r-m)}
 .cp-shot figcaption{font-size:14px;line-height:1.45;color:var(--ink-faint)}
 @media (max-width:900px){.cp-shots{grid-template-columns:1fr}}
 .cp-quote p::first-letter,.cp-quote .qm{color:var(--accent)}
@@ -1233,7 +1235,7 @@ svg.cp-stat-ic{color:var(--cb);border-radius:0}
       <p class="lead-err" role="alert">Не удалось отправить заявку. Напишите, пожалуйста, напрямую на <a href="mailto:m.parinova@webpractik.ru">m.parinova@webpractik.ru</a> — ответим в течение рабочего дня.</p>
       <div class="lead-ok" role="status" aria-live="polite">
         <b>Заявка отправлена</b>
-        <span>Мария свяжется с вами в течение рабочего дня и пришлёт план первой встречи.</span>
+        <span>Свяжемся с вами в течение рабочего дня и пришлём план первой встречи.</span>
       </div>
     </form>
   </div>
@@ -1263,7 +1265,7 @@ svg.cp-stat-ic{color:var(--cb);border-radius:0}
       </div>
     </div>
     <div class="foot-col">
-      <h2>Услуги</h2>
+      <h2><a href="../../services/wp-marketing-services.html">Услуги</a></h2>
       <a href="../../services/wp-marketing-services-consulting.html">Консалтинг и стратегия</a>
       <a href="../../services/wp-marketing-services-seo-geo.html">SEO &amp; GEO / AEO</a>
       <a href="../../services/wp-marketing-services-ppc.html">PPC &amp; Лидогенерация</a>
