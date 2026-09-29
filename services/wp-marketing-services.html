@@ -681,7 +681,7 @@ h3.sh-b:last-child{margin-bottom:0}
 .lead-ok{display:none;flex-direction:column;gap:16px;padding:8px 0}
 .lead-ok b{font-family:'Bounded','Geologica',sans-serif;font-weight:400;font-size:22px}
 .honey{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
-.lead-err{display:none;font-size:14px;color:var(--red);max-width:52ch}
+.lead-err{display:none;margin:16px 0 0;font-size:14px;color:var(--red);max-width:52ch}
 .lead-form.failed .lead-err{display:block}
 .btn[aria-busy="true"]{opacity:.7;pointer-events:none}
 .lead-ok span{font-size:16px;color:var(--ink-soft)}
@@ -877,12 +877,13 @@ h3.sh-b:last-child{margin-bottom:0}
 /* Шаги: между карточками стрелка — видно, что это последовательность,
    а не набор. Некликабельная, вне потока, на узких экранах скрыта:
    там карточки идут друг под другом и порядок читается сам. */
-.pg-cards.steps{position:relative}
+.pg-cards.steps{position:relative;column-gap:40px}
 .pg-cards.steps .pg-card{position:relative}
 .pg-cards.steps .pg-card + .pg-card::before{content:'';position:absolute;
-  left:calc(-1 * var(--gutter) / 2 - 5px);top:50%;width:10px;height:10px;
-  border-top:2px solid var(--accent);border-right:2px solid var(--accent);
-  transform:translateY(-50%) rotate(45deg);pointer-events:none}
+  left:-32px;top:50%;width:24px;height:24px;
+  transform:translateY(-50%);background:var(--steel);
+  -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 12h15'/%3E%3Cpath d='M15 8l4 4-4 4'/%3E%3C/svg%3E") center / 24px 24px no-repeat;
+  mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 12h15'/%3E%3Cpath d='M15 8l4 4-4 4'/%3E%3C/svg%3E") center / 24px 24px no-repeat;pointer-events:none}
 @media (max-width:1100px){.pg-cards.steps .pg-card + .pg-card::before{display:none}}
 /* Дашборд: карточки без обводки. Белая карточка без рамки на белом фоне
    не читалась бы, поэтому подложка — Lilac Cloud. */
@@ -1786,9 +1787,13 @@ a.pg-card:hover li::before{background:var(--white)}
 .pg-dm-q{margin:0;font-size:14px;line-height:1.45;color:var(--ink-soft)}
 .pg-dm-q b{font-weight:500;color:var(--graphite)}
 /* кнопка, открывающая макет */
-.pg-stage-demo{align-self:flex-start;margin-top:8px;padding:0;border:0;
-  background:none;font:inherit;font-size:15px;color:var(--accent);cursor:pointer;
-  display:inline-flex;align-items:center;gap:8px}
+.pg-stage-demo{align-self:flex-start;margin-top:auto;padding:16px 0 0;border:0;
+  text-align:left;background:none;font:inherit;font-size:15px;line-height:1.45;
+  color:var(--accent);cursor:pointer;display:block}
+/* стрелка — строчный знак после последнего слова, а не отдельная колонка:
+   при переносе подписи она больше не уезжает к краю карточки */
+.pg-stage-demo .pg-arw{display:inline-block;margin:0 0 0 8px;padding:0;
+  vertical-align:middle;line-height:0}
 .pg-stage-demo:hover{color:var(--indigo-bright)}
 @media (max-width:640px){.pg-dm{padding:24px}
   .pg-dm-tbl.c2 .pg-dm-r,.pg-dm-tbl.c3 .pg-dm-r{grid-template-columns:1fr;gap:8px}
@@ -1801,10 +1806,6 @@ a.pg-card:hover li::before{background:var(--white)}
   gap:var(--gutter);align-items:start}
 .pg-ms-form{display:flex;flex-direction:column;gap:16px;padding:40px;
   border:1px solid var(--line);border-radius:var(--r-l);background:var(--white)}
-.pg-ms-h{display:flex;gap:16px;align-items:center}
-.pg-ms-ic{flex:none;width:48px;height:48px;border-radius:50%;
-  background:var(--accent);color:var(--white);
-  display:flex;align-items:center;justify-content:center}
 .pg-ms-form h3{margin:0;font-family:'Bounded','Geologica',sans-serif;
   font-weight:400;font-size:clamp(21px,2vw,26px);line-height:1.15;
   letter-spacing:-.01em;color:var(--graphite);
@@ -1900,8 +1901,8 @@ a.pg-card:hover li::before{background:var(--white)}
   color:var(--graphite);hyphens:manual;overflow-wrap:normal;word-break:normal}
 .pg-mg p{margin:0;font-size:16px;line-height:1.5;color:var(--ink);
   hyphens:manual;overflow-wrap:normal;word-break:normal}
-.pg-mg-cols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:8px 24px;margin:8px 0 0}
+.pg-mg-cols{display:grid;grid-template-columns:1fr;
+  gap:8px;margin:8px 0 0}
 .pg-mg-cols span{position:relative;padding-left:16px;font-size:15px;
   line-height:1.45;color:var(--ink)}
 .pg-mg-cols span::before{content:'';position:absolute;left:0;top:.6em;width:8px;

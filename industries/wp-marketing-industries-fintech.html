@@ -681,7 +681,7 @@ h3.sh-b:last-child{margin-bottom:0}
 .lead-ok{display:none;flex-direction:column;gap:16px;padding:8px 0}
 .lead-ok b{font-family:'Bounded','Geologica',sans-serif;font-weight:400;font-size:22px}
 .honey{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
-.lead-err{display:none;font-size:14px;color:var(--red);max-width:52ch}
+.lead-err{display:none;margin:16px 0 0;font-size:14px;color:var(--red);max-width:52ch}
 .lead-form.failed .lead-err{display:block}
 .btn[aria-busy="true"]{opacity:.7;pointer-events:none}
 .lead-ok span{font-size:16px;color:var(--ink-soft)}
@@ -877,12 +877,13 @@ h3.sh-b:last-child{margin-bottom:0}
 /* Шаги: между карточками стрелка — видно, что это последовательность,
    а не набор. Некликабельная, вне потока, на узких экранах скрыта:
    там карточки идут друг под другом и порядок читается сам. */
-.pg-cards.steps{position:relative}
+.pg-cards.steps{position:relative;column-gap:40px}
 .pg-cards.steps .pg-card{position:relative}
 .pg-cards.steps .pg-card + .pg-card::before{content:'';position:absolute;
-  left:calc(-1 * var(--gutter) / 2 - 5px);top:50%;width:10px;height:10px;
-  border-top:2px solid var(--accent);border-right:2px solid var(--accent);
-  transform:translateY(-50%) rotate(45deg);pointer-events:none}
+  left:-32px;top:50%;width:24px;height:24px;
+  transform:translateY(-50%);background:var(--steel);
+  -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 12h15'/%3E%3Cpath d='M15 8l4 4-4 4'/%3E%3C/svg%3E") center / 24px 24px no-repeat;
+  mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 12h15'/%3E%3Cpath d='M15 8l4 4-4 4'/%3E%3C/svg%3E") center / 24px 24px no-repeat;pointer-events:none}
 @media (max-width:1100px){.pg-cards.steps .pg-card + .pg-card::before{display:none}}
 /* Дашборд: карточки без обводки. Белая карточка без рамки на белом фоне
    не читалась бы, поэтому подложка — Lilac Cloud. */
@@ -1776,9 +1777,13 @@ a.pg-card:hover li::before{background:var(--white)}
 .pg-dm-q{margin:0;font-size:14px;line-height:1.45;color:var(--ink-soft)}
 .pg-dm-q b{font-weight:500;color:var(--graphite)}
 /* кнопка, открывающая макет */
-.pg-stage-demo{align-self:flex-start;margin-top:8px;padding:0;border:0;
-  background:none;font:inherit;font-size:15px;color:var(--accent);cursor:pointer;
-  display:inline-flex;align-items:center;gap:8px}
+.pg-stage-demo{align-self:flex-start;margin-top:auto;padding:16px 0 0;border:0;
+  text-align:left;background:none;font:inherit;font-size:15px;line-height:1.45;
+  color:var(--accent);cursor:pointer;display:block}
+/* стрелка — строчный знак после последнего слова, а не отдельная колонка:
+   при переносе подписи она больше не уезжает к краю карточки */
+.pg-stage-demo .pg-arw{display:inline-block;margin:0 0 0 8px;padding:0;
+  vertical-align:middle;line-height:0}
 .pg-stage-demo:hover{color:var(--indigo-bright)}
 @media (max-width:640px){.pg-dm{padding:24px}
   .pg-dm-tbl.c2 .pg-dm-r,.pg-dm-tbl.c3 .pg-dm-r{grid-template-columns:1fr;gap:8px}
@@ -1788,13 +1793,9 @@ a.pg-card:hover li::before{background:var(--white)}
    Слева форма на четыре поля, справа макет отчёта. Цифры в макете
    подписаны как пример: это иллюстрация формата, а не данные проекта. */
 .pg-ms{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:var(--gutter);align-items:start}
+  gap:var(--gutter);align-items:stretch}
 .pg-ms-form{display:flex;flex-direction:column;gap:16px;padding:40px;
   border:1px solid var(--line);border-radius:var(--r-l);background:var(--white)}
-.pg-ms-h{display:flex;gap:16px;align-items:center}
-.pg-ms-ic{flex:none;width:48px;height:48px;border-radius:50%;
-  background:var(--accent);color:var(--white);
-  display:flex;align-items:center;justify-content:center}
 .pg-ms-form h3{margin:0;font-family:'Bounded','Geologica',sans-serif;
   font-weight:400;font-size:clamp(21px,2vw,26px);line-height:1.15;
   letter-spacing:-.01em;color:var(--graphite);
@@ -1805,9 +1806,14 @@ a.pg-card:hover li::before{background:var(--white)}
   gap:16px var(--gutter)}
 .pg-ms-form .btn{align-self:flex-start}
 /* макет отчёта */
-.pg-ms-mock{display:flex;flex-direction:column;gap:16px;padding:32px;
-  border-radius:var(--r-l);border:2px solid var(--graphite);
-  background:var(--white)}
+/* макет отчёта стоит в корпусе планшета: тёмная рамка, скруглённый
+   экран и точка камеры на верхней кромке */
+.pg-ms-mock{display:flex;flex-direction:column;gap:8px;padding:16px;
+  border-radius:24px;background:var(--graphite)}
+.pg-ms-mock::before{content:'';flex:none;align-self:center;width:8px;height:8px;
+  border-radius:50%;background:rgba(255,255,255,.28)}
+.pg-ms-scr{flex:1;display:flex;flex-direction:column;gap:16px;padding:32px;
+  border-radius:var(--r-m);background:var(--white)}
 .pg-ms-mh{display:flex;gap:16px;align-items:center;justify-content:space-between}
 .pg-ms-tag{font-size:13px;font-weight:600;letter-spacing:.02em;color:var(--accent)}
 .pg-ms-per{padding:8px 16px;border-radius:32px;background:var(--lilac-deep);
@@ -1854,8 +1860,6 @@ a.pg-card:hover li::before{background:var(--white)}
    Статичная лента, без прокрутки и без ховера: она подтверждает опыт
    в нише, но ничего не открывает. */
 .ip-logos{padding:48px 0 0}
-.ls-lbl{margin:0 0 16px;font-size:13px;font-weight:600;letter-spacing:.02em;
-  color:var(--ink-faint);text-align:center}
 .ls-row{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;
   border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
 .ls-i{flex:1 1 168px;display:flex;align-items:center;justify-content:center;
@@ -1890,8 +1894,8 @@ a.pg-card:hover li::before{background:var(--white)}
   color:var(--graphite);hyphens:manual;overflow-wrap:normal;word-break:normal}
 .pg-mg p{margin:0;font-size:16px;line-height:1.5;color:var(--ink);
   hyphens:manual;overflow-wrap:normal;word-break:normal}
-.pg-mg-cols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:8px 24px;margin:8px 0 0}
+.pg-mg-cols{display:grid;grid-template-columns:1fr;
+  gap:8px;margin:8px 0 0}
 .pg-mg-cols span{position:relative;padding-left:16px;font-size:15px;
   line-height:1.45;color:var(--ink)}
 .pg-mg-cols span::before{content:'';position:absolute;left:0;top:.6em;width:8px;
@@ -2735,9 +2739,9 @@ body section:last-of-type{padding-bottom:136px}
   </div>
 </section>
 
-<section class="ip-logos" aria-label="Опыт работы с финансовыми компаниями">
+<section class="ip-logos">
   <div class="shell">
-    <p class="ls-lbl">Опыт работы с финансовыми компаниями</p>
+    <div class="sec-head"><h2>Опыт работы с финансовыми компаниями</h2></div>
   </div>
   <div class="marquee" role="group" aria-label="Банки и страховые компании">
     <div class="track" style="--dur:44s"><div class="lane"><span class="slot" title="ОТП Банк"><img class="lg" style="--h:36px" alt="ОТП Банк" src="../a2/b951476ae01ad4c4.webp"></span><span class="slot" title="Ренессанс Банк"><img class="lg" style="--h:38px" alt="Ренессанс Банк" src="../a2/c785c495fda9d28c.webp"></span><span class="slot" title="ПСБ"><img class="lg" style="--h:30px" alt="ПСБ" src="../a1/logo-psb.svg"></span><span class="slot" title="Локо-Банк"><img class="lg" style="--h:40px" alt="Локо-Банк" src="../a1/logo-loko.svg"></span><span class="slot" title="Сбер"><img class="lg" style="--h:30px" alt="Сбер" src="../a1/logo-sber.svg"></span><span class="slot" title="Согласие"><img class="lg" style="--h:40px" alt="Согласие" src="../a1/59bdec93ad7fd675.webp"></span><span class="slot" title="Центр-инвест"><img class="lg" style="--h:42px" alt="Центр-инвест" src="../a1/logo-centr-invest.svg"></span><span class="slot" title="Ozon Банк"><img class="lg" style="--h:26px" alt="Ozon Банк" src="../a1/logo-ozon.svg"></span></div></div>
@@ -2789,14 +2793,14 @@ body section:last-of-type{padding-bottom:136px}
 <section class="sec" id="ai-measure">
   <div class="shell">
     <div class="sec-head"><h2 class="sh-a">Замер</h2><h3 class="sh-b">Разовая диагностика без обязательств</h3></div>
-    <div class="pg-ms"><form class="pg-ms-form" id="measure-form" data-endpoint="https://formsubmit.co/ajax/nastasyshka1@gmail.com" data-subject="Замер AI-видимости банка" novalidate><div class="pg-ms-h"><span class="pg-ms-ic"><svg class="ic" width="24" height="24" aria-hidden="true" shape-rendering="geometricPrecision" xmlns="http://www.w3.org/2000/svg" viewBox="164.00 392.00 24 24" fill="none"><path d="M175 412C179.971 412 184 407.971 184 403C184 398.029 179.971 394 175 394C170.029 394 166 398.029 166 403C166 407.971 170.029 412 175 412Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M182.93 412.69C183.46 414.29 184.67 414.45 185.6 413.05C186.45 411.77 185.89 410.72 184.35 410.72C183.21 410.71 182.57 411.6 182.93 412.69Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></span><h3>Замер видимости бренда в AI-ответах</h3></div><p>Прогоняем частотные коммерческие запросы вашей тематики и показываем, как часто в ответах Алисы AI и Google AI Overview упоминается ваш бренд — и как часто банки-конкуренты. Разовый замер, экспертная диагностика, без обязательств по дальнейшей работе.</p><div class="pg-ms-fields"><div class="field"><label for="measure-form-project">Сайт банка</label><input id="measure-form-project" name="project" type="text" autocomplete="url" placeholder="https://"><span class="msg">Укажите адрес сайта</span></div><div class="field"><label for="measure-form-topic">Конкуренты для сравнения</label><input id="measure-form-topic" name="topic" type="text" autocomplete="off" placeholder="2—4 домена через запятую"><span class="msg">Укажите хотя бы один домен</span></div><div class="field"><label for="measure-form-name">Имя</label><input id="measure-form-name" name="name" type="text" autocomplete="name" placeholder="Как к вам обращаться"><span class="msg">Укажите, как к вам обращаться</span></div><div class="field"><label for="measure-form-contact">Почта для отчёта</label><input id="measure-form-contact" name="contact" type="text" autocomplete="email" placeholder="name@bank.ru"><span class="msg">Укажите почту для ответа</span></div></div><button class="btn btn-primary" type="submit">Запросить замер</button><p class="note">Нажимая кнопку, вы соглашаетесь с обработкой персональных данных.</p><p class="lead-err">Не удалось отправить. Напишите, пожалуйста, напрямую на <a href="mailto:m.parinova@webpractik.ru">m.parinova@webpractik.ru</a>.</p><span class="lead-ok">Заявка отправлена. Вернёмся с результатом в оговорённый срок.</span></form><div class="pg-ms-mock"><div class="pg-ms-mh"><span class="pg-ms-tag">Пример отчёта</span><span class="pg-ms-per">30 дней</span></div><b class="pg-ms-ttl">Share of AI Voice</b><span class="pg-ms-sub">Ваш банк и конкуренты</span><div class="pg-ms-tiles"><div class="pg-ms-t is-me"><span>Ваш банк</span><b>18%</b></div><div class="pg-ms-t"><span>Конкурент 1</span><b>34%</b></div><div class="pg-ms-t"><span>Конкурент 2</span><b>27%</b></div><div class="pg-ms-t"><span>Конкурент 3</span><b>21%</b></div></div><div class="pg-ms-bars"><div class="pg-ms-b is-me"><span>Ваш банк</span><s><i style="width:53%"></i></s></div><div class="pg-ms-b"><span>Конкурент 1</span><s><i style="width:100%"></i></s></div><div class="pg-ms-b"><span>Конкурент 2</span><s><i style="width:79%"></i></s></div><div class="pg-ms-b"><span>Конкурент 3</span><s><i style="width:62%"></i></s></div></div><p class="pg-ms-note">Отчёт покажет долю бренда, разрыв с конкурентами и запросы, где можно быстрее нарастить присутствие. Цифры на макете — пример формата.</p></div></div>
+    <div class="pg-ms"><form class="pg-ms-form" id="measure-form" data-endpoint="https://formsubmit.co/ajax/nastasyshka1@gmail.com" data-subject="Замер AI-видимости банка" novalidate><h3>Замер видимости бренда в AI-ответах</h3><p>Прогоняем частотные коммерческие запросы вашей тематики и показываем, как часто в ответах Алисы AI и Google AI Overview упоминается ваш бренд — и как часто банки-конкуренты. Разовый замер, экспертная диагностика, без обязательств по дальнейшей работе.</p><div class="pg-ms-fields"><div class="field"><label for="measure-form-project">Сайт банка</label><input id="measure-form-project" name="project" type="text" autocomplete="url" placeholder="https://"><span class="msg">Укажите адрес сайта</span></div><div class="field"><label for="measure-form-topic">Конкуренты для сравнения</label><input id="measure-form-topic" name="topic" type="text" autocomplete="off" placeholder="2—4 домена через запятую"><span class="msg">Укажите хотя бы один домен</span></div><div class="field"><label for="measure-form-name">Имя</label><input id="measure-form-name" name="name" type="text" autocomplete="name" placeholder="Как к вам обращаться"><span class="msg">Укажите, как к вам обращаться</span></div><div class="field"><label for="measure-form-contact">Почта для отчёта</label><input id="measure-form-contact" name="contact" type="text" autocomplete="email" placeholder="name@bank.ru"><span class="msg">Укажите почту для ответа</span></div></div><button class="btn btn-primary" type="submit">Запросить замер</button><p class="note">Нажимая кнопку, вы соглашаетесь с обработкой персональных данных.</p><p class="lead-err">Не удалось отправить. Напишите, пожалуйста, напрямую на <a href="mailto:m.parinova@webpractik.ru">m.parinova@webpractik.ru</a>.</p><span class="lead-ok">Заявка отправлена. Вернёмся с результатом в оговорённый срок.</span></form><div class="pg-ms-mock"><div class="pg-ms-scr"><div class="pg-ms-mh"><span class="pg-ms-tag">Пример отчёта</span><span class="pg-ms-per">30 дней</span></div><b class="pg-ms-ttl">Share of AI Voice</b><span class="pg-ms-sub">Ваш банк и конкуренты</span><div class="pg-ms-tiles"><div class="pg-ms-t is-me"><span>Ваш банк</span><b>18%</b></div><div class="pg-ms-t"><span>Конкурент 1</span><b>34%</b></div><div class="pg-ms-t"><span>Конкурент 2</span><b>27%</b></div><div class="pg-ms-t"><span>Конкурент 3</span><b>21%</b></div></div><div class="pg-ms-bars"><div class="pg-ms-b is-me"><span>Ваш банк</span><s><i style="width:53%"></i></s></div><div class="pg-ms-b"><span>Конкурент 1</span><s><i style="width:100%"></i></s></div><div class="pg-ms-b"><span>Конкурент 2</span><s><i style="width:79%"></i></s></div><div class="pg-ms-b"><span>Конкурент 3</span><s><i style="width:62%"></i></s></div></div><p class="pg-ms-note">Отчёт покажет долю бренда, разрыв с конкурентами и запросы, где можно быстрее нарастить присутствие. Цифры на макете — пример формата.</p></div></div></div>
   </div>
 </section>
 
 <section class="sec" id="review">
   <div class="shell">
     <div class="sec-head"><h2 class="sh-a">Разбор</h2><h3 class="sh-b">Заявка на разбор одного продуктового направления</h3></div>
-    <form class="pg-ms-form is-solo" id="otp-review-form" data-endpoint="https://formsubmit.co/ajax/nastasyshka1@gmail.com" data-subject="Разбор точек роста банка" novalidate><div class="pg-ms-h"><span class="pg-ms-ic"><svg class="ic" width="24" height="24" aria-hidden="true" shape-rendering="geometricPrecision" xmlns="http://www.w3.org/2000/svg" viewBox="164.00 392.00 24 24" fill="none"><path d="M175 412C179.971 412 184 407.971 184 403C184 398.029 179.971 394 175 394C170.029 394 166 398.029 166 403C166 407.971 170.029 412 175 412Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M182.93 412.69C183.46 414.29 184.67 414.45 185.6 413.05C186.45 411.77 185.89 410.72 184.35 410.72C183.21 410.71 182.57 411.6 182.93 412.69Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></span><div class="pg-ms-ht"><h3>Заказать разбор этих точек под ваш банк</h3></div></div><p>Выберите продукт — вклады, карты, кредиты, страхование или инвестиции. Покажем, какие точки роста применимы к вашему сайту, что мешает ранжироваться и какой потенциал небрендового трафика можно забрать. Бесплатно, в формате рабочей встречи.</p><div class="pg-ms-fields"><div class="field"><label for="otp-review-form-project">Сайт банка или продукта</label><input id="otp-review-form-project" name="project" type="text" autocomplete="url" placeholder="https://"><span class="msg">Укажите адрес сайта</span></div><div class="field"><label for="otp-review-form-topic">Продуктовое направление</label><input id="otp-review-form-topic" name="topic" type="text" autocomplete="off" placeholder="Например, вклады и накопительные счета"><span class="msg">Укажите направление</span></div><div class="field"><label for="otp-review-form-name">Имя и должность</label><input id="otp-review-form-name" name="name" type="text" autocomplete="name" placeholder="Как к вам обращаться"><span class="msg">Укажите, как к вам обращаться</span></div><div class="field"><label for="otp-review-form-contact">Почта для ответа</label><input id="otp-review-form-contact" name="contact" type="text" autocomplete="email" placeholder="name@bank.ru"><span class="msg">Укажите почту для ответа</span></div></div><button class="btn btn-primary" type="submit">Получить разбор</button><p class="note">Разбор готовим вручную, поэтому берём ограниченное число заявок в месяц.</p><p class="lead-err">Не удалось отправить. Напишите, пожалуйста, напрямую на <a href="mailto:m.parinova@webpractik.ru">m.parinova@webpractik.ru</a>.</p><span class="lead-ok">Заявка отправлена. Вернёмся с результатом в оговорённый срок.</span></form>
+    <form class="pg-ms-form is-solo" id="otp-review-form" data-endpoint="https://formsubmit.co/ajax/nastasyshka1@gmail.com" data-subject="Разбор точек роста банка" novalidate><div class="pg-ms-ht"><h3>Заказать разбор этих точек под ваш банк</h3></div><p>Выберите продукт — вклады, карты, кредиты, страхование или инвестиции. Покажем, какие точки роста применимы к вашему сайту, что мешает ранжироваться и какой потенциал небрендового трафика можно забрать. Бесплатно, в формате рабочей встречи.</p><div class="pg-ms-fields"><div class="field"><label for="otp-review-form-project">Сайт банка или продукта</label><input id="otp-review-form-project" name="project" type="text" autocomplete="url" placeholder="https://"><span class="msg">Укажите адрес сайта</span></div><div class="field"><label for="otp-review-form-topic">Продуктовое направление</label><input id="otp-review-form-topic" name="topic" type="text" autocomplete="off" placeholder="Например, вклады и накопительные счета"><span class="msg">Укажите направление</span></div><div class="field"><label for="otp-review-form-name">Имя и должность</label><input id="otp-review-form-name" name="name" type="text" autocomplete="name" placeholder="Как к вам обращаться"><span class="msg">Укажите, как к вам обращаться</span></div><div class="field"><label for="otp-review-form-contact">Почта для ответа</label><input id="otp-review-form-contact" name="contact" type="text" autocomplete="email" placeholder="name@bank.ru"><span class="msg">Укажите почту для ответа</span></div></div><button class="btn btn-primary" type="submit">Получить разбор</button><p class="note">Разбор готовим вручную, поэтому берём ограниченное число заявок в месяц.</p><p class="lead-err">Не удалось отправить. Напишите, пожалуйста, напрямую на <a href="mailto:m.parinova@webpractik.ru">m.parinova@webpractik.ru</a>.</p><span class="lead-ok">Заявка отправлена. Вернёмся с результатом в оговорённый срок.</span></form>
   </div>
 </section>
 

@@ -17,6 +17,9 @@ HOME = R('index.html')
 REP = R('ai', 'wp-marketing-lab-reputation.html')
 DF = R('cases', 'detail', 'wp-marketing-case-datafusion.html')
 FIN = R('industries', 'wp-marketing-industries-fintech.html')
+SMM = R('ai', 'wp-marketing-lab-smm.html')
+AIC = R('ai', 'wp-marketing-lab-ai-content.html')
+B2B = R('industries', 'wp-marketing-industries-b2b.html')
 ALL = {os.path.basename(f): io.open(f, encoding='utf-8').read() for f in pages()}
 CASES = {k: v for k, v in ALL.items() if k.startswith('wp-marketing-case-')}
 every = lambda fn: all(fn(v) for v in ALL.values())
@@ -74,8 +77,9 @@ CHECKS = [
       '103 млн', '593 тыс.'))),
  ('21', 'приписка о связках — формулировка прототипа, без дубля',
   lambda: PPC.count('Конверсионные связки') == 1 and 'Ломается одно звено' not in PPC),
- ('22', 'у тактов ревью появились календари',
-  lambda: SEO.count('<div class="pg-flow-cal"') == 3 and 'pg-flow-m on' in SEO),
+ ('22', 'у тактов ревью — плашки периодичности, календарей нет',
+  lambda: 'pg-flow-cal' not in SEO and 'pg-flow-m' not in SEO
+          and SEO.count('<span class="pg-flow-when">') == 3),
  ('23', 'черта в списках одинаковой толщины',
   lambda: 'height:2px;border-radius:1px;background:var(--accent)}' in SEO),
  ('24', 'экспертная диагностика: без иконки и плашки, на лиловом фоне',
@@ -127,27 +131,90 @@ CHECKS = [
  ('п01/04', 'кнопка в строчной плашке прижата к низу',
   lambda: every(lambda s: '.pg-cta.is-row .acts{grid-column:2;align-self:end}' in s
                           if '.pg-cta.is-row .acts{' in s else True)
-          and CONS.count('<div class="pg-cta-txt">') == 1
-          and SEO.count('<div class="pg-cta-txt">') == 1
-          and SERV.count('<div class="pg-cta-txt">') == 1),
- ('п02/07', 'блок «Ревью» повторяет эталон: календарь пн-вс, без пилюль и стрелок',
-  lambda: '.pg-flow-cal{display:flex' in SEO
-          and 'border:1px solid var(--line);border-radius:var(--r-m)}' in
-              SEO.split('.pg-flow-cal{')[1][:320]
-          and 'repeat(7,minmax(0,1fr))' in SEO.split('.pg-flow-q,.pg-flow-ms{')[1][:120]
-          and SEO.count('<div class="pg-flow-q">') == 3
-          and SEO.count('<span>пн</span>') >= 3
-          and SEO.count('class="pg-flow-m"') + SEO.count('class="pg-flow-m on"') == 84
-          and SEO.count('class="pg-flow-m on"') == 3
+          # у каждой строчной плашки текст завёрнут в свою колонку
+          and every(lambda s: s.count('<div class="pg-cta is-row')
+                              == s.count('<div class="pg-cta-txt">'))
+          # плашек-колонок без модификатора не осталось
+          and every(lambda s: '<div class="pg-cta">' not in s.rsplit('</style>', 1)[-1])
+          and sum(v.count('<div class="pg-cta-txt">') for v in ALL.values()) == 9),
+ ('п02/07', 'блок «Ревью»: три колонки, без стрелок, плашка над названием такта',
+  lambda: 'repeat(3,minmax(0,1fr))' in SEO.split('.pg-flow{')[1][:80]
           and 'pg-flow-arw' not in SEO
-          and 'repeat(3,minmax(0,1fr))' in SEO.split('.pg-flow{')[1][:80]
-          and SEO.count('<b class="pg-flow-n">') == 3
-          and 'pg-flow-when' not in SEO
-          and 'color:var(--accent)' in SEO.split('.pg-flow-i h3{')[1][:260]
-          and 'color:var(--graphite)' in SEO.split('.pg-flow-n{')[1][:160]),
+          and 'pg-flow-n' not in SEO
+          and all(t in SEO for t in ('Каждый месяц', 'Каждый квартал', 'Раз в' + NB + 'год'))
+          and SEO.split('<span class="pg-flow-when">')[1].index('</span><h3>') < 30),
  ('п06', 'заметка про ПСБ скрыта, но не удалена',
   lambda: '<!-- скрыто по просьбе заказчика: <div class="pg-note">' in FIN
           and 'пример третьего направления' in FIN),
+ ('B1', 'лид блока «Проблема» не дублирует первую карточку',
+  lambda: 'Четыре причины, по' + NB + 'которым репутация съедает спрос' in REP
+          and REP.count('Решение принимается до' + NB + 'контакта с' + NB + 'вами') == 1),
+ ('R3', 'связка «проблема — решение» перед методологией',
+  lambda: 'Все четыре причины сходятся в' + NB + 'одном' in REP
+          and REP.index('Все четыре причины') > REP.index('Репутацией никто не' + NB + 'управляет')
+          and REP.index('Все четыре причины') < REP.index('Шесть шагов')),
+ ('R4', 'блок видимости без данных из кейса',
+  lambda: 'одна карточка агрегатора ранжируется по' + NB + 'десяткам запросов' in REP
+          and 'pg-rch-g' not in REP and 'до' + NB + '65 запросов на' + NB + 'страницу' not in REP),
+ ('R6', 'лид-магнит не обещает цифр',
+  lambda: 'pg-offer-nums' not in REP.split('</style>')[-1]
+          and 'глубина съёма' not in REP),
+ ('S3', 'колонка «Наш конвейер» выделена тоном, а не заливкой',
+  lambda: SMM.count('class="is-us"') == 7 and 'pg-table is-cmp' in SMM
+          and '.pg-table.is-cmp td:nth-child(2){color:var(--ink-soft)}' in SMM
+          and '.pg-table.is-cmp td.is-us{color:var(--graphite)}' in SMM
+          and 'is-cmp .is-us{background' not in SMM),
+ ('формы', 'заголовок одиночной формы внутри обводки, иконки нет',
+  lambda: all(('<span class="pg-ms-ic">' not in v.rsplit('</style>', 1)[-1]
+               and '<h2>' in v.split('class="pg-ms-form is-solo"')[1][:400])
+              for k, v in ALL.items()
+              if 'class="pg-ms-form is-solo"' in v and k.startswith('wp-marketing-lab-'))),
+ ('A2/A3', 'в «Примерах» реальные замеры, тексты и адреса скрыты',
+  lambda: all(('<i class="a">%d</i>' % v) in AIC for v in (2, 7, 5))
+          and all(('<i class="b">%d</i>' % v) in AIC for v in (1, 86, 35, 29))
+          and 'teachbase' not in AIC.lower()
+          and 'Сами тексты и' + NB + 'адреса страниц не' + NB + 'показываем' in AIC
+          and 'подставим, когда согласуем' not in AIC),
+ ('отступы', 'стрелка в кнопке-ссылке не наследует карточные отступы',
+  lambda: every(lambda s: '.pg-stage-demo .pg-arw{display:inline-block;margin:0 0 0 8px;padding:0;' in s
+                if '.pg-stage-demo{' in s else True)
+          and every(lambda s: 'margin-top:auto;padding:16px 0 0' in s.split('.pg-stage-demo{')[1][:200]
+                    if '.pg-stage-demo{' in s else True)
+          and every(lambda s: 'text-align:left;' in s.split('.pg-stage-demo{')[1][:200]
+                    if '.pg-stage-demo{' in s else True)),
+ ('отступы', 'сообщение об ошибке формы на сетке восьми',
+  lambda: every(lambda s: '.lead-err{display:none;margin:16px 0 0;' in s
+                if '.lead-err{display:none' in s else True)),
+ ('отступы', 'подвалы трёх карточек «Примеров» одной высоты',
+  lambda: '<b>Топ-7 против 86-й</b>' in AIC and 'Стабильность против скачков' not in AIC),
+ ('материал', 'перечисление в блоке материала — в один столбик',
+  lambda: every(lambda s: '.pg-mg-cols{display:grid;grid-template-columns:1fr;' in s
+                if '.pg-mg-cols{display:grid' in s else True)
+          and every(lambda s: 'repeat(2,minmax(0,1fr));\n  gap:8px 24px' not in s)),
+ ('логотипы', '«Опыт работы с финансовыми компаниями» — заголовок раздела',
+  lambda: '<div class="sec-head"><h2>Опыт работы с' + NB + 'финансовыми компаниями</h2></div>' in FIN
+          and 'ls-lbl' not in FIN),
+ ('шаги', 'между шагами серая стрелка, по 8px с каждой стороны',
+  lambda: every(lambda s: ('.pg-cards.steps{position:relative;column-gap:40px}' in s
+                           and 'left:-32px;top:50%;width:24px;height:24px;' in s
+                           and 'background:var(--steel);' in s.split('.pg-cards.steps .pg-card + .pg-card::before{')[1][:400])
+                if '.pg-cards.steps{' in s else True)),
+ ('формы', 'иконок в шапках форм не осталось',
+  lambda: every(lambda s: 'pg-ms-ic' not in s and 'pg-ms-h{' not in s)),
+ ('замер', 'колонки равной высоты, отчёт в корпусе планшета',
+  lambda: 'align-items:stretch}' in FIN.split('.pg-ms{display:grid')[1][:200]
+          and '.pg-ms-mock{display:flex;flex-direction:column;gap:8px;padding:16px;' in FIN
+          and 'border-radius:24px;background:var(--graphite)}' in FIN
+          and FIN.count('<div class="pg-ms-scr">') == 1),
+ ('плашки', 'плашки на форму: лиловые, кроме стоящей под лиловой',
+  lambda: CONS.count('pg-cta is-row is-plate') == 1
+          and CONS.count('<div class="pg-cta is-row">') == 1
+          and SEO.count('pg-cta is-row is-plate') == 2
+          and SERV.count('pg-cta is-row is-plate') == 1
+          and AIC.count('pg-cta is-row is-plate') == 1
+          and REP.count('pg-cta is-row is-plate') == 1
+          and STD.count('pg-cta is-row is-plate') == 1
+          and B2B.count('pg-cta is-row is-plate') == 1),
 ]
 
 
